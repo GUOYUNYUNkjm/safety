@@ -98,17 +98,28 @@ img{max-width:100%}
   letter-spacing:.18em;color:var(--a);margin-bottom:10px;
   display:flex;align-items:center;gap:9px}
 .land-tagline-pre::before{content:'';display:inline-block;width:24px;height:2px;background:var(--a)}
+/* ── Slogan: deep-blue ANIMATED gradient (rest of page stays blue-white) ── */
+.land-tagline-q,.land-tagline-answer{
+  background:linear-gradient(110deg,#001A66 0%,#0033A6 18%,#0043C6 36%,#0F62FE 50%,
+    #0043C6 64%,#002B9E 82%,#001A66 100%);
+  background-size:260% auto;
+  -webkit-background-clip:text;background-clip:text;
+  -webkit-text-fill-color:transparent;color:transparent;
+  animation:sloganFlow 7s linear infinite}
+@keyframes sloganFlow{0%{background-position:0% 50%}100%{background-position:260% 50%}}
 .land-tagline-q{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:900;line-height:1.06;
-  letter-spacing:-2.5px;color:var(--ink)}
-.land-tagline-q .can{color:var(--ink4);font-weight:400}
-.land-tagline-q .ai{color:var(--a)}
-.land-tagline-q .help{color:var(--ink)}
-.land-tagline-q .you{color:var(--a);position:relative;display:inline-block}
+  letter-spacing:-2.5px}
+/* child spans inherit the parent's clipped gradient */
+.land-tagline-q .can{font-weight:500;-webkit-text-fill-color:transparent;color:transparent}
+.land-tagline-q .ai,.land-tagline-q .help,.land-tagline-q .qmark{-webkit-text-fill-color:transparent;color:transparent}
+.land-tagline-q .you{position:relative;display:inline-block;-webkit-text-fill-color:transparent;color:transparent}
 .land-tagline-q .you::after{content:'';position:absolute;bottom:-3px;left:0;right:0;
-  height:4px;background:linear-gradient(90deg,var(--a),var(--al));border-radius:2px}
+  height:4px;background:linear-gradient(90deg,#001A66,#0F62FE);border-radius:2px;
+  animation:underlineGlow 7s linear infinite}
+@keyframes underlineGlow{0%,100%{opacity:.55}50%{opacity:1}}
 .land-tagline-answer{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:900;line-height:1.1;
-  letter-spacing:-1.5px;color:var(--ink);margin-top:8px}
-.land-tagline-answer .acc{color:var(--a)}
+  letter-spacing:-1.5px;margin-top:8px}
+.land-tagline-answer .acc{-webkit-text-fill-color:transparent;color:transparent}
 
 .land-sub{font-size:1.05rem;color:var(--ink3);line-height:1.8;margin-bottom:38px;max-width:600px}
 .land-btns{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:44px}
@@ -718,6 +729,91 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
 .ti{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;color:var(--ink3);font-weight:600}
 .ti b{font-weight:800;color:var(--a);font-family:var(--mono)}
 .tg{color:var(--g)}.tr{color:var(--r)}.tw{color:var(--w)}
+
+/* ═══ SAFETY BRIEFING (multilingual push) ═══ */
+.bf-layout{display:grid;grid-template-columns:300px 1fr;gap:18px;align-items:start}
+@media(max-width:880px){.bf-layout{grid-template-columns:1fr}}
+.bf-side{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:14px;box-shadow:var(--sh0)}
+.bf-side-hd{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--ink4);margin-bottom:12px;padding:0 4px}
+.bf-wk{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:11px;cursor:pointer;
+  border:1px solid transparent;transition:.16s var(--ease);margin-bottom:5px}
+.bf-wk:hover{background:var(--bg2)}
+.bf-wk.on{background:var(--abg);border-color:rgba(15,98,254,.28)}
+.bf-wk-flag{font-size:1.35rem;line-height:1;width:30px;text-align:center;flex-shrink:0}
+.bf-wk-info{min-width:0;flex:1}
+.bf-wk-name{font-size:.86rem;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px}
+.bf-wk-meta{font-size:.72rem;color:var(--ink4);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bf-wk .w-elder{font-size:.6rem;background:var(--ambbg);color:var(--amb);padding:1px 6px;border-radius:5px;font-weight:800}
+
+.bf-main{min-height:340px}
+.bf-empty{height:340px;display:flex;align-items:center;justify-content:center;text-align:center;
+  color:var(--ink4);font-size:.86rem;background:#fff;border:1.5px dashed var(--bdr2);border-radius:16px;padding:30px}
+.bf-card{background:#fff;border:1px solid var(--bdr);border-radius:18px;overflow:hidden;box-shadow:var(--sh1)}
+.bf-card-top{padding:18px 22px;background:linear-gradient(120deg,#001A66,#0043C6 55%,#0F62FE);
+  color:#fff;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
+.bf-card-top::after{content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 90% -20%,rgba(255,255,255,.18),transparent 55%)}
+.bf-ct-flag{font-size:2rem;line-height:1;position:relative;z-index:1}
+.bf-ct-info{position:relative;z-index:1;flex:1}
+.bf-ct-name{font-size:1.1rem;font-weight:900;letter-spacing:-.3px}
+.bf-ct-meta{font-size:.76rem;opacity:.9;margin-top:2px}
+.bf-ct-lang{position:relative;z-index:1;font-size:.72rem;font-weight:800;background:rgba(255,255,255,.2);
+  padding:6px 13px;border-radius:30px;border:1px solid rgba(255,255,255,.3);white-space:nowrap}
+.bf-body{padding:18px 22px}
+.bf-sec-lbl{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.1em;
+  color:var(--a);margin-bottom:13px;display:flex;align-items:center;gap:8px}
+.bf-sec-lbl::before{content:'';width:18px;height:2px;background:var(--a)}
+.bf-haz{border:1px solid var(--bdr);border-radius:13px;padding:14px 16px;margin-bottom:11px;
+  background:var(--bg);transition:.18s}
+.bf-haz:hover{border-color:var(--bdr2);box-shadow:var(--sh0)}
+.bf-haz-hd{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.bf-haz-ico{font-size:1.3rem;line-height:1}
+.bf-haz-name{font-size:.92rem;font-weight:800;color:var(--ink)}
+.bf-haz-tag{margin-left:auto;font-size:.62rem;font-weight:800;padding:2px 9px;border-radius:20px;
+  background:var(--rbg);color:var(--r)}
+.bf-haz-tag.md{background:var(--ambbg);color:var(--amb)}
+.bf-haz-tag.lo{background:var(--abg);color:var(--a)}
+.bf-tip{display:flex;gap:9px;font-size:.82rem;color:var(--ink2);line-height:1.5;padding:4px 0}
+.bf-tip-ck{color:var(--g);flex-shrink:0;font-weight:900}
+.bf-actions{display:flex;flex-wrap:wrap;gap:10px;padding:4px 22px 20px}
+.bf-btn{padding:12px 20px;border-radius:12px;font-size:.86rem;font-weight:800;
+  display:inline-flex;align-items:center;gap:8px;transition:.2s var(--ease)}
+.bf-btn-p{background:var(--a);color:#fff;box-shadow:0 4px 14px rgba(15,98,254,.28)}
+.bf-btn-p:hover{background:var(--ad);transform:translateY(-1px)}
+.bf-btn-g{background:#fff;color:var(--ink);border:1.5px solid var(--bdr2)}
+.bf-btn-g:hover{border-color:var(--a);color:var(--a)}
+.bf-btn-v{background:var(--pbg);color:var(--p);border:1.5px solid rgba(124,58,237,.25)}
+.bf-btn-v:hover{background:var(--p);color:#fff}
+.bf-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* elderly voice block */
+.bf-voice{margin:2px 22px 18px;border:1.5px solid rgba(124,58,237,.25);border-radius:14px;
+  background:linear-gradient(120deg,var(--pbg),#fff);padding:16px 18px}
+.bf-voice-hd{display:flex;align-items:center;gap:9px;margin-bottom:11px}
+.bf-voice-hd .ico{width:34px;height:34px;border-radius:9px;background:var(--p);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.bf-voice-ttl{font-size:.9rem;font-weight:800;color:var(--ink)}
+.bf-voice-sub{font-size:.72rem;color:var(--ink4);margin-top:1px}
+.bf-voice-line{font-size:.86rem;color:var(--ink2);line-height:1.7;padding:3px 0;display:flex;gap:8px}
+.bf-voice-line .n{color:var(--p);font-weight:900;flex-shrink:0}
+.bf-voice-line.spk{background:var(--pbg);border-radius:8px;padding:5px 10px;margin:1px -6px}
+.bf-eq{display:inline-flex;align-items:flex-end;gap:2px;height:13px;margin-left:4px}
+.bf-eq span{width:3px;background:var(--p);border-radius:2px;height:4px;animation:eqp .9s ease-in-out infinite}
+.bf-eq span:nth-child(2){animation-delay:.15s}.bf-eq span:nth-child(3){animation-delay:.3s}.bf-eq span:nth-child(4){animation-delay:.45s}
+@keyframes eqp{0%,100%{height:4px}50%{height:13px}}
+
+/* sent toast */
+.bf-toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--ink);color:#fff;padding:13px 22px;border-radius:13px;font-size:.85rem;font-weight:700;
+  box-shadow:var(--sh2);display:flex;align-items:center;gap:11px;z-index:600;opacity:0;
+  transition:.35s var(--ease);max-width:90vw}
+.bf-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.bf-toast .tk{width:22px;height:22px;border-radius:50%;background:var(--g);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
+.bf-toast .tflag{font-size:1.1rem}
+.bf-sent-tag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:800;
+  background:var(--gbg);color:var(--g);padding:2px 9px;border-radius:20px;margin-left:8px}
 </style>
 </head>
 <body>
@@ -765,7 +861,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         </div>
         <div>
           <div>곽운운 <small style="font-size:.65rem;color:var(--ink4);font-weight:600;margin-left:3px">202317100</small></div>
-          <div style="font-size:.65rem;color:var(--ink4);font-weight:500;margin-top:-1px">SHine-K 3.0 · 庆运大学 보건대학</div>
+          <div style="font-size:.65rem;color:var(--ink4);font-weight:500;margin-top:-1px">SHine-K 3.0 · 庆云大学 보건대학</div>
         </div>
       </div>
       <div class="land-nav-links">
@@ -799,7 +895,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         <div class="land-tagline">
           <div class="land-tagline-pre">SHine-K 3.0 · 产业安全平台</div>
           <div class="land-tagline-q">
-            <span class="can">Can </span><span class="ai">AI</span><span class="help"> Help </span><span class="you">You</span><span style="color:var(--a)">?</span>
+            <span class="can">Can </span><span class="ai">AI</span><span class="help"> Help </span><span class="you">You</span><span class="qmark">?</span>
           </div>
           <div class="land-tagline-answer">
             <span id="h1a">산업안전 · 건강을</span><br>
@@ -1066,6 +1162,11 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         <span class="sb-item-label" id="sbn-elderly">老龄工人</span>
         <span class="sb-new">首创</span>
       </div>
+      <div class="sb-item" onclick="showPanel('briefing')" id="sb-briefing">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="13" y2="13"/></svg>
+        <span class="sb-item-label" id="sbn-briefing">安全须知推送</span>
+        <span class="sb-new">多语</span>
+      </div>
       <div class="sb-item" onclick="showPanel('alerts')" id="sb-alerts">
         <svg viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.46 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         <span class="sb-item-label" id="sbn-alerts">警报中心</span>
@@ -1081,7 +1182,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
           <div class="sb-avatar">곽운</div>
           <div>
             <div class="sb-user-info">곽운운</div>
-            <div class="sb-user-role">202317100 · 庆运大学 보건대학</div>
+            <div class="sb-user-role">202317100 · 庆云大学 보건대학</div>
           </div>
         </div>
       </div>
@@ -1211,15 +1312,17 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
                     </select></div>
                 </div>
                 <div class="frow-2">
+                  <div><label class="flbl" id="fl-nat">国籍 *</label>
+                    <select class="fsel" id="fnat"><option value="">请选择</option></select></div>
                   <div><label class="flbl" id="fl4">班次</label>
                     <select class="fsel" id="fs">
                       <option value="白班">白班</option>
                       <option value="夜班">夜班</option>
                       <option value="轮班">轮班</option>
                     </select></div>
-                  <div><label class="flbl" id="fl5">工号/联系方式</label>
-                    <input class="fi" id="fi" type="text" placeholder="742135678"></div>
                 </div>
+                <div class="frow"><label class="flbl" id="fl5">工号/联系方式</label>
+                    <input class="fi" id="fi" type="text" placeholder="742135678"></div>
                 <button class="sub-btn" onclick="doRegister()" id="reg-btn">注册</button>
               </div>
               <!-- QR panel -->
@@ -1415,6 +1518,26 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
           </div>
         </div>
 
+        <!-- ── SAFETY BRIEFING (multilingual push) ── -->
+        <div class="panel" id="panel-briefing">
+          <div class="mod-hd rv">
+            <div>
+              <div class="mod-title" id="bf-title">安全须知推送</div>
+              <div class="mod-sub" id="bf-sub">按工种 + 国籍语言自动生成危险防护须知 · 老龄工人语音精简版</div>
+            </div>
+            <div class="mod-badge"><div class="dot"></div><span id="bf-live">多语言实时推送</span></div>
+          </div>
+          <div class="bf-layout rv">
+            <div class="bf-side">
+              <div class="bf-side-hd" id="bf-pick-hd">选择工人</div>
+              <div id="bfWorkerList"></div>
+            </div>
+            <div class="bf-main" id="bfMain">
+              <div class="bf-empty" id="bf-empty">← 选择一名工人，系统将根据其<b>工种</b>与<b>国籍语言</b>自动生成专属安全须知</div>
+            </div>
+          </div>
+        </div>
+
         <!-- ── ALERTS ── -->
         <div class="panel" id="panel-alerts">
           <div class="mod-hd rv">
@@ -1512,7 +1635,8 @@ zh:{
   sb_s1:'核心功能',sb_s2:'专项功能',
   sbn_overview:'总览仪表盘',sbn_register:'工人注册',sbn_monitor:'实时监控',
   sbn_checklist:'巡检清单',sbn_camera:'AI视频分析',sbn_iot:'IoT传感器',
-  sbn_elderly:'老龄工人',sbn_alerts:'警报中心',sbn_ai:'AI预测',
+  sbn_elderly:'老龄工人',sbn_briefing:'安全须知推送',sbn_alerts:'警报中心',sbn_ai:'AI预测',
+  fl_nat:'国籍 *',reg_need:'请填写必填项（含国籍）',
   ov_title:'总览仪表盘',ov_sub:'实时数据 · 每1.2秒同步',ov_live:'实时运行中',
   kl1:'全部工人',kl2:'安全状态',kl3:'老龄(55+)',kl4:'警报',
   kmt2:'PPE合规 96%',kmt4:'危险 1 · 警告 2',
@@ -1529,7 +1653,7 @@ zh:{
   al_title:'警报中心',al_sub:'危险识别精度≥95% · 数据延迟≤1秒 · 摔倒自动联动119',
   ai_title:'AI灾害预测',ai_sub:'历史数据 + 实时生体信号 + 作业环境综合分析',
   notif_hd:'最新警报',notif_clear:'全部清除',
-  topbar_titles:{overview:'总览仪表盘',register:'工人注册',monitor:'实时监控',checklist:'巡检清单',camera:'AI视频分析',iot:'IoT传感器',elderly:'老龄工人',alerts:'警报中心',ai:'AI预测'},
+  topbar_titles:{overview:'总览仪表盘',register:'工人注册',monitor:'实时监控',checklist:'巡检清单',camera:'AI视频分析',iot:'IoT传感器',elderly:'老龄工人',briefing:'安全须知推送',alerts:'警报中心',ai:'AI预测'},
 },
 ko:{
   ey:'실시간 모니터링 중 · 세계 최초 고령 근로자 전용 모듈',
@@ -1545,7 +1669,8 @@ ko:{
   sb_s1:'핵심 기능',sb_s2:'전문 기능',
   sbn_overview:'메인 대시보드',sbn_register:'근로자 등록',sbn_monitor:'실시간 모니터링',
   sbn_checklist:'점검 체크리스트',sbn_camera:'AI 영상 분석',sbn_iot:'IoT 센서',
-  sbn_elderly:'고령 근로자',sbn_alerts:'경보 센터',sbn_ai:'AI 예측',
+  sbn_elderly:'고령 근로자',sbn_briefing:'안전 수칙 발송',sbn_alerts:'경보 센터',sbn_ai:'AI 예측',
+  fl_nat:'국적 *',reg_need:'필수 항목을 입력하세요 (국적 포함)',
   ov_title:'메인 대시보드',ov_sub:'실시간 데이터 · 1.2초마다 동기화',ov_live:'실시간 가동 중',
   kl1:'전체 근로자',kl2:'안전 상태',kl3:'고령(55+)',kl4:'경보',
   kmt2:'PPE 적합 96%',kmt4:'위험 1 · 주의 2',
@@ -1562,7 +1687,7 @@ ko:{
   al_title:'경보 센터',al_sub:'위험행동 인식 ≥95% · 데이터 지연 ≤1초 · 넘어짐 감지 119 자동연계',
   ai_title:'AI 재해예측',ai_sub:'과거 사고 데이터 + 실시간 생체신호 + 작업환경 종합분석',
   notif_hd:'최신 경보',notif_clear:'모두 지우기',
-  topbar_titles:{overview:'메인 대시보드',register:'근로자 등록',monitor:'실시간 모니터링',checklist:'점검 체크리스트',camera:'AI 영상 분석',iot:'IoT 센서',elderly:'고령 근로자',alerts:'경보 센터',ai:'AI 예측'},
+  topbar_titles:{overview:'메인 대시보드',register:'근로자 등록',monitor:'실시간 모니터링',checklist:'점검 체크리스트',camera:'AI 영상 분석',iot:'IoT 센서',elderly:'고령 근로자',briefing:'안전 수칙 발송',alerts:'경보 센터',ai:'AI 예측'},
 },
 en:{
   ey:'Live monitoring · World\'s first elderly worker dedicated module',
@@ -1578,7 +1703,8 @@ en:{
   sb_s1:'Core Features',sb_s2:'Specialized',
   sbn_overview:'Dashboard',sbn_register:'Worker Register',sbn_monitor:'Live Monitor',
   sbn_checklist:'Inspection List',sbn_camera:'AI Video',sbn_iot:'IoT Sensors',
-  sbn_elderly:'Elderly Workers',sbn_alerts:'Alert Center',sbn_ai:'AI Prediction',
+  sbn_elderly:'Elderly Workers',sbn_briefing:'Safety Briefing',sbn_alerts:'Alert Center',sbn_ai:'AI Prediction',
+  fl_nat:'Nationality *',reg_need:'Please fill required fields (incl. nationality)',
   ov_title:'Overview Dashboard',ov_sub:'Live data · Synced every 1.2s',ov_live:'Live',
   kl1:'All Workers',kl2:'Safe Status',kl3:'Elderly (55+)',kl4:'Alerts',
   kmt2:'PPE Compliant 96%',kmt4:'Danger 1 · Warning 2',
@@ -1595,7 +1721,7 @@ en:{
   al_title:'Alert Center',al_sub:'Detection accuracy ≥95% · Latency ≤1s · Fall auto 119',
   ai_title:'AI Disaster Prediction',ai_sub:'Historical data + live vitals + environment analysis',
   notif_hd:'Latest Alerts',notif_clear:'Clear All',
-  topbar_titles:{overview:'Dashboard',register:'Worker Register',monitor:'Live Monitor',checklist:'Inspection List',camera:'AI Video',iot:'IoT Sensors',elderly:'Elderly Workers',alerts:'Alert Center',ai:'AI Prediction'},
+  topbar_titles:{overview:'Dashboard',register:'Worker Register',monitor:'Live Monitor',checklist:'Inspection List',camera:'AI Video',iot:'IoT Sensors',elderly:'Elderly Workers',briefing:'Safety Briefing',alerts:'Alert Center',ai:'AI Prediction'},
 },
 };
 let L='zh';
@@ -1615,7 +1741,8 @@ function setLang(l){
     'sb-s1':t.sb_s1,'sb-s2':t.sb_s2,
     'sbn-overview':t.sbn_overview,'sbn-register':t.sbn_register,'sbn-monitor':t.sbn_monitor,
     'sbn-checklist':t.sbn_checklist,'sbn-camera':t.sbn_camera,'sbn-iot':t.sbn_iot,
-    'sbn-elderly':t.sbn_elderly,'sbn-alerts':t.sbn_alerts,'sbn-ai':t.sbn_ai,
+    'sbn-elderly':t.sbn_elderly,'sbn-briefing':t.sbn_briefing,'sbn-alerts':t.sbn_alerts,'sbn-ai':t.sbn_ai,
+    'fl-nat':t.fl_nat,
     'ov-title':t.ov_title,'ov-sub':t.ov_sub,'ov-live':t.ov_live,
     'kl1':t.kl1,'kl2':t.kl2,'kl3':t.kl3,'kl4':t.kl4,
     'kmt2':t.kmt2,'kmt4':t.kmt4,
@@ -1633,17 +1760,19 @@ function setLang(l){
   };
   Object.entries(ids).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=v;});
   document.getElementById('lf4t').innerHTML=t.lf4t+'<span class="land-feat-new">'+({zh:'全球首创',ko:'세계 최초',en:'World\'s First'}[l])+'</span>';
+  if(typeof buildNationOptions==='function') buildNationOptions();
+  if(currentPanel==='briefing' && typeof renderBriefingList==='function') renderBriefingList();
 }
 
 /* ════ WORKERS DATA ════ */
 let WORKERS = [];
 const INIT_WORKERS = [
-  {id:'W001',name:{zh:'张伟明',ko:'장웨이밍',en:'Zhang Weiming'},age:62,job:{zh:'焊接',ko:'용접',en:'Welding'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:true,status:'ok',hr:88,spo2:96,temp:37.2,fat:65,ppe:[true,true,false,true],zone:'A',tags:['老龄']},
-  {id:'W002',name:{zh:'李敏俊',ko:'이민준',en:'Li Minjun'},age:31,job:{zh:'压延',ko:'압착',en:'Pressing'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'danger',hr:102,spo2:95,temp:37.8,fat:42,ppe:[false,true,true,true],zone:'C',tags:['警报']},
-  {id:'W003',name:{zh:'郑英淑',ko:'정영숙',en:'Zheng Yingshu'},age:57,job:{zh:'检验',ko:'검사',en:'Inspection'},shift:{zh:'夜班',ko:'야간',en:'Night'},elder:true,status:'warn',hr:95,spo2:94,temp:37.5,fat:87,ppe:[true,true,true,true],zone:'B',tags:['老龄','疲劳']},
-  {id:'W004',name:{zh:'金东赫',ko:'김동혁',en:'Kim Donghyuk'},age:45,job:{zh:'装配',ko:'조립',en:'Assembly'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:76,spo2:98,temp:36.8,fat:31,ppe:[true,true,true,true],zone:'B',tags:[]},
-  {id:'W005',name:{zh:'朴仁赫',ko:'박인혁',en:'Park Inhyuk'},age:58,job:{zh:'运输',ko:'운반',en:'Transport'},shift:{zh:'轮班',ko:'교대',en:'Rotating'},elder:true,status:'warn',hr:91,spo2:95,temp:37.9,fat:71,ppe:[true,false,true,true],zone:'A',tags:['老龄','热应激']},
-  {id:'W006',name:{zh:'陈秀英',ko:'진수영',en:'Chen Xiuying'},age:29,job:{zh:'涂装',ko:'도장',en:'Painting'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:72,spo2:99,temp:36.5,fat:22,ppe:[true,true,true,true],zone:'D',tags:[]},
+  {id:'W001',name:{zh:'张伟明',ko:'장웨이밍',en:'Zhang Weiming'},age:62,jobKey:'weld',nat:'CN',job:{zh:'焊接',ko:'용접',en:'Welding'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:true,status:'ok',hr:88,spo2:96,temp:37.2,fat:65,ppe:[true,true,false,true],zone:'A',tags:['老龄']},
+  {id:'W002',name:{zh:'李敏俊',ko:'이민준',en:'Li Minjun'},age:31,jobKey:'press',nat:'CN',job:{zh:'压延',ko:'압착',en:'Pressing'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'danger',hr:102,spo2:95,temp:37.8,fat:42,ppe:[false,true,true,true],zone:'C',tags:['警报']},
+  {id:'W003',name:{zh:'郑英淑',ko:'정영숙',en:'Jeong Yeong-suk'},age:57,jobKey:'inspect',nat:'KR',job:{zh:'检验',ko:'검사',en:'Inspection'},shift:{zh:'夜班',ko:'야간',en:'Night'},elder:true,status:'warn',hr:95,spo2:94,temp:37.5,fat:87,ppe:[true,true,true,true],zone:'B',tags:['老龄','疲劳']},
+  {id:'W004',name:{zh:'金东赫',ko:'김동혁',en:'Kim Dong-hyuk'},age:45,jobKey:'assembly',nat:'KR',job:{zh:'装配',ko:'조립',en:'Assembly'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:76,spo2:98,temp:36.8,fat:31,ppe:[true,true,true,true],zone:'B',tags:[]},
+  {id:'W005',name:{zh:'朴仁赫',ko:'박인혁',en:'Park In-hyuk'},age:58,jobKey:'transport',nat:'KR',job:{zh:'运输',ko:'운반',en:'Transport'},shift:{zh:'轮班',ko:'교대',en:'Rotating'},elder:true,status:'warn',hr:91,spo2:95,temp:37.9,fat:71,ppe:[true,false,true,true],zone:'A',tags:['老龄','热应激']},
+  {id:'W006',name:{zh:'阮文海',ko:'응우옌반하이',en:'Nguyen Van Hai'},age:29,jobKey:'paint',nat:'VN',job:{zh:'涂装',ko:'도장',en:'Painting'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:72,spo2:99,temp:36.5,fat:22,ppe:[true,true,true,true],zone:'D',tags:[]},
 ];
 WORKERS = [...INIT_WORKERS];
 let filterMode='all';
@@ -1664,6 +1793,7 @@ function showPanel(id){
   if(id==='camera') initCamera();
   if(id==='iot') renderIoT();
   if(id==='elderly') renderElderly();
+  if(id==='briefing') renderBriefingList();
   if(id==='overview') initOverviewCharts();
   if(id==='ai') initAICharts();
   revealAll();
@@ -1807,13 +1937,16 @@ function doRegister(){
   const n=document.getElementById('fn')?.value?.trim();
   const a=parseInt(document.getElementById('fa')?.value||0);
   const r=document.getElementById('fr')?.value;
+  const nat=document.getElementById('fnat')?.value;
   const s=document.getElementById('fs')?.value;
   const fi=document.getElementById('fi')?.value?.trim();
-  if(!n||!a||!r){alert('请填写必填项');return;}
+  if(!n||!a||!r||!nat){alert(T[L].reg_need||'请填写必填项（含国籍）');return;}
+  const jk=JOB_KEY_MAP[r]||'general';
+  const jobLabel=JOB_LABELS[jk]||{zh:r,ko:r,en:r};
   const w={
     id:'W'+(100+WORKERS.length+1).toString().padStart(3,'0'),
-    name:{zh:n,ko:n,en:n},age:a,
-    job:{zh:r,ko:r,en:r},shift:{zh:s||'白班',ko:s||'白班',en:s||'Day'},
+    name:{zh:n,ko:n,en:n},age:a,jobKey:jk,nat:nat,
+    job:jobLabel,shift:{zh:s||'白班',ko:s||'白班',en:s||'Day'},
     elder:a>=55,status:'ok',
     hr:Math.round(70+Math.random()*20),spo2:Math.round(96+Math.random()*3),
     temp:parseFloat((36.5+Math.random()*.8).toFixed(1)),fat:Math.round(20+Math.random()*40),
@@ -1823,11 +1956,14 @@ function doRegister(){
   WORKERS.push(w);
   document.getElementById('fn').value=''; document.getElementById('fa').value='';
   document.getElementById('fr').value=''; document.getElementById('fi').value='';
+  if(document.getElementById('fnat')) document.getElementById('fnat').value='';
   document.getElementById('aw').style.display='none';
   document.getElementById('sb-reg-cnt').textContent=WORKERS.length;
   renderRecent();
   if(currentPanel==='monitor') renderTable();
   updateKPIs();
+  // auto-push the localized safety briefing on registration
+  autoSendBriefing(w);
 }
 function renderRecent(){
   const list=document.getElementById('recList');
@@ -2322,6 +2458,342 @@ function revealAll(){
 }
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});},{threshold:.08});
 document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+/* ════════════════ SAFETY BRIEFING — job + nationality aware, multilingual ════════════════ */
+/* Languages with full translations */
+const NATIONS = [
+  {code:'KR',flag:'🇰🇷',lang:'ko',tts:'ko-KR',name:{zh:'韩国',ko:'한국',en:'Korea'}},
+  {code:'CN',flag:'🇨🇳',lang:'zh',tts:'zh-CN',name:{zh:'中国',ko:'중국',en:'China'}},
+  {code:'VN',flag:'🇻🇳',lang:'vi',tts:'vi-VN',name:{zh:'越南',ko:'베트남',en:'Vietnam'}},
+  {code:'TH',flag:'🇹🇭',lang:'th',tts:'th-TH',name:{zh:'泰国',ko:'태국',en:'Thailand'}},
+  {code:'ID',flag:'🇮🇩',lang:'id',tts:'id-ID',name:{zh:'印度尼西亚',ko:'인도네시아',en:'Indonesia'}},
+  {code:'PH',flag:'🇵🇭',lang:'en',tts:'en-US',name:{zh:'菲律宾',ko:'필리핀',en:'Philippines'}},
+  {code:'UZ',flag:'🇺🇿',lang:'en',tts:'en-US',name:{zh:'乌兹别克斯坦',ko:'우즈베키스탄',en:'Uzbekistan'}},
+  {code:'OT',flag:'🌐',lang:'en',tts:'en-US',name:{zh:'其他',ko:'기타',en:'Other'}},
+];
+const NAT_MAP=Object.fromEntries(NATIONS.map(n=>[n.code,n]));
+const LANG_NAME={ko:'한국어',zh:'中文',en:'English',vi:'Tiếng Việt',th:'ภาษาไทย',id:'Bahasa Indonesia'};
+
+const JOB_KEY_MAP={'压延':'press','装配':'assembly','焊接':'weld','涂装':'paint','检验':'inspect','运输':'transport','设备':'equip'};
+const JOB_LABELS={
+  press:{zh:'压延',ko:'압착',en:'Pressing'},assembly:{zh:'装配',ko:'조립',en:'Assembly'},
+  weld:{zh:'焊接',ko:'용접',en:'Welding'},paint:{zh:'涂装',ko:'도장',en:'Painting'},
+  inspect:{zh:'检验',ko:'검사',en:'Inspection'},transport:{zh:'运输',ko:'운반',en:'Transport'},
+  equip:{zh:'设备',ko:'설비',en:'Equipment'},general:{zh:'通用',ko:'일반',en:'General'},
+};
+/* job -> localized job name for the WORKER's language (for the briefing body) */
+const JOB_NATIVE={
+  weld:{ko:'용접',zh:'焊接',en:'Welding',vi:'Hàn',th:'งานเชื่อม',id:'Pengelasan'},
+  paint:{ko:'도장',zh:'涂装',en:'Painting',vi:'Sơn',th:'งานพ่นสี',id:'Pengecatan'},
+  press:{ko:'압연',zh:'压延',en:'Pressing/Calendering',vi:'Cán ép',th:'งานรีด',id:'Pengepresan'},
+  assembly:{ko:'조립',zh:'装配',en:'Assembly',vi:'Lắp ráp',th:'งานประกอบ',id:'Perakitan'},
+  inspect:{ko:'검사',zh:'检验',en:'Inspection',vi:'Kiểm tra',th:'งานตรวจสอบ',id:'Pemeriksaan'},
+  transport:{ko:'운반',zh:'运输',en:'Transport',vi:'Vận chuyển',th:'งานขนส่ง',id:'Transportasi'},
+  equip:{ko:'설비 정비',zh:'设备检修',en:'Equipment Maintenance',vi:'Bảo trì thiết bị',th:'งานบำรุงรักษา',id:'Pemeliharaan Mesin'},
+  general:{ko:'일반 작업',zh:'通用作业',en:'General Work',vi:'Công việc chung',th:'งานทั่วไป',id:'Pekerjaan Umum'},
+};
+
+/* Hazard library: icon, severity (hi/md/lo), localized name + tips (ko/zh/en/vi/th/id) */
+const HAZ={
+  dust:{icon:'💨',sev:'hi',
+    name:{ko:'분진 위험',zh:'粉尘危害',en:'Dust Hazard',vi:'Nguy cơ bụi',th:'อันตรายจากฝุ่น',id:'Bahaya Debu'},
+    tips:[
+      {ko:'방진 마스크(KF94/N95)를 항상 착용하세요.',zh:'必须全程佩戴防尘口罩（KF94/N95）。',en:'Always wear a dust respirator (KF94/N95).',vi:'Luôn đeo khẩu trang chống bụi (KF94/N95).',th:'สวมหน้ากากกันฝุ่น (KF94/N95) ตลอดเวลา',id:'Selalu pakai masker debu (KF94/N95).'},
+      {ko:'압축공기로 먼지를 불지 말고 진공청소기나 물청소를 사용하세요.',zh:'禁止用压缩空气吹扫粉尘，请用吸尘或湿式清扫。',en:'Never blow dust with compressed air; use a vacuum or wet cleaning.',vi:'Không dùng khí nén thổi bụi; hãy hút bụi hoặc lau ướt.',th:'ห้ามใช้ลมอัดเป่าฝุ่น ให้ใช้เครื่องดูดฝุ่นหรือทำความสะอาดแบบเปียก',id:'Jangan tiup debu dengan udara bertekanan; gunakan vakum atau lap basah.'},
+      {ko:'환기·집진 장치를 켜두고 정기적으로 폐 검진을 받으세요.',zh:'保持通风和除尘设备运行，并定期做肺功能检查。',en:'Keep ventilation/dust collector on; get regular lung check-ups.',vi:'Bật hệ thống thông gió/hút bụi và khám phổi định kỳ.',th:'เปิดระบบระบายอากาศ/ดักฝุ่น และตรวจปอดเป็นประจำ',id:'Nyalakan ventilasi/penyedot debu; periksa paru-paru rutin.'},
+    ]},
+  fume:{icon:'🔥',sev:'hi',
+    name:{ko:'용접 흄·유해가스',zh:'焊接烟尘·有害气体',en:'Welding Fumes & Gases',vi:'Khói hàn & khí độc',th:'ควันเชื่อม & ก๊าซพิษ',id:'Asap Las & Gas Beracun'},
+    tips:[
+      {ko:'국소배기장치(흄 흡입기)를 사용하세요.',zh:'使用局部排烟装置（焊烟净化器）。',en:'Use local exhaust ventilation (fume extractor).',vi:'Sử dụng hệ thống hút khói cục bộ.',th:'ใช้เครื่องดูดควันเฉพาะจุด',id:'Gunakan ventilasi pembuangan lokal (penyedot asap).'},
+      {ko:'금속 흄용 호흡보호구를 착용하고 연기를 직접 마시지 마세요.',zh:'佩戴适用于金属烟雾的呼吸防护具，勿直接吸入烟气。',en:'Wear a respirator rated for metal fumes; never breathe the smoke directly.',vi:'Đeo mặt nạ cho khói kim loại; không hít trực tiếp.',th:'สวมอุปกรณ์ป้องกันระบบหายใจสำหรับควันโลหะ อย่าสูดควันโดยตรง',id:'Pakai respirator untuk asap logam; jangan menghirup asap langsung.'},
+      {ko:'머리를 흄 기둥 밖에 두고 바람을 등지고 작업하세요.',zh:'让头部避开烟柱，站在上风向作业。',en:'Keep your head out of the fume plume; work upwind.',vi:'Giữ đầu ra khỏi luồng khói; làm việc ở đầu gió.',th:'ให้ศีรษะอยู่นอกกลุ่มควัน ทำงานเหนือลม',id:'Jauhkan kepala dari kepulan asap; bekerja melawan arah angin.'},
+    ]},
+  solvent:{icon:'🧪',sev:'hi',
+    name:{ko:'유기용제·VOC',zh:'有机溶剂·VOC',en:'Solvents & VOCs',vi:'Dung môi & VOC',th:'ตัวทำละลาย & VOC',id:'Pelarut & VOC'},
+    tips:[
+      {ko:'유기증기용 방독마스크와 내화학 장갑을 착용하세요.',zh:'佩戴有机蒸气防毒面具和耐化学手套。',en:'Wear an organic-vapor respirator and chemical-resistant gloves.',vi:'Đeo mặt nạ phòng hơi hữu cơ và găng tay chống hóa chất.',th:'สวมหน้ากากกันไอสารอินทรีย์และถุงมือกันสารเคมี',id:'Pakai respirator uap organik dan sarung tangan tahan kimia.'},
+      {ko:'환기되는 도장 부스에서만 작업하고 용기는 닫아 두세요.',zh:'仅在通风喷漆房内作业，溶剂容器随手盖好。',en:'Paint only in a ventilated booth; keep containers closed.',vi:'Chỉ sơn trong buồng thông gió; đậy kín thùng chứa.',th:'พ่นสีเฉพาะในห้องที่ระบายอากาศ ปิดฝาภาชนะให้สนิท',id:'Mengecat hanya di bilik berventilasi; tutup wadah rapat.'},
+      {ko:'화기·흡연 금지, 피부에 묻으면 즉시 씻으세요.',zh:'严禁明火和吸烟，溅到皮肤立即冲洗。',en:'No open flame or smoking; rinse skin at once if splashed.',vi:'Cấm lửa và hút thuốc; rửa ngay nếu dính lên da.',th:'ห้ามไฟและสูบบุหรี่ ล้างผิวทันทีหากกระเด็นโดน',id:'Dilarang api/merokok; bilas kulit segera bila terkena.'},
+    ]},
+  heat:{icon:'🌡️',sev:'md',
+    name:{ko:'고온·열스트레스',zh:'高温·热应激',en:'Heat & Heat Stress',vi:'Nhiệt cao & sốc nhiệt',th:'ความร้อน & เครียดจากความร้อน',id:'Panas & Stres Panas'},
+    tips:[
+      {ko:'15~20분마다 물을 마시고 시원한 곳에서 휴식하세요.',zh:'每15~20分钟补水，到阴凉处休息。',en:'Drink water every 15–20 min; rest in a cool area.',vi:'Uống nước mỗi 15–20 phút; nghỉ nơi mát.',th:'ดื่มน้ำทุก 15–20 นาที พักในที่เย็น',id:'Minum air tiap 15–20 menit; istirahat di tempat sejuk.'},
+      {ko:'어지럼·메스꺼움이 느껴지면 즉시 멈추고 보고하세요.',zh:'出现头晕、恶心立即停止作业并报告。',en:'Stop and report at once if you feel dizzy or nauseous.',vi:'Dừng và báo ngay nếu chóng mặt, buồn nôn.',th:'หยุดและแจ้งทันทีหากเวียนหัวหรือคลื่นไส้',id:'Hentikan dan laporkan segera bila pusing atau mual.'},
+      {ko:'가볍고 통풍 잘되는 옷을 입고 가장 더운 시간대를 피하세요.',zh:'穿轻便透气工作服，避开最热时段作业。',en:'Wear light, breathable clothing; avoid the hottest hours.',vi:'Mặc đồ nhẹ, thoáng; tránh giờ nóng nhất.',th:'สวมเสื้อผ้าเบาระบายอากาศ เลี่ยงช่วงร้อนที่สุด',id:'Pakai pakaian ringan; hindari jam terpanas.'},
+    ]},
+  noise:{icon:'🔊',sev:'md',
+    name:{ko:'소음',zh:'噪音危害',en:'Noise',vi:'Tiếng ồn',th:'เสียงดัง',id:'Kebisingan'},
+    tips:[
+      {ko:'85dB 이상 구역에서는 귀마개나 귀덮개를 착용하세요.',zh:'85分贝以上区域佩戴耳塞或耳罩。',en:'Wear earplugs/earmuffs above 85 dB.',vi:'Đeo nút tai/chụp tai khi trên 85 dB.',th:'สวมที่อุดหู/ครอบหูเมื่อเกิน 85 เดซิเบล',id:'Pakai penyumbat/penutup telinga di atas 85 dB.'},
+      {ko:'조용한 곳에서 휴식하고 이명이 있으면 보고하세요.',zh:'到安静处休息，若耳鸣请报告。',en:'Take breaks in quiet areas; report any ringing in the ears.',vi:'Nghỉ nơi yên tĩnh; báo nếu ù tai.',th:'พักในที่เงียบ แจ้งหากมีเสียงในหู',id:'Istirahat di area tenang; laporkan bila telinga berdenging.'},
+    ]},
+  machine:{icon:'⚙️',sev:'hi',
+    name:{ko:'기계 끼임·말림',zh:'机械夹卷·卷入',en:'Machine Entanglement',vi:'Cuốn kẹp máy móc',th:'ถูกเครื่องจักรหนีบ/ม้วน',id:'Terjepit/Tergulung Mesin'},
+    tips:[
+      {ko:'작동 중인 기계에 손을 넣지 말고, 정비 전 잠금·표지(LOTO)를 하세요.',zh:'严禁将手伸入运转设备，检修前先上锁挂牌（LOTO）。',en:'Never reach into moving machines; apply lockout-tagout (LOTO) before service.',vi:'Không đưa tay vào máy đang chạy; khóa-treo thẻ (LOTO) trước khi bảo trì.',th:'อย่าเอื้อมเข้าไปในเครื่องที่ทำงานอยู่ ใช้ระบบล็อก-แขวนป้าย (LOTO) ก่อนซ่อม',id:'Jangan menjangkau mesin bergerak; pasang LOTO sebelum servis.'},
+      {ko:'머리를 묶고 롤러 근처에서 헐렁한 옷·장갑을 착용하지 마세요.',zh:'束起头发，辊轮附近不得穿戴宽松衣物或手套。',en:'Tie back hair; no loose clothing or gloves near rollers.',vi:'Buộc tóc gọn; không mặc quần áo/găng rộng gần trục lăn.',th:'มัดผมให้เรียบร้อย อย่าสวมเสื้อผ้า/ถุงมือหลวมใกล้ลูกกลิ้ง',id:'Ikat rambut; jangan pakai baju/sarung tangan longgar dekat rol.'},
+      {ko:'안전 덮개가 제자리에 있는지 확인하고 비상정지 위치를 숙지하세요.',zh:'确认防护罩到位，熟知急停按钮位置。',en:'Confirm guards are in place; know the emergency-stop location.',vi:'Kiểm tra tấm chắn đúng vị trí; biết nút dừng khẩn cấp.',th:'ตรวจว่าการ์ดอยู่ในตำแหน่ง รู้ตำแหน่งปุ่มหยุดฉุกเฉิน',id:'Pastikan pelindung terpasang; ketahui tombol berhenti darurat.'},
+    ]},
+  electric:{icon:'⚡',sev:'hi',
+    name:{ko:'감전·아크',zh:'触电·电弧',en:'Electric Shock & Arc',vi:'Điện giật & hồ quang',th:'ไฟดูด & อาร์ก',id:'Sengatan Listrik & Busur'},
+    tips:[
+      {ko:'용접면(차광면)과 마른 절연장갑을 착용하세요.',zh:'佩戴焊接面罩（遮光面罩）和干燥绝缘手套。',en:'Wear a welding shield and dry insulating gloves.',vi:'Đeo mặt nạ hàn và găng tay cách điện khô.',th:'สวมหน้ากากเชื่อมและถุงมือฉนวนที่แห้ง',id:'Pakai topeng las dan sarung tangan isolasi kering.'},
+      {ko:'케이블을 건조·무손상 상태로 유지하고 젖은 바닥에서 작업하지 마세요.',zh:'保持电缆干燥无破损，勿在潮湿地面作业。',en:'Keep cables dry and undamaged; do not work on wet floors.',vi:'Giữ cáp khô, không hư hỏng; không làm trên sàn ướt.',th:'รักษาสายไฟให้แห้งและไม่ชำรุด อย่าทำงานบนพื้นเปียก',id:'Jaga kabel kering dan tidak rusak; jangan bekerja di lantai basah.'},
+    ]},
+  fire:{icon:'🧯',sev:'hi',
+    name:{ko:'화재·폭발',zh:'火灾·爆炸',en:'Fire & Explosion',vi:'Cháy nổ',th:'ไฟไหม้ & ระเบิด',id:'Kebakaran & Ledakan'},
+    tips:[
+      {ko:'인화성 물질을 멀리하고 소화기 위치를 숙지하세요.',zh:'远离易燃物，熟知灭火器位置。',en:'Keep flammables away; know the extinguisher location.',vi:'Để xa vật dễ cháy; biết vị trí bình chữa cháy.',th:'เก็บวัตถุไวไฟให้ห่าง รู้ตำแหน่งถังดับเพลิง',id:'Jauhkan bahan mudah terbakar; ketahui lokasi APAR.'},
+      {ko:'화기작업 후 화재 감시를 두고 주변을 정리하세요.',zh:'动火作业后设置火灾监护，清理周边区域。',en:'Keep a fire watch after hot work; clear the area.',vi:'Có người canh lửa sau khi làm việc nóng; dọn sạch khu vực.',th:'จัดให้มีผู้เฝ้าระวังไฟหลังงานความร้อน เคลียร์พื้นที่',id:'Sediakan pengawas api setelah pekerjaan panas; bersihkan area.'},
+    ]},
+  ergonomic:{icon:'🦴',sev:'md',
+    name:{ko:'근골격계·운반',zh:'肌肉骨骼·搬运',en:'Ergonomics & Lifting',vi:'Cơ xương & nâng vật',th:'การยศาสตร์ & การยก',id:'Ergonomi & Mengangkat'},
+    tips:[
+      {ko:'다리 힘으로 들고 허리는 곧게, 무거운 물건은 도움을 요청하세요.',zh:'用腿部发力、保持腰背挺直，重物请求协助。',en:'Lift with your legs, keep your back straight; ask for help with heavy loads.',vi:'Nâng bằng chân, giữ lưng thẳng; nhờ hỗ trợ khi vật nặng.',th:'ยกด้วยขา หลังตรง ขอความช่วยเหลือเมื่อของหนัก',id:'Angkat dengan kaki, punggung lurus; minta bantuan untuk beban berat.'},
+      {ko:'짧은 휴식을 자주 갖고 스트레칭으로 무리를 막으세요.',zh:'多做短暂休息，拉伸放松防止劳损。',en:'Take micro-breaks; stretch to avoid strain.',vi:'Nghỉ ngắn thường xuyên; giãn cơ để tránh căng cơ.',th:'พักสั้น ๆ บ่อย ๆ ยืดเหยียดเพื่อป้องกันการบาดเจ็บ',id:'Ambil jeda singkat; lakukan peregangan agar tidak cedera.'},
+    ]},
+  vehicle:{icon:'🚜',sev:'hi',
+    name:{ko:'차량·지게차',zh:'车辆·叉车',en:'Vehicles & Forklifts',vi:'Xe & xe nâng',th:'ยานพาหนะ & รถยก',id:'Kendaraan & Forklift'},
+    tips:[
+      {ko:'형광 안전조끼를 입고 보행자 통로로 다니세요.',zh:'穿戴反光背心，走人行通道。',en:'Wear a hi-vis vest; stay in pedestrian lanes.',vi:'Mặc áo phản quang; đi trong lối người đi bộ.',th:'สวมเสื้อสะท้อนแสง เดินในช่องทางคนเดิน',id:'Pakai rompi reflektif; tetap di jalur pejalan kaki.'},
+      {ko:'운전자와 눈을 맞추고 적재물 아래에 서지 마세요.',zh:'与司机进行眼神确认，严禁站在货物下方。',en:'Make eye contact with drivers; never stand under a load.',vi:'Giao tiếp bằng mắt với tài xế; không đứng dưới tải.',th:'สบตากับคนขับ อย่ายืนใต้สิ่งของที่ยกอยู่',id:'Lakukan kontak mata dengan pengemudi; jangan berdiri di bawah beban.'},
+    ]},
+  fall:{icon:'🪜',sev:'hi',
+    name:{ko:'추락',zh:'高处坠落',en:'Falls from Height',vi:'Ngã từ trên cao',th:'การตกจากที่สูง',id:'Jatuh dari Ketinggian'},
+    tips:[
+      {ko:'2m 이상에서는 전신 안전벨트를 착용하고 결속하세요.',zh:'2米以上作业佩戴全身式安全带并挂钩固定。',en:'Use a full-body harness and tie off above 2 m.',vi:'Dùng dây an toàn toàn thân và móc cố định trên 2 m.',th:'ใช้สายรัดตัวเต็มตัวและเกี่ยวยึดเมื่อสูงเกิน 2 ม.',id:'Pakai harness tubuh penuh dan kaitkan di atas 2 m.'},
+      {ko:'사다리·비계는 사용 전 점검하세요.',zh:'使用前检查梯子和脚手架。',en:'Inspect ladders and scaffolds before use.',vi:'Kiểm tra thang và giàn giáo trước khi dùng.',th:'ตรวจบันไดและนั่งร้านก่อนใช้งาน',id:'Periksa tangga dan perancah sebelum digunakan.'},
+    ]},
+};
+/* job -> ordered hazards (most relevant first) */
+const JOB_HAZ={
+  weld:['fume','electric','fire','heat'],
+  paint:['solvent','dust','fire'],
+  press:['machine','heat','noise','dust'],
+  assembly:['ergonomic','machine','noise'],
+  inspect:['ergonomic','dust'],
+  transport:['vehicle','ergonomic','dust'],
+  equip:['machine','electric','fall'],
+  general:['dust'],
+};
+
+/* Elderly simplified VOICE wrappers (native language) */
+const VOICE_WRAP={
+  greet:{ko:n=>`${n}님, 안녕하세요. 오늘의 안전 안내입니다.`,zh:n=>`${n}您好，这是今天的安全提示。`,en:n=>`Hello ${n}. Here is today's safety reminder.`,vi:n=>`Xin chào ${n}. Đây là nhắc nhở an toàn hôm nay.`,th:n=>`สวัสดีคุณ ${n} นี่คือคำเตือนความปลอดภัยวันนี้`,id:n=>`Halo ${n}. Ini pengingat keselamatan hari ini.`},
+  job:{ko:(j,h)=>`오늘 작업은 ${j}이고, 가장 주의할 위험은 ${h}입니다.`,zh:(j,h)=>`今天的工作是${j}，最需要注意的危险是${h}。`,en:(j,h)=>`Today's task is ${j}; the main risk is ${h}.`,vi:(j,h)=>`Công việc hôm nay là ${j}; nguy cơ chính là ${h}.`,th:(j,h)=>`งานวันนี้คือ ${j} ความเสี่ยงหลักคือ ${h}`,id:(j,h)=>`Tugas hari ini adalah ${j}; risiko utamanya ${h}.`},
+  close:{ko:'천천히 작업하시고, 힘들면 꼭 동료에게 도움을 요청하세요.',zh:'请放慢节奏，累了一定要向同事寻求帮助。',en:'Please work slowly, and ask a coworker for help if you feel tired.',vi:'Hãy làm việc chậm rãi, và nhờ đồng nghiệp giúp nếu thấy mệt.',th:'ทำงานช้า ๆ และขอความช่วยเหลือจากเพื่อนร่วมงานหากเหนื่อย',id:'Bekerjalah perlahan, dan minta bantuan rekan jika lelah.'},
+};
+
+/* UI chrome strings for the briefing panel (follows console language L) */
+const BFUI={
+  zh:{title:'安全须知推送',sub:'按工种 + 国籍语言自动生成危险防护须知 · 老龄工人语音精简版',live:'多语言实时推送',
+    pick:'选择工人',empty_a:'选择一名工人，系统将根据其',empty_b:'工种',empty_c:'与',empty_d:'国籍语言',empty_e:'自动生成专属安全须知',
+    sec_haz:'危险防护须知',send:'发送通知',sent:'已发送',resend:'重新发送',copy:'复制文本',voice:'播放语音',stop:'停止',
+    voice_ttl:'老龄工人语音精简版',voice_sub:'已用工人母语精简播报 · 点击播放',native:'母语',job_lbl:'工种',nat_lbl:'国籍',age_lbl:'岁',
+    toast_sent:(n,lang,flag)=>`已向 ${n} 推送${lang}安全须知 ${flag}`,toast_voice:(n)=>`${n} 为老龄工人，已附语音精简版 🔊`,
+    auto:(n,lang,flag)=>`已自动向新工人 ${n} 推送${lang}安全须知 ${flag}`,no_tts:'此浏览器不支持该语言语音，已显示文本。'},
+  ko:{title:'안전 수칙 발송',sub:'공종 + 국적 언어에 맞춘 위험 예방 수칙 자동 생성 · 고령 근로자 음성 요약',live:'다국어 실시간 발송',
+    pick:'근로자 선택',empty_a:'근로자를 선택하면',empty_b:'공종',empty_c:'과',empty_d:'국적 언어',empty_e:'에 맞춰 전용 안전 수칙을 생성합니다',
+    sec_haz:'위험 예방 수칙',send:'알림 발송',sent:'발송됨',resend:'다시 발송',copy:'텍스트 복사',voice:'음성 재생',stop:'정지',
+    voice_ttl:'고령 근로자 음성 요약',voice_sub:'근로자 모국어로 간단히 안내 · 클릭하여 재생',native:'모국어',job_lbl:'공종',nat_lbl:'국적',age_lbl:'세',
+    toast_sent:(n,lang,flag)=>`${n}님께 ${lang} 안전 수칙을 발송했습니다 ${flag}`,toast_voice:(n)=>`${n}님은 고령 근로자 — 음성 요약 첨부 🔊`,
+    auto:(n,lang,flag)=>`신규 근로자 ${n}님께 ${lang} 안전 수칙 자동 발송 ${flag}`,no_tts:'이 브라우저는 해당 언어 음성을 지원하지 않아 텍스트로 표시합니다.'},
+  en:{title:'Safety Briefing',sub:'Auto-generated hazard guidance by job type + nationality language · elderly voice summary',live:'Multilingual live push',
+    pick:'Select Worker',empty_a:'Select a worker — the system generates a briefing by their',empty_b:'job type',empty_c:'and',empty_d:'nationality language',empty_e:'automatically',
+    sec_haz:'Hazard Prevention',send:'Send Notice',sent:'Sent',resend:'Resend',copy:'Copy Text',voice:'Play Voice',stop:'Stop',
+    voice_ttl:'Elderly Worker Voice Summary',voice_sub:'Simplified, in the worker’s language · tap to play',native:'Native',job_lbl:'Job',nat_lbl:'Nationality',age_lbl:'yrs',
+    toast_sent:(n,lang,flag)=>`Sent ${lang} safety briefing to ${n} ${flag}`,toast_voice:(n)=>`${n} is an elderly worker — voice summary attached 🔊`,
+    auto:(n,lang,flag)=>`Auto-sent ${lang} safety briefing to new worker ${n} ${flag}`,no_tts:'This browser lacks that language voice; showing text.'},
+};
+function bfui(){return BFUI[L]||BFUI.zh;}
+
+/* Build the nationality <select> options in the console language */
+function buildNationOptions(){
+  const sel=document.getElementById('fnat'); if(!sel) return;
+  const ph={zh:'请选择',ko:'선택하세요',en:'Select'}[L]||'请选择';
+  sel.innerHTML=`<option value="">${ph}</option>`+NATIONS.map(n=>`<option value="${n.code}">${n.flag} ${n.name[L]||n.name.en}</option>`).join('');
+}
+
+/* ---- Briefing state ---- */
+let selectedBfId=null;
+const bfSent=new Set();
+
+function workerLang(w){return (NAT_MAP[w.nat]?.lang)||'en';}
+
+function renderBriefingList(){
+  buildNationOptions();
+  const u0=bfui();
+  const st=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  st('bf-title',u0.title); st('bf-sub',u0.sub); st('bf-live',u0.live);
+  const list=document.getElementById('bfWorkerList');
+  if(!list) return;
+  document.getElementById('bf-pick-hd').textContent=bfui().pick;
+  list.innerHTML=WORKERS.map(w=>{
+    const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+    return `<div class="bf-wk ${w.id===selectedBfId?'on':''}" onclick="selectBf('${w.id}')">
+      <div class="bf-wk-flag">${nat.flag}</div>
+      <div class="bf-wk-info">
+        <div class="bf-wk-name">${w.name[L]||w.name.zh} ${w.elder?'<span class="w-elder">55+</span>':''} ${bfSent.has(w.id)?`<span class="bf-sent-tag">✓ ${bfui().sent}</span>`:''}</div>
+        <div class="bf-wk-meta">${w.job[L]||w.job.zh} · ${nat.name[L]||nat.name.en}</div>
+      </div>
+    </div>`;
+  }).join('');
+  if(selectedBfId&&WORKERS.find(w=>w.id===selectedBfId)) renderBriefing(WORKERS.find(w=>w.id===selectedBfId));
+  else{
+    const u=bfui();
+    document.getElementById('bfMain').innerHTML=`<div class="bf-empty">← ${u.empty_a} <b>${u.empty_b}</b> ${u.empty_c} <b>${u.empty_d}</b> ${u.empty_e}</div>`;
+  }
+}
+
+function selectBf(id){ selectedBfId=id; renderBriefingList(); }
+
+function briefingTipsHtml(w){
+  const lang=workerLang(w);
+  const hazList=JOB_HAZ[w.jobKey]||['dust'];
+  return hazList.map(hk=>{
+    const h=HAZ[hk]; if(!h) return '';
+    const tips=h.tips.map(t=>`<div class="bf-tip"><span class="bf-tip-ck">✓</span><span>${t[lang]||t.en}</span></div>`).join('');
+    return `<div class="bf-haz">
+      <div class="bf-haz-hd"><span class="bf-haz-ico">${h.icon}</span><span class="bf-haz-name">${h.name[lang]||h.name.en}</span><span class="bf-haz-tag ${h.sev}">${({hi:'⚠',md:'•',lo:'·'})[h.sev]}</span></div>
+      ${tips}
+    </div>`;
+  }).join('');
+}
+
+function elderlyVoiceLines(w){
+  const lang=workerLang(w);
+  const hazList=JOB_HAZ[w.jobKey]||['dust'];
+  const jobN=JOB_NATIVE[w.jobKey]?.[lang]||JOB_NATIVE.general[lang]||'';
+  const top=hazList.slice(0,2).map(hk=>HAZ[hk]);
+  const lines=[];
+  lines.push(VOICE_WRAP.greet[lang](w.name[lang]||w.name.zh||w.name.en));
+  lines.push(VOICE_WRAP.job[lang](jobN,(top[0]?.name[lang]||top[0]?.name.en||'')));
+  top.forEach(h=>{ if(h&&h.tips[0]) lines.push(h.tips[0][lang]||h.tips[0].en); });
+  lines.push(VOICE_WRAP.close[lang]);
+  return lines;
+}
+
+function renderBriefing(w){
+  const u=bfui(); const lang=workerLang(w); const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+  let voiceHtml='';
+  if(w.elder){
+    const lines=elderlyVoiceLines(w);
+    voiceHtml=`<div class="bf-voice">
+      <div class="bf-voice-hd"><div class="ico">🔊</div><div><div class="bf-voice-ttl">${u.voice_ttl}</div><div class="bf-voice-sub">${u.voice_sub}</div></div></div>
+      <div id="bfVoiceLines">${lines.map((l,i)=>`<div class="bf-voice-line" data-vi="${i}"><span class="n">${i+1}.</span><span>${l}</span></div>`).join('')}</div>
+    </div>`;
+  }
+  const sent=bfSent.has(w.id);
+  document.getElementById('bfMain').innerHTML=`
+    <div class="bf-card">
+      <div class="bf-card-top">
+        <span class="bf-ct-flag">${nat.flag}</span>
+        <div class="bf-ct-info">
+          <div class="bf-ct-name">${w.name[L]||w.name.zh} ${w.elder?'<span class="w-elder" style="background:rgba(255,255,255,.25);color:#fff">55+</span>':''}</div>
+          <div class="bf-ct-meta">${u.job_lbl}: ${w.job[L]||w.job.zh} · ${u.nat_lbl}: ${nat.name[L]||nat.name.en} · ${w.age}${u.age_lbl}</div>
+        </div>
+        <span class="bf-ct-lang">${u.native}: ${LANG_NAME[lang]||lang}</span>
+      </div>
+      <div class="bf-body">
+        <div class="bf-sec-lbl">${u.sec_haz}</div>
+        ${briefingTipsHtml(w)}
+      </div>
+      ${voiceHtml}
+      <div class="bf-actions">
+        <button class="bf-btn bf-btn-p" onclick="sendBf('${w.id}')">📨 ${sent?u.resend:u.send}</button>
+        ${w.elder?`<button class="bf-btn bf-btn-v" id="bfPlayBtn" onclick="speakBf('${w.id}')">🔊 ${u.voice}</button>`:''}
+        <button class="bf-btn bf-btn-g" onclick="copyBf('${w.id}')">📋 ${u.copy}</button>
+      </div>
+    </div>`;
+}
+
+function buildBriefingText(w){
+  const lang=workerLang(w);
+  const hazList=JOB_HAZ[w.jobKey]||['dust'];
+  let txt=`${w.name[lang]||w.name.zh} — ${JOB_NATIVE[w.jobKey]?.[lang]||''}\n`;
+  hazList.forEach(hk=>{const h=HAZ[hk];if(!h)return;txt+=`\n[${h.name[lang]||h.name.en}]\n`;h.tips.forEach(t=>txt+=`• ${t[lang]||t.en}\n`);});
+  if(w.elder) txt+=`\n🔊 ${elderlyVoiceLines(w).join(' ')}`;
+  return txt;
+}
+function copyBf(id){
+  const w=WORKERS.find(x=>x.id===id); if(!w) return;
+  const txt=buildBriefingText(w);
+  navigator.clipboard?.writeText(txt).then(()=>showBfToast('📋',bfui().copy+' ✓','')).catch(()=>{});
+}
+
+function sendBf(id){
+  const w=WORKERS.find(x=>x.id===id); if(!w) return;
+  bfSent.add(id);
+  const lang=workerLang(w); const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+  showBfToast('📨',bfui().toast_sent(w.name[L]||w.name.zh,LANG_NAME[lang]||lang,nat.flag),nat.flag);
+  if(w.elder) setTimeout(()=>showBfToast('🔊',bfui().toast_voice(w.name[L]||w.name.zh),''),1600);
+  renderBriefingList();
+}
+
+function autoSendBriefing(w){
+  bfSent.add(w.id);
+  const lang=workerLang(w); const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+  showBfToast('📨',bfui().auto(w.name[L]||w.name.zh,LANG_NAME[lang]||lang,nat.flag),nat.flag);
+  if(w.elder) setTimeout(()=>showBfToast('🔊',bfui().toast_voice(w.name[L]||w.name.zh),''),1700);
+  if(currentPanel==='briefing') renderBriefingList();
+}
+
+/* ---- Toast ---- */
+let bfToastEl=null,bfToastTimer=null;
+function showBfToast(icon,msg,flag){
+  if(!bfToastEl){bfToastEl=document.createElement('div');bfToastEl.className='bf-toast';document.body.appendChild(bfToastEl);}
+  bfToastEl.innerHTML=`<span class="tk">✓</span>${flag?`<span class="tflag">${flag}</span>`:''}<span>${msg}</span>`;
+  requestAnimationFrame(()=>bfToastEl.classList.add('show'));
+  clearTimeout(bfToastTimer);
+  bfToastTimer=setTimeout(()=>bfToastEl.classList.remove('show'),3400);
+}
+
+/* ---- Speech synthesis (elderly simplified voice) ---- */
+let bfSpeaking=false;
+function pickVoice(locale){
+  const vs=window.speechSynthesis?window.speechSynthesis.getVoices():[];
+  if(!vs.length) return null;
+  const base=locale.split('-')[0];
+  return vs.find(v=>v.lang===locale)||vs.find(v=>v.lang&&v.lang.toLowerCase().startsWith(base))||null;
+}
+function speakBf(id){
+  const w=WORKERS.find(x=>x.id===id); if(!w) return;
+  const synth=window.speechSynthesis;
+  const btn=document.getElementById('bfPlayBtn');
+  if(!synth){ showBfToast('ℹ️',bfui().no_tts,''); return; }
+  if(bfSpeaking){ synth.cancel(); if(window._bfEndSpeak) window._bfEndSpeak(); return; } // toggle off
+  const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+  const lines=elderlyVoiceLines(w);
+  const voice=pickVoice(nat.tts);
+  bfSpeaking=true;
+  if(btn) btn.innerHTML=`<span class="bf-eq"><span></span><span></span><span></span><span></span></span> ${bfui().stop}`;
+  let idx=0;
+  const lineEls=document.querySelectorAll('#bfVoiceLines .bf-voice-line');
+  function speakNext(){
+    if(idx>=lines.length){ endSpeak(); return; }
+    lineEls.forEach(e=>e.classList.remove('spk'));
+    const cur=document.querySelector(`#bfVoiceLines .bf-voice-line[data-vi="${idx}"]`);
+    if(cur){ cur.classList.add('spk'); cur.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+    const u=new SpeechSynthesisUtterance(lines[idx]);
+    u.lang=nat.tts; if(voice) u.voice=voice; u.rate=.86; u.pitch=1;
+    u.onend=()=>{ idx++; if(bfSpeaking) speakNext(); };
+    u.onerror=()=>{ idx++; if(bfSpeaking) speakNext(); };
+    synth.speak(u);
+  }
+  function endSpeak(){
+    bfSpeaking=false;
+    document.querySelectorAll('#bfVoiceLines .bf-voice-line').forEach(e=>e.classList.remove('spk'));
+    if(btn) btn.innerHTML=`🔊 ${bfui().voice}`;
+  }
+  // ensure cancel handler resets UI
+  synth.cancel();
+  setTimeout(speakNext,120);
+  // if user cancels via toggle, the cancel() triggers no onend reliably, so guard:
+  window._bfEndSpeak=endSpeak;
+}
+if(window.speechSynthesis){ window.speechSynthesis.onvoiceschanged=()=>{}; }
 
 /* ════ INIT ════ */
 setLang('zh');
