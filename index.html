@@ -814,6 +814,96 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
 .bf-toast .tflag{font-size:1.1rem}
 .bf-sent-tag{display:inline-flex;align-items:center;gap:5px;font-size:.62rem;font-weight:800;
   background:var(--gbg);color:var(--g);padding:2px 9px;border-radius:20px;margin-left:8px}
+
+/* ── F2: dynamic real-time priority banner + tag on briefing ── */
+.bf-prio-banner{display:flex;align-items:flex-start;gap:10px;background:linear-gradient(100deg,#FFF4E5,#FFFBF5);
+  border:1px solid #FFD8A8;border-left:4px solid #FF8C00;border-radius:12px;padding:11px 14px;margin:0 0 14px;
+  font-size:.82rem;color:#8A4B00;line-height:1.5}
+.bf-prio-banner .ico{font-size:1.1rem;flex-shrink:0}
+.bf-prio-tag{display:inline-flex;align-items:center;gap:4px;font-size:.6rem;font-weight:800;
+  background:#FF8C00;color:#fff;padding:2px 8px;border-radius:20px;margin-left:7px;animation:prioPulse 1.6s infinite}
+@keyframes prioPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,140,0,.5)}50%{box-shadow:0 0 0 5px rgba(255,140,0,0)}}
+
+/* ── F4: elderly voice two-way confirmation ── */
+.bf-ack{margin-top:12px;padding-top:13px;border-top:1px dashed var(--bdr2)}
+.bf-ack-prompt{font-size:.78rem;color:var(--ink3);margin-bottom:9px}
+.bf-ack-btn{display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer;
+  background:linear-gradient(135deg,#00A878,#00C896);color:#fff;font-weight:800;font-size:1rem;
+  padding:13px 22px;border-radius:14px;box-shadow:0 6px 16px rgba(0,168,120,.3);transition:.2s}
+.bf-ack-btn:hover{transform:translateY(-2px);box-shadow:0 9px 22px rgba(0,168,120,.4)}
+.bf-ack-btn .big{font-size:1.25rem}
+.bf-ack-done{display:flex;align-items:center;gap:9px;background:var(--gbg);border:1px solid #A7E8D0;
+  border-radius:12px;padding:11px 14px;font-size:.84rem;color:#067a55;font-weight:700}
+.bf-ack-done .ck{width:24px;height:24px;border-radius:50%;background:var(--g);color:#fff;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.bf-ack-tag{display:inline-flex;align-items:center;gap:4px;font-size:.62rem;font-weight:800;
+  background:#E6F0FF;color:var(--ad);padding:2px 9px;border-radius:20px;margin-left:8px}
+
+/* ── F3: compliance / training-checkup reminders ── */
+.cmp-card{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:18px 20px;box-shadow:var(--sh0)}
+.cmp-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cmp-hd .t{font-size:.95rem;font-weight:800;color:var(--ink)}
+.cmp-hd .cnt{font-size:.72rem;font-weight:800;background:var(--rbg);color:var(--r);padding:3px 11px;border-radius:20px}
+.cmp-list{display:flex;flex-direction:column;gap:9px;max-height:230px;overflow:auto}
+.cmp-row{display:flex;align-items:center;gap:11px;padding:10px 12px;border:1px solid var(--bdr);border-radius:11px;background:var(--bg2)}
+.cmp-row.over{border-color:#F7B9C4;background:#FFF5F7}
+.cmp-row.soon{border-color:#FFD8A8;background:#FFFBF5}
+.cmp-ava{width:34px;height:34px;border-radius:9px;background:var(--abg);color:var(--ad);font-weight:800;
+  display:flex;align-items:center;justify-content:center;font-size:.78rem;flex-shrink:0}
+.cmp-info{flex:1;min-width:0}
+.cmp-nm{font-size:.85rem;font-weight:700;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cmp-meta{font-size:.72rem;color:var(--ink3)}
+.cmp-due{font-size:.72rem;font-weight:800;padding:4px 10px;border-radius:8px;white-space:nowrap}
+.cmp-due.over{background:var(--r);color:#fff}
+.cmp-due.soon{background:#FF8C00;color:#fff}
+.cmp-due.ok{background:var(--gbg);color:var(--g)}
+.cmp-kind{font-size:.62rem;font-weight:800;padding:2px 7px;border-radius:6px;margin-right:6px}
+.cmp-kind.edu{background:#EDE4FF;color:#7C3AED}
+.cmp-kind.hlt{background:#DCF3FF;color:#0079B8}
+.cmp-empty{text-align:center;color:var(--ink4);font-size:.85rem;padding:24px 0}
+
+/* ── F1: frontline hazard report (closed-loop) ── */
+.rpt-wrap{background:#fff;border:1px solid var(--bdr);border-radius:16px;padding:18px 20px;box-shadow:var(--sh0);margin-bottom:16px}
+.rpt-hd{font-size:.95rem;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.rpt-sub{font-size:.78rem;color:var(--ink3);margin-bottom:15px}
+.rpt-form{display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:11px;align-items:end}
+@media(max-width:760px){.rpt-form{grid-template-columns:1fr 1fr}}
+.rpt-f label{display:block;font-size:.72rem;font-weight:700;color:var(--ink3);margin-bottom:5px}
+.rpt-f select,.rpt-f input{width:100%;padding:10px 11px;border:1px solid var(--bdr);border-radius:10px;
+  font-size:.85rem;font-family:inherit;background:var(--bg2);color:var(--ink)}
+.rpt-f select:focus,.rpt-f input:focus{outline:none;border-color:var(--a);background:#fff}
+.rpt-submit{border:none;cursor:pointer;background:linear-gradient(135deg,var(--ad),var(--a));color:#fff;
+  font-weight:800;font-size:.86rem;padding:11px 18px;border-radius:11px;white-space:nowrap;transition:.2s;height:fit-content}
+.rpt-submit:hover{transform:translateY(-1px);box-shadow:0 6px 15px rgba(15,98,254,.3)}
+.rpt-list{display:flex;flex-direction:column;gap:11px;margin-top:18px}
+.rpt-item{border:1px solid var(--bdr);border-radius:13px;padding:13px 15px;background:var(--bg2);transition:.2s}
+.rpt-item.open{border-left:4px solid var(--r)}
+.rpt-item.assigned{border-left:4px solid #FF8C00}
+.rpt-item.fixing{border-left:4px solid #0F62FE}
+.rpt-item.closed{border-left:4px solid var(--g);opacity:.78}
+.rpt-top{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.rpt-ico{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;background:var(--abg);flex-shrink:0}
+.rpt-ti{flex:1;min-width:0}
+.rpt-nm{font-size:.88rem;font-weight:800;color:var(--ink)}
+.rpt-mt{font-size:.72rem;color:var(--ink3)}
+.rpt-badge{font-size:.62rem;font-weight:800;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.rpt-badge.open{background:var(--rbg);color:var(--r)}
+.rpt-badge.assigned{background:#FFF0DC;color:#C56A00}
+.rpt-badge.fixing{background:var(--abg);color:var(--ad)}
+.rpt-badge.closed{background:var(--gbg);color:var(--g)}
+.rpt-flow{display:flex;align-items:center;gap:6px;margin:9px 0 4px}
+.rpt-stp{flex:1;text-align:center;font-size:.64rem;font-weight:700;color:var(--ink4);padding:5px 2px;
+  border-radius:7px;background:var(--bg3);position:relative}
+.rpt-stp.done{background:var(--ad);color:#fff}
+.rpt-stp.cur{background:var(--a);color:#fff;box-shadow:0 0 0 3px rgba(15,98,254,.18)}
+.rpt-act{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.rpt-btn{border:1px solid var(--a);cursor:pointer;background:#fff;color:var(--ad);font-weight:800;
+  font-size:.76rem;padding:7px 14px;border-radius:9px;transition:.15s}
+.rpt-btn:hover{background:var(--a);color:#fff}
+.rpt-btn.done{border-color:var(--g);color:var(--g);cursor:default;background:var(--gbg)}
+.rpt-btn.done:hover{background:var(--gbg);color:var(--g)}
+.rpt-empty{text-align:center;color:var(--ink4);font-size:.85rem;padding:22px 0}
 </style>
 </head>
 <body>
@@ -1266,6 +1356,20 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
               <div class="ch"><canvas id="cPPE"></canvas></div>
             </div>
           </div>
+          <div class="grid-2 rv" style="margin-top:16px">
+            <div class="cmp-card">
+              <div class="cmp-hd">
+                <div class="t" id="cmp-title">合规提醒 · 安全教育/体检到期</div>
+                <div class="cnt" id="cmp-cnt">0</div>
+              </div>
+              <div class="cmp-list" id="cmpList"></div>
+            </div>
+            <div class="card">
+              <div class="card-title" id="ct-hz">各区域隐患上报分布</div>
+              <div class="card-sub" id="cs-hz">一线快报实时汇总 · 按区域</div>
+              <div class="ch"><canvas id="cZoneHaz"></canvas></div>
+            </div>
+          </div>
         </div>
 
         <!-- ── REGISTER ── -->
@@ -1543,6 +1647,18 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
           <div class="mod-hd rv">
             <div><div class="mod-title" id="al-title">警报中心</div><div class="mod-sub" id="al-sub">危险识别精度≥95% · 数据延迟≤1秒 · 摔倒自动联动119</div></div>
           </div>
+          <div class="rpt-wrap rv">
+            <div class="rpt-hd" id="rpt-title">📸 一线隐患快报</div>
+            <div class="rpt-sub" id="rpt-sub">扫码/点击即可上报现场隐患 · 系统自动归类危险类型 · 形成「上报 → 指派 → 整改 → 关闭」闭环</div>
+            <div class="rpt-form">
+              <div class="rpt-f"><label id="rpt-l-haz">危险类型</label><select id="rptHaz"></select></div>
+              <div class="rpt-f"><label id="rpt-l-zone">区域</label>
+                <select id="rptZone"><option value="A">A区</option><option value="B">B区</option><option value="C">C区</option><option value="D">D区</option></select></div>
+              <div class="rpt-f"><label id="rpt-l-by">上报人</label><input id="rptBy" type="text" placeholder="巡检员/工号"></div>
+              <button class="rpt-submit" id="rpt-btn" onclick="submitReport()">提交上报</button>
+            </div>
+            <div class="rpt-list" id="rptList"></div>
+          </div>
           <div class="alert-grid rv">
             <div class="alert-card danger">
               <span class="alert-level level-d" id="alv-d">危险</span>
@@ -1762,17 +1878,18 @@ function setLang(l){
   document.getElementById('lf4t').innerHTML=t.lf4t+'<span class="land-feat-new">'+({zh:'全球首创',ko:'세계 최초',en:'World\'s First'}[l])+'</span>';
   if(typeof buildNationOptions==='function') buildNationOptions();
   if(currentPanel==='briefing' && typeof renderBriefingList==='function') renderBriefingList();
+  if(typeof applyNewI18n==='function') applyNewI18n();
 }
 
 /* ════ WORKERS DATA ════ */
 let WORKERS = [];
 const INIT_WORKERS = [
-  {id:'W001',name:{zh:'张伟明',ko:'장웨이밍',en:'Zhang Weiming'},age:62,jobKey:'weld',nat:'CN',job:{zh:'焊接',ko:'용접',en:'Welding'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:true,status:'ok',hr:88,spo2:96,temp:37.2,fat:65,ppe:[true,true,false,true],zone:'A',tags:['老龄']},
-  {id:'W002',name:{zh:'李敏俊',ko:'이민준',en:'Li Minjun'},age:31,jobKey:'press',nat:'CN',job:{zh:'压延',ko:'압착',en:'Pressing'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'danger',hr:102,spo2:95,temp:37.8,fat:42,ppe:[false,true,true,true],zone:'C',tags:['警报']},
-  {id:'W003',name:{zh:'郑英淑',ko:'정영숙',en:'Jeong Yeong-suk'},age:57,jobKey:'inspect',nat:'KR',job:{zh:'检验',ko:'검사',en:'Inspection'},shift:{zh:'夜班',ko:'야간',en:'Night'},elder:true,status:'warn',hr:95,spo2:94,temp:37.5,fat:87,ppe:[true,true,true,true],zone:'B',tags:['老龄','疲劳']},
-  {id:'W004',name:{zh:'金东赫',ko:'김동혁',en:'Kim Dong-hyuk'},age:45,jobKey:'assembly',nat:'KR',job:{zh:'装配',ko:'조립',en:'Assembly'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:76,spo2:98,temp:36.8,fat:31,ppe:[true,true,true,true],zone:'B',tags:[]},
-  {id:'W005',name:{zh:'朴仁赫',ko:'박인혁',en:'Park In-hyuk'},age:58,jobKey:'transport',nat:'KR',job:{zh:'运输',ko:'운반',en:'Transport'},shift:{zh:'轮班',ko:'교대',en:'Rotating'},elder:true,status:'warn',hr:91,spo2:95,temp:37.9,fat:71,ppe:[true,false,true,true],zone:'A',tags:['老龄','热应激']},
-  {id:'W006',name:{zh:'阮文海',ko:'응우옌반하이',en:'Nguyen Van Hai'},age:29,jobKey:'paint',nat:'VN',job:{zh:'涂装',ko:'도장',en:'Painting'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:72,spo2:99,temp:36.5,fat:22,ppe:[true,true,true,true],zone:'D',tags:[]},
+  {id:'W001',name:{zh:'张伟明',ko:'장웨이밍',en:'Zhang Weiming'},age:62,jobKey:'weld',nat:'CN',job:{zh:'焊接',ko:'용접',en:'Welding'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:true,status:'ok',hr:88,spo2:96,temp:37.2,fat:65,ppe:[true,true,false,true],zone:'A',tags:['老龄'],eduDue:-3,healthDue:12,voiceAck:null},
+  {id:'W002',name:{zh:'李敏俊',ko:'이민준',en:'Li Minjun'},age:31,jobKey:'press',nat:'CN',job:{zh:'压延',ko:'압착',en:'Pressing'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'danger',hr:102,spo2:95,temp:37.8,fat:42,ppe:[false,true,true,true],zone:'C',tags:['警报'],eduDue:5,healthDue:40,voiceAck:null},
+  {id:'W003',name:{zh:'郑英淑',ko:'정영숙',en:'Jeong Yeong-suk'},age:57,jobKey:'inspect',nat:'KR',job:{zh:'检验',ko:'검사',en:'Inspection'},shift:{zh:'夜班',ko:'야간',en:'Night'},elder:true,status:'warn',hr:95,spo2:94,temp:37.5,fat:87,ppe:[true,true,true,true],zone:'B',tags:['老龄','疲劳'],eduDue:2,healthDue:-1,voiceAck:null},
+  {id:'W004',name:{zh:'金东赫',ko:'김동혁',en:'Kim Dong-hyuk'},age:45,jobKey:'assembly',nat:'KR',job:{zh:'装配',ko:'조립',en:'Assembly'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:76,spo2:98,temp:36.8,fat:31,ppe:[true,true,true,true],zone:'B',tags:[],eduDue:25,healthDue:60,voiceAck:null},
+  {id:'W005',name:{zh:'朴仁赫',ko:'박인혁',en:'Park In-hyuk'},age:58,jobKey:'transport',nat:'KR',job:{zh:'运输',ko:'운반',en:'Transport'},shift:{zh:'轮班',ko:'교대',en:'Rotating'},elder:true,status:'warn',hr:91,spo2:95,temp:37.9,fat:71,ppe:[true,false,true,true],zone:'A',tags:['老龄','热应激'],eduDue:8,healthDue:6,voiceAck:null},
+  {id:'W006',name:{zh:'阮文海',ko:'응우옌반하이',en:'Nguyen Van Hai'},age:29,jobKey:'paint',nat:'VN',job:{zh:'涂装',ko:'도장',en:'Painting'},shift:{zh:'白班',ko:'주간',en:'Day'},elder:false,status:'ok',hr:72,spo2:99,temp:36.5,fat:22,ppe:[true,true,true,true],zone:'D',tags:[],eduDue:30,healthDue:90,voiceAck:null},
 ];
 WORKERS = [...INIT_WORKERS];
 let filterMode='all';
@@ -1794,7 +1911,8 @@ function showPanel(id){
   if(id==='iot') renderIoT();
   if(id==='elderly') renderElderly();
   if(id==='briefing') renderBriefingList();
-  if(id==='overview') initOverviewCharts();
+  if(id==='overview'){ initOverviewCharts(); renderCompliance(); initZoneHazChart(); }
+  if(id==='alerts'){ buildReportHazOptions(); renderReports(); }
   if(id==='ai') initAICharts();
   revealAll();
 }
@@ -1952,6 +2070,7 @@ function doRegister(){
     temp:parseFloat((36.5+Math.random()*.8).toFixed(1)),fat:Math.round(20+Math.random()*40),
     ppe:[true,true,true,true],zone:['A','B','C','D'][Math.floor(Math.random()*4)],
     tags:a>=55?['老龄']:[],
+    eduDue:14,healthDue:30,voiceAck:null,
   };
   WORKERS.push(w);
   document.getElementById('fn').value=''; document.getElementById('fa').value='';
@@ -2380,6 +2499,7 @@ function liveVitals(){
   if(currentPanel==='monitor') renderTable();
   if(currentPanel==='iot') renderIoT();
   if(currentPanel==='elderly') renderElderly();
+  if(currentPanel==='overview') refreshZoneHazChart();
   updateKPIs();
   liveHazard();
 }
@@ -2651,12 +2771,14 @@ function selectBf(id){ selectedBfId=id; renderBriefingList(); }
 
 function briefingTipsHtml(w){
   const lang=workerLang(w);
-  const hazList=JOB_HAZ[w.jobKey]||['dust'];
+  const dyn=dynamicHazOrder(w);
+  const hazList=dyn.order;
   return hazList.map(hk=>{
     const h=HAZ[hk]; if(!h) return '';
+    const isPrio=(hk===dyn.promoted);
     const tips=h.tips.map(t=>`<div class="bf-tip"><span class="bf-tip-ck">✓</span><span>${t[lang]||t.en}</span></div>`).join('');
     return `<div class="bf-haz">
-      <div class="bf-haz-hd"><span class="bf-haz-ico">${h.icon}</span><span class="bf-haz-name">${h.name[lang]||h.name.en}</span><span class="bf-haz-tag ${h.sev}">${({hi:'⚠',md:'•',lo:'·'})[h.sev]}</span></div>
+      <div class="bf-haz-hd"><span class="bf-haz-ico">${h.icon}</span><span class="bf-haz-name">${h.name[lang]||h.name.en}</span>${isPrio?`<span class="bf-prio-tag">⚡ ${prioui().tag}</span>`:''}<span class="bf-haz-tag ${h.sev}">${({hi:'⚠',md:'•',lo:'·'})[h.sev]}</span></div>
       ${tips}
     </div>`;
   }).join('');
@@ -2664,7 +2786,7 @@ function briefingTipsHtml(w){
 
 function elderlyVoiceLines(w){
   const lang=workerLang(w);
-  const hazList=JOB_HAZ[w.jobKey]||['dust'];
+  const hazList=dynamicHazOrder(w).order;
   const jobN=JOB_NATIVE[w.jobKey]?.[lang]||JOB_NATIVE.general[lang]||'';
   const top=hazList.slice(0,2).map(hk=>HAZ[hk]);
   const lines=[];
@@ -2677,26 +2799,41 @@ function elderlyVoiceLines(w){
 
 function renderBriefing(w){
   const u=bfui(); const lang=workerLang(w); const nat=NAT_MAP[w.nat]||NAT_MAP.OT;
+  // F2: live-data priority banner
+  const dyn=dynamicHazOrder(w);
+  let prioHtml='';
+  if(dyn.promoted){
+    const pu=prioui();
+    const hn=HAZ[dyn.promoted].name[lang]||HAZ[dyn.promoted].name.en;
+    prioHtml=`<div class="bf-prio-banner"><span class="ico">⚡</span><span>${pu.banner(hn,pu[dyn.reasonKey]||'')}</span></div>`;
+  }
   let voiceHtml='';
   if(w.elder){
     const lines=elderlyVoiceLines(w);
+    const au=ackui();
+    const ackBlock=w.voiceAck
+      ? `<div class="bf-ack"><div class="bf-ack-done"><span class="ck">✓</span><span>${au.done(w.voiceAck)}</span></div></div>`
+      : `<div class="bf-ack"><div class="bf-ack-prompt">${au.prompt}</div><button class="bf-ack-btn" onclick="ackVoice('${w.id}')"><span class="big">👍</span> ${au.btn}</button></div>`;
     voiceHtml=`<div class="bf-voice">
       <div class="bf-voice-hd"><div class="ico">🔊</div><div><div class="bf-voice-ttl">${u.voice_ttl}</div><div class="bf-voice-sub">${u.voice_sub}</div></div></div>
       <div id="bfVoiceLines">${lines.map((l,i)=>`<div class="bf-voice-line" data-vi="${i}"><span class="n">${i+1}.</span><span>${l}</span></div>`).join('')}</div>
+      ${ackBlock}
     </div>`;
   }
   const sent=bfSent.has(w.id);
+  const ackTag=(w.elder&&w.voiceAck)?`<span class="bf-ack-tag">✓ ${ackui().tag}</span>`:'';
   document.getElementById('bfMain').innerHTML=`
     <div class="bf-card">
       <div class="bf-card-top">
         <span class="bf-ct-flag">${nat.flag}</span>
         <div class="bf-ct-info">
-          <div class="bf-ct-name">${w.name[L]||w.name.zh} ${w.elder?'<span class="w-elder" style="background:rgba(255,255,255,.25);color:#fff">55+</span>':''}</div>
+          <div class="bf-ct-name">${w.name[L]||w.name.zh} ${w.elder?'<span class="w-elder" style="background:rgba(255,255,255,.25);color:#fff">55+</span>':''}${ackTag}</div>
           <div class="bf-ct-meta">${u.job_lbl}: ${w.job[L]||w.job.zh} · ${u.nat_lbl}: ${nat.name[L]||nat.name.en} · ${w.age}${u.age_lbl}</div>
         </div>
         <span class="bf-ct-lang">${u.native}: ${LANG_NAME[lang]||lang}</span>
       </div>
       <div class="bf-body">
+        ${prioHtml}
         <div class="bf-sec-lbl">${u.sec_haz}</div>
         ${briefingTipsHtml(w)}
       </div>
@@ -2795,8 +2932,229 @@ function speakBf(id){
 }
 if(window.speechSynthesis){ window.speechSynthesis.onvoiceschanged=()=>{}; }
 
+/* ════════════════════════════════════════════════════════════
+   NEW MODULE — frontline reporting · compliance · voice-ack · charts
+   ════════════════════════════════════════════════════════════ */
+
+/* ---- localized UI strings for the new modules ---- */
+const RPTUI={
+  zh:{title:'📸 一线隐患快报',sub:'扫码/点击即可上报现场隐患 · 系统自动归类危险类型 · 形成「上报 → 指派 → 整改 → 关闭」闭环',
+    l_haz:'危险类型',l_zone:'区域',l_by:'上报人',btn:'提交上报',
+    steps:['上报','指派','整改','关闭'],
+    st:{open:'待处理',assigned:'已指派',fixing:'整改中',closed:'已关闭'},
+    act:{open:'指派负责人',assigned:'开始整改',fixing:'确认关闭',closed:'✓ 已闭环'},
+    by:'上报人',ago:'刚刚',empty:'暂无上报记录，提交一条试试',
+    toast:(h,z)=>`已上报「${h}」隐患（${z}），自动归类并进入处理闭环`,need:'请选择危险类型'},
+  ko:{title:'📸 현장 위험 신고',sub:'스캔/클릭으로 현장 위험 신고 · 위험 유형 자동 분류 · 「신고 → 배정 → 시정 → 종결」 폐쇄형 루프',
+    l_haz:'위험 유형',l_zone:'구역',l_by:'신고자',btn:'신고 제출',
+    steps:['신고','배정','시정','종결'],
+    st:{open:'대기',assigned:'배정됨',fixing:'시정중',closed:'종결'},
+    act:{open:'담당자 배정',assigned:'시정 시작',fixing:'종결 확인',closed:'✓ 루프 완료'},
+    by:'신고자',ago:'방금',empty:'신고 내역이 없습니다. 하나 제출해 보세요',
+    toast:(h,z)=>`「${h}」위험 신고 접수(${z}), 자동 분류되어 처리 루프에 들어갔습니다`,need:'위험 유형을 선택하세요'},
+  en:{title:'📸 Frontline Hazard Report',sub:'Scan/tap to report a field hazard · auto-classified by type · forms a Report → Assign → Fix → Close loop',
+    l_haz:'Hazard Type',l_zone:'Zone',l_by:'Reporter',btn:'Submit',
+    steps:['Report','Assign','Fix','Close'],
+    st:{open:'Open',assigned:'Assigned',fixing:'Fixing',closed:'Closed'},
+    act:{open:'Assign owner',assigned:'Start fixing',fixing:'Confirm close',closed:'✓ Loop closed'},
+    by:'By',ago:'just now',empty:'No reports yet — submit one to try',
+    toast:(h,z)=>`Reported "${h}" hazard (${z}) — auto-classified and entered the resolution loop`,need:'Please select a hazard type'},
+};
+function rptui(){return RPTUI[L]||RPTUI.zh;}
+
+const CMPUI={
+  zh:{title:'合规提醒 · 安全教育/体检到期',edu:'安全教育',hlt:'体检',
+    over:'已逾期',today:'今天到期',inDays:(d)=>`${d}天后`,empty:'近期暂无到期项 ✓',unit:'项需关注'},
+  ko:{title:'컴플라이언스 · 안전교육/건강검진 만료',edu:'안전교육',hlt:'건강검진',
+    over:'기한초과',today:'오늘 만료',inDays:(d)=>`${d}일 후`,empty:'임박한 만료 항목 없음 ✓',unit:'건 주의'},
+  en:{title:'Compliance · Training/Checkup Due',edu:'Safety Edu',hlt:'Checkup',
+    over:'Overdue',today:'Due today',inDays:(d)=>`in ${d}d`,empty:'No upcoming due items ✓',unit:'to review'},
+};
+function cmpui(){return CMPUI[L]||CMPUI.zh;}
+
+const ACKUI={
+  zh:{prompt:'听完语音后，请点击下面的大按钮确认您已听懂：',btn:'我听懂了，确认',done:(t)=>`已确认听懂 · ${t}`,tag:'已确认',toast:'已记录确认 — 工人确认听懂安全须知'},
+  ko:{prompt:'음성을 들은 후, 아래 큰 버튼을 눌러 이해했음을 확인하세요:',btn:'이해했습니다, 확인',done:(t)=>`이해 확인됨 · ${t}`,tag:'확인됨',toast:'확인 기록됨 — 근로자가 안전 수칙을 이해함'},
+  en:{prompt:'After listening, tap the large button below to confirm you understood:',btn:'I understand — confirm',done:(t)=>`Understanding confirmed · ${t}`,tag:'Confirmed',toast:'Acknowledgement recorded — worker confirmed understanding'},
+};
+function ackui(){return ACKUI[L]||ACKUI.zh;}
+
+const PRIOUI={
+  zh:{tag:'实时优先',banner:(h,r)=>`根据实时数据，已将「${h}」提到首位：${r}`,
+    r_temp:'体温/区域温度偏高',r_fat:'疲劳指数偏高',r_elder:'高龄工人需重点防护',r_status:'当前处于警报状态'},
+  ko:{tag:'실시간 우선',banner:(h,r)=>`실시간 데이터에 따라 「${h}」을(를) 최상단으로: ${r}`,
+    r_temp:'체온/구역 온도 상승',r_fat:'피로 지수 높음',r_elder:'고령 근로자 집중 보호 필요',r_status:'현재 경보 상태'},
+  en:{tag:'Live priority',banner:(h,r)=>`Based on live data, "${h}" was moved to the top: ${r}`,
+    r_temp:'elevated body/zone temperature',r_fat:'high fatigue index',r_elder:'elderly worker needs priority protection',r_status:'currently in alert state'},
+};
+function prioui(){return PRIOUI[L]||PRIOUI.zh;}
+
+/* ════ F1: FRONTLINE HAZARD REPORTING (closed loop) ════ */
+const REPORTS=[];
+let rptSeq=0;
+const RPT_FLOW=['open','assigned','fixing','closed'];
+function buildReportHazOptions(){
+  const sel=document.getElementById('rptHaz'); if(!sel) return;
+  const keys=Object.keys(HAZ);
+  sel.innerHTML=keys.map(k=>`<option value="${k}">${HAZ[k].icon} ${HAZ[k].name[L]||HAZ[k].name.en}</option>`).join('');
+}
+function submitReport(){
+  const hk=document.getElementById('rptHaz')?.value;
+  const zone=document.getElementById('rptZone')?.value||'A';
+  const by=(document.getElementById('rptBy')?.value||'').trim()||rptui().by;
+  if(!hk){ showBfToast('ℹ️',rptui().need,''); return; }
+  rptSeq++;
+  REPORTS.unshift({id:'R'+rptSeq,hazKey:hk,zone,by,status:'open',ts:Date.now()});
+  const by0=document.getElementById('rptBy'); if(by0) by0.value='';
+  renderReports();
+  refreshZoneHazChart();
+  const u=rptui();
+  const zsuf=(L==='en'?' zone':(L==='ko'?' 구역':'区'));
+  showBfToast('📨',u.toast(HAZ[hk].name[L]||HAZ[hk].name.en,zone+zsuf),HAZ[hk].icon);
+  const openCnt=REPORTS.filter(r=>r.status!=='closed').length;
+  document.querySelectorAll('#sb-alerts .sb-badge').forEach(b=>b.textContent=3+openCnt);
+}
+function advanceReport(id){
+  const r=REPORTS.find(x=>x.id===id); if(!r) return;
+  const i=RPT_FLOW.indexOf(r.status);
+  if(i<RPT_FLOW.length-1){ r.status=RPT_FLOW[i+1]; renderReports(); refreshZoneHazChart(); }
+}
+function timeAgo(ts){
+  const s=Math.floor((Date.now()-ts)/1000);
+  if(s<60) return rptui().ago;
+  const m=Math.floor(s/60); if(m<60) return L==='en'?`${m}m ago`:(L==='ko'?`${m}분 전`:`${m}分钟前`);
+  const h=Math.floor(m/60); return L==='en'?`${h}h ago`:(L==='ko'?`${h}시간 전`:`${h}小时前`);
+}
+function renderReports(){
+  const list=document.getElementById('rptList'); if(!list) return;
+  const u=rptui();
+  if(!REPORTS.length){ list.innerHTML=`<div class="rpt-empty">${u.empty}</div>`; return; }
+  list.innerHTML=REPORTS.map(r=>{
+    const h=HAZ[r.hazKey]; const hn=h.name[L]||h.name.en;
+    const ci=RPT_FLOW.indexOf(r.status);
+    const flow=u.steps.map((s,idx)=>`<div class="rpt-stp ${idx<ci?'done':''} ${idx===ci?'cur':''}">${s}</div>`).join('<span style="color:var(--ink5)">›</span>');
+    const zoneTxt=r.zone+(L==='en'?' zone':(L==='ko'?' 구역':'区'));
+    const actLbl=u.act[r.status];
+    const btn=r.status==='closed'
+      ? `<button class="rpt-btn done">${actLbl}</button>`
+      : `<button class="rpt-btn" onclick="advanceReport('${r.id}')">${actLbl}</button>`;
+    return `<div class="rpt-item ${r.status}">
+      <div class="rpt-top">
+        <div class="rpt-ico">${h.icon}</div>
+        <div class="rpt-ti"><div class="rpt-nm">${hn} — ${zoneTxt}</div>
+          <div class="rpt-mt">${u.by}: ${r.by} · ${timeAgo(r.ts)} · ${r.id}</div></div>
+        <div class="rpt-badge ${r.status}">${u.st[r.status]}</div>
+      </div>
+      <div class="rpt-flow">${flow}</div>
+      <div class="rpt-act">${btn}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ════ F3: COMPLIANCE REMINDERS (training / checkup due) ════ */
+function dueClass(d){ return d<0?'over':(d<=7?'soon':'ok'); }
+function dueText(d){
+  const u=cmpui();
+  if(d<0) return u.over+' '+Math.abs(d)+(L==='en'?'d':(L==='ko'?'일':'天'));
+  if(d===0) return u.today;
+  return u.inDays(d);
+}
+function renderCompliance(){
+  const list=document.getElementById('cmpList'); if(!list) return;
+  const u=cmpui();
+  const tEl=document.getElementById('cmp-title'); if(tEl) tEl.textContent=u.title;
+  const items=[];
+  WORKERS.forEach(w=>{
+    if(w.eduDue!==undefined && w.eduDue<=14) items.push({w,kind:'edu',d:w.eduDue});
+    if(w.healthDue!==undefined && w.healthDue<=14) items.push({w,kind:'hlt',d:w.healthDue});
+  });
+  items.sort((a,b)=>a.d-b.d);
+  const cnt=document.getElementById('cmp-cnt');
+  if(cnt) cnt.textContent=items.length?(items.length+' '+u.unit):'0';
+  if(!items.length){ list.innerHTML=`<div class="cmp-empty">${u.empty}</div>`; return; }
+  list.innerHTML=items.map(it=>{
+    const w=it.w; const cls=dueClass(it.d);
+    const kindLbl=it.kind==='edu'?u.edu:u.hlt;
+    const ava=(w.name[L]||w.name.zh).slice(0,2);
+    return `<div class="cmp-row ${cls}">
+      <div class="cmp-ava">${ava}</div>
+      <div class="cmp-info">
+        <div class="cmp-nm">${w.name[L]||w.name.zh} ${w.elder?'<span class="w-elder">55+</span>':''}</div>
+        <div class="cmp-meta"><span class="cmp-kind ${it.kind==='edu'?'edu':'hlt'}">${kindLbl}</span>${w.job[L]||w.job.zh} · ${w.zone}${L==='en'?'':(L==='ko'?' 구역':'区')}</div>
+      </div>
+      <div class="cmp-due ${cls}">${dueText(it.d)}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ════ F4: ELDERLY VOICE TWO-WAY CONFIRMATION ════ */
+function ackVoice(id){
+  const w=WORKERS.find(x=>x.id===id); if(!w) return;
+  const now=new Date();
+  w.voiceAck=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  showBfToast('✅',ackui().toast,'');
+  renderBriefingList();
+}
+
+/* ════ F2: REAL-TIME DRIVEN HAZARD PRIORITY ════ */
+function dynamicHazOrder(w){
+  const base=(JOB_HAZ[w.jobKey]||['dust']).slice();
+  let promote=null,reason=null;
+  if(w.temp>=37.8 && base.includes('heat')){ promote='heat'; reason='r_temp'; }
+  else if(w.temp>=37.8 && base.includes('fume')){ promote='fume'; reason='r_temp'; }
+  else if(w.fat>=80 && base.includes('ergonomic')){ promote='ergonomic'; reason='r_fat'; }
+  else if(w.status==='danger'){ promote=base[0]; reason='r_status'; }
+  else if(w.elder && base.length){ promote=base[0]; reason='r_elder'; }
+  if(promote && base.includes(promote)){
+    const arr=[promote,...base.filter(k=>k!==promote)];
+    return {order:arr,promoted:promote,reasonKey:reason};
+  }
+  return {order:base,promoted:null,reasonKey:null};
+}
+
+/* ════ F5: ZONE-HAZARD DISTRIBUTION CHART ════ */
+function zoneHazData(){
+  const zones=['A','B','C','D'];
+  const counts=zones.map(z=>REPORTS.filter(r=>r.zone===z).length);
+  const seed=zones.map(z=>WORKERS.filter(w=>w.zone===z && w.status!=='ok').length);
+  return {zones,counts:counts.map((c,i)=>c+seed[i])};
+}
+function initZoneHazChart(){
+  destroyChart('cZoneHaz');
+  const ctx=document.getElementById('cZoneHaz'); if(!ctx) return;
+  const d=zoneHazData();
+  charts.cZoneHaz=new Chart(ctx,{type:'bar',data:{
+    labels:d.zones.map(z=>z+(L==='en'?'':(L==='ko'?' 구역':'区'))),
+    datasets:[{label:'隐患',data:d.counts,backgroundColor:['#0F62FE','#00C896','#E8133A','#7C3AED'],borderRadius:7}]
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+    scales:{y:{beginAtZero:true,ticks:{precision:0,font:{size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
+}
+function refreshZoneHazChart(){
+  if(!charts.cZoneHaz) return;
+  const d=zoneHazData();
+  charts.cZoneHaz.data.datasets[0].data=d.counts;
+  charts.cZoneHaz.update('none');
+}
+
+/* ---- re-apply localized labels for the new modules on language switch ---- */
+function applyNewI18n(){
+  const r=rptui();
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('rpt-title',r.title); set('rpt-sub',r.sub);
+  set('rpt-l-haz',r.l_haz); set('rpt-l-zone',r.l_zone); set('rpt-l-by',r.l_by); set('rpt-btn',r.btn);
+  const byInput=document.getElementById('rptBy'); if(byInput) byInput.placeholder=(L==='en'?'Inspector / ID':(L==='ko'?'점검자/사번':'巡检员/工号'));
+  // zone-haz chart card titles
+  const hzT={zh:['各区域隐患上报分布','一线快报实时汇总 · 按区域'],ko:['구역별 위험 신고 분포','현장 신고 실시간 집계 · 구역별'],en:['Hazard Reports by Zone','Live frontline reports · by zone']}[L];
+  set('ct-hz',hzT[0]); set('cs-hz',hzT[1]);
+  if(typeof buildReportHazOptions==='function') buildReportHazOptions();
+  if(currentPanel==='alerts') renderReports();
+  if(currentPanel==='overview'){ renderCompliance(); initZoneHazChart(); }
+}
+
 /* ════ INIT ════ */
 setLang('zh');
+buildReportHazOptions();
+renderReports();
 initCountups();
 renderRecent();
 animMockup();
