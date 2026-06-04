@@ -939,6 +939,27 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
 .rpt-btn.done{border-color:var(--g);color:var(--g);cursor:default;background:var(--gbg)}
 .rpt-btn.done:hover{background:var(--gbg);color:var(--g)}
 .rpt-empty{text-align:center;color:var(--ink4);font-size:.85rem;padding:22px 0}
+
+.why-band{background:linear-gradient(135deg,#071122,#0d2347);padding:30px 48px;color:#fff}
+.why-inner{max-width:1100px;margin:0 auto}
+.why-h{font-size:1.05rem;font-weight:800;color:#7fb2ff;margin-bottom:14px}
+.why-grid{display:flex;gap:16px;flex-wrap:wrap}
+.why-stat{flex:1;min-width:200px;background:rgba(255,255,255,.06);border:1px solid rgba(127,178,255,.25);border-radius:14px;padding:16px 20px}
+.why-stat .wn{font-size:2.1rem;font-weight:900;color:#fff;line-height:1;font-family:var(--mono,monospace)}
+.why-stat .wl{font-size:.82rem;color:#cdd9ec;margin-top:6px;font-weight:700}
+.why-stat .wl small{display:block;color:#90a2bd;font-weight:500;margin-top:2px;font-size:.72rem}
+.why-src{font-size:.72rem;color:#90a2bd;margin-top:12px}
+@media(max-width:760px){
+  .why-band{padding:22px 18px}.why-stat{min-width:140px}
+  .topbar-search{display:none}
+  .ent-set-grid{grid-template-columns:1fr!important}
+  .bio-tiles{grid-template-columns:1fr 1fr!important}
+  .cam-mode-btns{flex-wrap:wrap;gap:4px}
+  .worker-table-wrap{overflow-x:auto}
+  .wt-header,.wt-row{min-width:660px}
+  .chart-grid{grid-template-columns:1fr!important}
+  .topbar-actions{overflow-x:auto}
+}
 </style>
 </head>
 <body>
@@ -1207,6 +1228,15 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         </div>
       </div>
     </div><!-- /land-hero -->
+    <div class="why-band"><div class="why-inner">
+      <div class="why-h">왜 SHine-K인가 — 산업현장의 현실</div>
+      <div class="why-grid">
+        <div class="why-stat"><div class="wn" data-to="812" data-suf="명">0</div><div class="wl">2023년 산재 사고사망<small>한 해 동안의 산업재해 사망자</small></div></div>
+        <div class="why-stat"><div class="wn" data-to="45.8" data-dec="1" data-suf="%">0</div><div class="wl">사망자 중 60세 이상<small>고령 근로자 전용 모듈로 집중 보호</small></div></div>
+        <div class="why-stat"><div class="wn" data-to="35.2" data-dec="1" data-suf="%">0</div><div class="wl">떨어짐(추락) · 최다 유형<small>실시간 모니터링·AI 영상으로 예방</small></div></div>
+      </div>
+      <div class="why-src">출처: 고용노동부 「2023년 산업재해 현황」 (산재보상 승인 기준)</div>
+    </div></div>
 
     <!-- Features Strip -->
     <div class="land-features">
@@ -1601,11 +1631,15 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
                     <button class="cam-mode-btn" id="cm-th" onclick="setCamMode('th')" id="cmb-th">热成像</button>
                     <button class="cam-mode-btn" id="cm-ppe" onclick="setCamMode('ppe')" id="cmb-ppe">PPE检测</button>
                     <button class="cam-mode-btn" id="cm-3d" onclick="setCamMode('3d')" id="cmb-3d">3D视角</button>
-                    <button class="cam-mode-btn" id="cm-360" onclick="setCamMode('360')" id="cmb-360">360°</button>
+                    <button class="cam-mode-btn" id="cm-360" onclick="setCamMode('360')">360°</button>
+                    <button class="cam-mode-btn" id="btn-realai" onclick="toggleRealAI()" style="margin-left:6px;background:var(--gbg);color:var(--g);font-weight:800;border-color:var(--g)">● 실측 AI</button>
                   </div>
                 </div>
                 <div class="cam-screen">
                   <canvas class="cam-canvas" id="mainCam"></canvas>
+                  <video id="realVideo" playsinline muted autoplay style="position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:none"></video>
+                  <canvas class="cam-canvas" id="realOverlay" style="display:none;z-index:4"></canvas>
+                  <div id="realBadge" style="display:none;position:absolute;top:8px;left:8px;background:rgba(0,200,150,.92);color:#fff;font-size:.72rem;font-weight:800;padding:3px 10px;border-radius:8px;z-index:5"></div>
                   <div class="cam-statusbar">
                     <span id="camTime">00:00:00</span>
                     <span>FPS: 30</span>
@@ -1800,6 +1834,8 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.20.0/dist/tf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd@2.2.3/dist/coco-ssd.min.js"></script>
 <script>
 /* ════════ i18n ════════ */
 const T = {
@@ -2055,12 +2091,14 @@ function renderTable(){
   const PPE_ICONS=['⛑','🥽','🦺','🧤'];
   const body=document.getElementById('wtBody');
   if(!body) return;
-  if(!list.length){body.innerHTML=`<div style="padding:40px;text-align:center;color:var(--ink4);font-size:.83rem">暂无数据</div>`;return;}
+  if(!list.length){body.innerHTML=`<div style="padding:40px;text-align:center;color:var(--ink4);font-size:.83rem">${L==='ko'?'데이터 없음':L==='en'?'No data':'暂无数据'}</div>`;return;}
   body.innerHTML=list.map((w,i)=>{
     const sc=w.status==='danger'?'danger':w.status==='warn'?'warn':'ok';
-    const sl={ok:'正常',warn:'警告',danger:'危险'}[w.status];
+    const sl={ok:{zh:'正常',ko:'정상',en:'OK'},warn:{zh:'警告',ko:'경고',en:'Warning'},danger:{zh:'危险',ko:'위험',en:'Danger'}}[w.status][L]||{ok:'正常',warn:'警告',danger:'危险'}[w.status];
     const ppeHtml=PPE_ICONS.map((ic,pi)=>`<span class="ppe-item ${w.ppe[pi]?'ppe-ok':'ppe-no'}">${ic}</span>`).join('');
-    const tags=w.tags.map(t=>`<span class="status ${t==='警报'||t==='Alert'?'danger':t==='热应激'||t==='老龄'||t==='疲劳'?'warn':'info'}" style="padding:2px 7px;font-size:.65rem">${t}</span>`).join('');
+    const _TAGL={'老龄':{ko:'고령',en:'Elderly'},'疲劳':{ko:'피로',en:'Fatigue'},'警报':{ko:'경보',en:'Alert'},'热应激':{ko:'열스트레스',en:'Heat'}};
+    const _tl=t=>(L==='zh'?t:((_TAGL[t]&&_TAGL[t][L])||t));
+    const tags=w.tags.map(t=>`<span class="status ${t==='警报'||t==='Alert'?'danger':t==='热应激'||t==='老龄'||t==='疲劳'?'warn':'info'}" style="padding:2px 7px;font-size:.65rem">${_tl(t)}</span>`).join('');
     const hrc=w.hr>100?'danger':w.hr>90?'warn':'';
     const tc=w.temp>38?'danger':w.temp>37.5?'warn':'';
     const fc=w.fat>80?'danger':w.fat>60?'warn':'';
@@ -3552,7 +3590,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
 
   /* ─────────── i18n ─────────── */
   const EI={
-    zh:{login_t:'登录 SHine-K',login_s:'产业安全平台 · 请使用工作账号登录',u:'账号',p:'密码',role:'角色',signin:'登录',
+    zh:{login_t:'登录 SHine-K',login_s:'产业安全平台 · 请使用工作账号登录',u:'账号',p:'密码',role:'角色',signin:'登录',guest:'访客模式 进入',
       demo:'演示账号：admin / safety / lead / worker（密码=账号+123，如 admin123）',badcred:'账号或密码错误',
       consent_t:'个人信息处理同意',consent_s:'本平台采集心率·血氧·体温等健康/生体信息（敏感个人信息）',
       consent_b:'依据《개인정보보호법(PIPA)》《산업안전보건법》与 GDPR：仅用于作业安全监测，最小化采集，保留期限 {d} 天，可随时撤回并删除。119 自动联动仅在确认危险时触发并保留记录。',
@@ -3581,7 +3619,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       tm_body:'<h4>服务条款（摘要）</h4>1. 本平台为安全辅助工具，不替代现场安全管理与法定义务。<br>2. AI识别/预测结果仅供参考，最终判断由安全管理人员负责。<br>3. 严禁将健康数据用于与安全无关的用途。<br>4. 演示版本不承诺可用性与数据保全。',
       ct_body:'<h4>联系我们</h4>안전관리팀 / Safety Office<br>📧 safety@shine-k.example<br>☎ 1588-0000（演示）<br>🚨 紧急：119'
     },
-    ko:{login_t:'SHine-K 로그인',login_s:'산업안전 플랫폼 · 업무 계정으로 로그인',u:'아이디',p:'비밀번호',role:'역할',signin:'로그인',
+    ko:{login_t:'SHine-K 로그인',login_s:'산업안전 플랫폼 · 업무 계정으로 로그인',u:'아이디',p:'비밀번호',role:'역할',signin:'로그인',guest:'게스트 둘러보기',
       demo:'데모 계정: admin / safety / lead / worker (비밀번호=아이디+123, 예: admin123)',badcred:'아이디 또는 비밀번호 오류',
       consent_t:'개인정보 처리 동의',consent_s:'심박·산소포화도·체온 등 건강/생체정보(민감정보)를 수집합니다',
       consent_b:'《개인정보보호법(PIPA)》《산업안전보건법》 및 GDPR에 따라: 작업안전 모니터링 목적에 한해 최소 수집, 보관기간 {d}일, 언제든 철회·삭제 가능. 119 연계는 위험 확정 시에만 작동하며 기록을 보관합니다.',
@@ -3610,7 +3648,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       tm_body:'<h4>이용약관(요약)</h4>1. 본 플랫폼은 안전 보조 도구이며 법정 의무를 대체하지 않습니다.<br>2. AI 결과는 참고용, 최종 판단은 안전관리자 책임.<br>3. 건강데이터의 목적 외 사용 금지.<br>4. 데모 버전은 가용성·보존을 보장하지 않습니다.',
       ct_body:'<h4>연락처</h4>안전관리팀 / Safety Office<br>📧 safety@shine-k.example<br>☎ 1588-0000 (데모)<br>🚨 긴급: 119'
     },
-    en:{login_t:'Sign in to SHine-K',login_s:'Industrial Safety Platform · use your work account',u:'Username',p:'Password',role:'Role',signin:'Sign in',
+    en:{login_t:'Sign in to SHine-K',login_s:'Industrial Safety Platform · use your work account',u:'Username',p:'Password',role:'Role',signin:'Sign in',guest:'Browse as Guest',
       demo:'Demo: admin / safety / lead / worker (password = name+123, e.g. admin123)',badcred:'Invalid username or password',
       consent_t:'Personal Data Consent',consent_s:'We collect heart rate, SpO₂, temperature and other health/biometric data (sensitive)',
       consent_b:'Under PIPA, OSHA(KR) and GDPR: collected only for workplace safety, data-minimized, retained {d} days, withdrawable & erasable anytime. 119 auto-dispatch triggers only on confirmed danger and is logged.',
@@ -3654,20 +3692,21 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
 
   /* ─────────── settings ─────────── */
   const DEF={th:{tempWarn:37.6,tempDan:38.2,hrWarn:95,hrDan:105,fatWarn:60,fatDan:80,spo2Warn:94,spo2Dan:90},
-    channels:{sms:true,kakao:true,push:true,email:false,siren:true},escalateSec:20,retentionDays:180,wsUrl:''};
+    channels:{sms:true,kakao:true,push:true,email:false,siren:true},escalateSec:20,retentionDays:180,wsUrl:'',tts:true};
   let cfg=Object.assign({},DEF,store.get('shk_settings',{}));
   cfg.th=Object.assign({},DEF.th,cfg.th||{}); cfg.channels=Object.assign({},DEF.channels,cfg.channels||{});
   const saveCfg=()=>store.set('shk_settings',cfg);
 
   /* ─────────── roles ─────────── */
   const ROLE_NAME={admin:{zh:'管理员',ko:'관리자',en:'Admin'},safety:{zh:'安全员',ko:'안전관리자',en:'Safety'},
-    lead:{zh:'班组长',ko:'반장',en:'Team Lead'},worker:{zh:'工人',ko:'근로자',en:'Worker'}};
+    lead:{zh:'班组长',ko:'반장',en:'Team Lead'},worker:{zh:'工人',ko:'근로자',en:'Worker'},guest:{zh:'访客',ko:'게스트',en:'Guest'}};
   const ALL_PANELS=['overview','register','monitor','checklist','camera','iot','elderly','briefing','alerts','ai','settings','audit','reports'];
   const PERMS={
     admin:{panels:ALL_PANELS,clear:true,settings:true,del:true,export:true,audit:true},
     safety:{panels:ALL_PANELS.filter(p=>p!=='audit'?true:true),clear:true,settings:true,del:false,export:true,audit:true},
     lead:{panels:['overview','register','monitor','checklist','camera','briefing','alerts','reports'],clear:true,settings:false,del:false,export:true,audit:false},
-    worker:{panels:['overview','briefing'],clear:false,settings:false,del:false,export:false,audit:false}
+    worker:{panels:['overview','briefing'],clear:false,settings:false,del:false,export:false,audit:false},
+    guest:{panels:ALL_PANELS,clear:false,settings:false,del:false,export:false,audit:false}
   };
   const USERS={admin:'admin123',safety:'safety123',lead:'lead123',worker:'worker123'};
   let session=store.get('shk_session',null);
@@ -3706,6 +3745,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
     audit('alert_fired',title+' @'+a.zone+' → '+a.channels.join('/'));
     toast('🚨 '+t('fired'),title+'<div class="ent-deliv">'+a.channels.map(c=>'<span>'+c+' ✓</span>').join('')+'</div>',
       'danger',[{label:t('ack'),cls:'ent-btn-p',fn:()=>ackAlert(a.id)}]);
+    try{ if(cfg.tts!==false && 'speechSynthesis' in window){ var _u=new SpeechSynthesisUtterance((L_()==='ko'?'위험 경보. ':L_()==='en'?'Danger alert. ':'危险警报。')+String(title).replace(/[·•]/g,' ')); _u.lang=L_()==='ko'?'ko-KR':L_()==='en'?'en-US':'zh-CN'; _u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(_u);} }catch(e){}
     if(a.level==='danger'){
       a._timer=setTimeout(()=>{ if(a.status==='pending'){a.escalated=true;a.status='escalated';store.set('shk_alerts',alerts);
         audit('alert_escalated',title+' (>'+cfg.escalateSec+'s unacked)');
@@ -3790,6 +3830,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       '<div class="ent-field"><label id="el-u">'+t('u')+'</label><input class="ent-input" id="ent-l-u" value="admin" autocomplete="username"></div>'+
       '<div class="ent-field"><label id="el-p">'+t('p')+'</label><input class="ent-input" id="ent-l-p" type="password" value="admin123" autocomplete="current-password"></div>'+
       '<button class="ent-full-btn" id="ent-l-btn">'+t('signin')+'</button>'+
+      '<button class="ent-full-btn" id="ent-l-guest" style="background:var(--bg3);color:var(--ink2);margin-top:8px">'+t('guest')+'</button>'+
       '<div class="ent-hint" id="el-demo">'+t('demo')+'</div></div></div>');
     document.body.appendChild(ov);
     const roleSel=ov.querySelector('#ent-l-role'),uIn=ov.querySelector('#ent-l-u'),pIn=ov.querySelector('#ent-l-p');
@@ -3802,6 +3843,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
         ov.remove();afterLogin();}
       else toast('⛔',t('badcred'),'danger');};
     ov.querySelector('#ent-l-btn').onclick=doLogin;
+    ov.querySelector('#ent-l-guest').onclick=()=>{session={user:'guest',role:'guest'};store.set('shk_session',session);audit('login','guest (게스트 둘러보기)');ov.remove();afterLogin();};
     pIn.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
   }
   function buildConsent(cb){
@@ -4015,6 +4057,9 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
     const hc=a11y.querySelector('#ent-hc');
     if(store.get('shk_contrast',false))document.body.classList.add('ent-hc');
     hc.onclick=()=>{const on=document.body.classList.toggle('ent-hc');store.set('shk_contrast',on);audit('a11y_contrast',on?'on':'off');};
+    var ttsBtn=el('<button id="ent-tts" title="음성 경보 / Voice alert" style="font-size:.78rem">'+(cfg.tts===false?'🔇':'🔊')+'</button>');
+    a11y.appendChild(ttsBtn);
+    ttsBtn.onclick=()=>{cfg.tts=(cfg.tts===false); saveCfg(); ttsBtn.textContent=cfg.tts===false?'🔇':'🔊'; audit('tts',cfg.tts===false?'off':'on');};
   }
 
   /* PWA: manifest + favicon + meta + install + SW */
@@ -4040,8 +4085,34 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
   }
 
   /* i18n re-apply for ENT */
+  function localizeHardcoded(){
+    var l=L_();
+    var T2={
+      ml1:{zh:'全部工人',ko:'전체 근로자',en:'All workers'}, ml2:{zh:'在线',ko:'온라인',en:'Online'}, ml3:{zh:'老龄(55+)',ko:'고령(55+)',en:'Elderly(55+)'},
+      'cm-vis':{zh:'可见光',ko:'가시광',en:'Visible'},'cm-ir':{zh:'红外线',ko:'적외선',en:'Infrared'},'cm-th':{zh:'热成像',ko:'열화상',en:'Thermal'},
+      'cm-ppe':{zh:'PPE检测',ko:'PPE 감지',en:'PPE'},'cm-3d':{zh:'3D视角',ko:'3D 시점',en:'3D'},'cm-360':{zh:'360°',ko:'360°',en:'360°'},
+      'btn-realai':{zh:'● 实测 AI',ko:'● 실측 AI',en:'● Real AI'},
+      cz1ft:{zh:'4名工人',ko:'작업자 4명',en:'4 workers'},cz2ft:{zh:'⛑ 未戴安全帽',ko:'⛑ 안전모 미착용',en:'⛑ No helmet'},
+      cz3ft:{zh:'⚠ 跌倒检测',ko:'⚠ 쓰러짐 감지',en:'⚠ Fall'},cz4ft:{zh:'⌚ 手环未正确佩戴',ko:'⌚ 밴드 미착용',en:'⌚ Band off'},
+      n1t:{zh:'未佩戴安全帽 — C-1区',ko:'안전모 미착용 — C-1구역',en:'No helmet — Zone C-1'},
+      n2t:{zh:'高温环境警告 — 压延A区',ko:'고온 환경 경고 — 압연 A구역',en:'High-temp warning — Zone A'},
+      n3t:{zh:'疲劳超标(55岁+) — B-1区',ko:'피로 초과(55+) — B-1구역',en:'Fatigue(55+) — Zone B-1'}
+    };
+    Object.keys(T2).forEach(function(id){var e=document.getElementById(id);if(e&&T2[id][l])e.textContent=T2[id][l];});
+    var ph={'global-search':{zh:'搜索工人、区域、警报…',ko:'근로자·구역·경보 검색…',en:'Search workers, zones, alerts…'},
+            'ws':{zh:'搜索姓名、工号、工种…',ko:'이름·사번·직종 검색…',en:'Search name, ID, job…'}};
+    Object.keys(ph).forEach(function(id){var e=document.getElementById(id);if(e&&ph[id][l])e.placeholder=ph[id][l];});
+    // cam zone status spans
+    var zs=[['cz1','ok',{zh:'正常',ko:'정상',en:'OK'}],['cz2','danger',{zh:'违规',ko:'위반',en:'Violation'}],['cz3','danger',{zh:'危险',ko:'위험',en:'Danger'}],['cz4','warn',{zh:'注意',ko:'주의',en:'Caution'}]];
+    zs.forEach(function(z){var c=document.getElementById(z[0]);if(c){var st=c.querySelector('.status');if(st&&z[2][l])st.textContent=z[2][l];}});
+    // active cam mode label
+    var on=document.querySelector('.cam-mode-btn.on'); var mid=on?on.id:'cm-vis';
+    var mlbl=(T2[mid]&&T2[mid][l])||''; var suf=l==='ko'?' 모드':l==='en'?' mode':'模式';
+    var cml=document.getElementById('camModeLabel'); if(cml&&mlbl)cml.textContent=mlbl.replace('● ','')+suf;
+  }
   function applyI18n(){
     const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+    try{localizeHardcoded();}catch(e){}
     set('entsb-settings',t('sb_settings'));set('entsb-audit',t('sb_audit'));set('entsb-reports',t('sb_reports'));
     set('ent-sb-sec',t('sm_sys'));set('ent-logout-l',t('logout'));
     const rp=document.getElementById('ent-role-pill');if(rp&&session)rp.textContent=ROLE_NAME[session.role][L_()];
@@ -4097,6 +4168,21 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
         audit('worker_registered',w.id+' '+(w.name.zh||'')); store.set('shk_roster',window.WORKERS); } };
     const _sub=window.submitReport;
     if(_sub)window.submitReport=function(){ _sub(); audit('hazard_reported',''); };
+    // ROI/benefit card in AI panel
+    function ensureROI(){ var p=document.getElementById('panel-ai'); if(!p||document.getElementById('ent-roi'))return;
+      var l=L_();
+      var TT={zh:{t:'기대 효과 (추정)',a:'사고 -30~50%',al:'조기경보 기반 추정',b:'45.8%',bl:'60세+ 사고사망 비중 집중 보호',c:'0건',cl:'미확인 경보(에스컬레이션)'},
+        ko:{t:'기대 효과 (추정)',a:'사고 -30~50%',al:'조기경보 기반 추정',b:'45.8%',bl:'60세+ 사고사망 비중 집중 보호',c:'0건',cl:'미확인 경보(에스컬레이션)'},
+        en:{t:'Expected impact (est.)',a:'Accidents -30~50%',al:'via early warning',b:'45.8%',bl:'protects 60+ (share of fatalities)',c:'0',cl:'unacked alerts (escalation)'}};
+      var T=TT[l]||TT.ko;
+      var card=el('<div class="card rv" id="ent-roi" style="margin-top:16px"><div class="card-title">'+T.t+'</div>'+
+        '<div class="card-sub" style="margin-bottom:10px">고용노동부 「2023 산업재해」 기준 · 데모 추정치</div>'+
+        '<div style="display:flex;gap:12px;flex-wrap:wrap">'+
+        [['var(--g)',T.a,T.al],['var(--a)',T.b,T.bl],['var(--r)',T.c,T.cl]].map(function(x){return '<div style="flex:1;min-width:150px;background:var(--bg2);border-radius:12px;padding:14px 16px"><div style="font-size:1.5rem;font-weight:800;color:'+x[0]+'">'+x[1]+'</div><div style="font-size:.74rem;color:var(--ink3);margin-top:3px">'+x[2]+'</div></div>';}).join('')+
+        '</div></div>');
+      p.appendChild(card);
+    }
+    var _sp2=window.showPanel; window.showPanel=function(id){ _sp2(id); if(id==='ai'){try{ensureROI();}catch(e){}} };
   }
 
   /* ─────────── load persisted roster ─────────── */
@@ -4123,6 +4209,62 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
 })();
 </script>
 
+<script id="enh-extra">
+(function(){
+ function curL(){var on=function(id){var e=document.getElementById(id);return e&&e.classList.contains('on');};
+   if(on('app-btn-ko')||on('btn-ko'))return 'ko'; if(on('app-btn-en')||on('btn-en'))return 'en'; return 'zh';}
+ var realOn=false,realModel=null,realStream=null,realRAF=null;
+ window.toggleRealAI=async function(){
+   if(realOn){stopRealAI();return;}
+   var v=document.getElementById('realVideo'),ov=document.getElementById('realOverlay'),bd=document.getElementById('realBadge'),btn=document.getElementById('btn-realai');
+   if(!v)return; var l=curL();
+   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){alert(l==='ko'?'이 브라우저는 카메라를 지원하지 않습니다.':l==='en'?'Camera not supported.':'浏览器不支持摄像头');return;}
+   try{ realStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'}}); }
+   catch(e){ alert((l==='ko'?'카메라 접근 실패: ':l==='en'?'Camera error: ':'摄像头访问失败：')+e.message); return; }
+   v.srcObject=realStream; try{await v.play();}catch(e){}
+   v.style.display='block';ov.style.display='block';bd.style.display='block';if(btn)btn.classList.add('on');
+   realOn=true; bd.style.background='rgba(0,200,150,.92)';
+   bd.textContent=(l==='ko'?'● 모델 로딩…':l==='en'?'● loading model…':'● 模型加载…');
+   if(typeof cocoSsd==='undefined'||typeof tf==='undefined'){
+     bd.style.background='rgba(232,19,58,.92)';
+     bd.textContent=(l==='ko'?'● 라이브 영상 (모델 오프라인)':l==='en'?'● live video (model offline)':'● 实时视频(模型离线)');
+     return;
+   }
+   try{ if(!realModel){realModel=await cocoSsd.load({base:'lite_mobilenet_v2'});} detectLoop(); }
+   catch(e){ bd.textContent=(l==='ko'?'● 모델 오류':'● model error'); }
+ };
+ function stopRealAI(){ realOn=false; if(realRAF)cancelAnimationFrame(realRAF);
+   if(realStream){realStream.getTracks().forEach(function(t){t.stop();});realStream=null;}
+   ['realVideo','realOverlay','realBadge'].forEach(function(id){var e=document.getElementById(id);if(e)e.style.display='none';});
+   var b=document.getElementById('btn-realai'); if(b)b.classList.remove('on');
+ }
+ window.stopRealAI=stopRealAI;
+ async function detectLoop(){ if(!realOn||!realModel)return;
+   var v=document.getElementById('realVideo'),ov=document.getElementById('realOverlay'),bd=document.getElementById('realBadge'),l=curL();
+   if(v&&v.videoWidth){ var W=ov.clientWidth||640,H=ov.clientHeight||360; ov.width=W; ov.height=H;
+     var sx=W/v.videoWidth, sy=H/v.videoHeight, ctx=ov.getContext('2d'); ctx.clearRect(0,0,W,H);
+     var preds=[]; try{preds=await realModel.detect(v);}catch(e){}
+     var ppl=preds.filter(function(p){return p.class==='person';}),fall=0;
+     ppl.forEach(function(p){var x=p.bbox[0]*sx,y=p.bbox[1]*sy,w=p.bbox[2]*sx,h=p.bbox[3]*sy,down=p.bbox[2]>p.bbox[3]*1.15;if(down)fall++;
+       ctx.strokeStyle=down?'#FF3B30':'#00E0A8';ctx.lineWidth=3;ctx.strokeRect(x,y,w,h);
+       ctx.fillStyle=down?'#FF3B30':'#00E0A8';ctx.font='bold 15px sans-serif';
+       var lab=(down?(l==='ko'?'쓰러짐 의심 ':l==='en'?'FALL? ':'疑似跌倒 '):(l==='ko'?'사람 ':l==='en'?'person ':'人 '))+Math.round(p.score*100)+'%';
+       ctx.fillText(lab,x+3,y>16?y-4:14);
+     });
+     bd.style.background=fall?'rgba(232,19,58,.92)':'rgba(0,200,150,.92)';
+     bd.textContent='● '+(l==='ko'?'실측 AI · 인원 ':l==='en'?'REAL AI · ':'实测AI · 人数 ')+ppl.length+(fall?(l==='ko'?' · 쓰러짐 '+fall:l==='en'?' · fall '+fall:' · 跌倒 '+fall):'');
+   }
+   realRAF=requestAnimationFrame(detectLoop);
+ }
+ function animWhy(){ document.querySelectorAll('.why-stat .wn').forEach(function(el){
+   var to=parseFloat(el.getAttribute('data-to'))||0,dec=parseInt(el.getAttribute('data-dec')||'0'),suf=el.getAttribute('data-suf')||'',st=null;
+   function step(ts){ if(!st)st=ts; var p=Math.min(1,(ts-st)/1400),v=to*(0.5-0.5*Math.cos(p*Math.PI)); el.textContent=(dec?v.toFixed(dec):Math.round(v))+suf; if(p<1)requestAnimationFrame(step);}
+   requestAnimationFrame(step);
+ });}
+ function init(){ setTimeout(animWhy,500); }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
 
 <!-- ════ 브로슈어 一键下载 (one-click brochure download) ════ -->
 <script id="brochure-dl">
