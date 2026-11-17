@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · 现场端</title>
+<link rel="stylesheet" href="css/shk3.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small data-i18n="field_title">现场端</small></div></div>
+  <span class="pill" id="pillPose"><i></i><span data-i18n="ai_pose">关节点 AI</span>: <b id="poseSt">—</b></span>
+  <span class="pill" id="pillPpe"><i></i><span data-i18n="ai_ppe">安全帽/背心 AI</span>: <b id="ppeSt">—</b></span>
+  <span class="pill" id="pillLink"><i></i><span data-i18n="link">连接监控端</span>: <b id="linkSt">—</b></span>
+  <span class="sp"></span>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="center.html" target="_blank" data-i18n="open_center">打开监控端 ↗</a>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+
+<main class="wrap">
+  <section>
+    <div class="card">
+      <h3><span data-i18n="cam">摄像头</span><span class="sp"></span>
+        <select id="camSel" style="max-width:220px"></select>
+        <button class="pri" id="btnCam" data-i18n="cam_start">▶ 开启摄像头</button>
+      </h3>
+      <div class="stage" id="stage">
+        <video id="video" playsinline muted autoplay></video>
+        <canvas id="overlay"></canvas>
+        <div class="hint" id="hint" data-i18n="none_yet"></div>
+        <div class="badge" id="badge">—</div>
+        <div class="banner" id="banner"></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <label class="row" style="gap:6px"><input type="checkbox" id="chkSkel"> <span data-i18n="skel_only">只显示骨架</span></label>
+        <span class="sp"></span>
+        <label class="row" style="gap:6px"><span class="muted" data-i18n="site">现场名称</span><input id="siteName" style="width:140px"></label>
+        <button id="btnMute" data-i18n="mute">静音</button>
+        <button id="btnTest" data-i18n="test_alarm">测试警报</button>
+      </div>
+      <div class="stats">
+        <span>FPS <b id="sFps">0</b></span>
+        <span>Pose <b id="sPose">0</b> ms</span>
+        <span>PPE <b id="sPpe">0</b> ms</span>
+        <span><span data-i18n="sent">已发送</span> <b id="sSent">0</b> · <b id="sKB">0</b> KB</span>
+        <span><span data-i18n="video_up">视频上传</span> <b>0 B</b></span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="workers">画面中的工人</h3>
+      <div id="workers"><div class="empty" data-i18n="none_yet"></div></div>
+    </div>
+  </section>
+
+  <aside>
+    <div class="card">
+      <h3 data-i18n="alerts">当前警报</h3>
+      <div id="alerts"><div class="empty" data-i18n="no_alerts"></div></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="devices">可穿戴设备 & 警示灯</h3>
+      <div class="row">
+        <button id="btnHR" data-i18n="add_hr">＋ 蓝牙心率带</button>
+        <button id="btnEmo" data-i18n="add_emo">＋ EmoConnect 手表</button>
+        <button id="btnBeacon" data-i18n="add_beacon">＋ USB 警示灯</button>
+      </div>
+      <div class="note" id="bleNote" style="display:none" data-i18n="ble_unsupported"></div>
+      <div id="devices"></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="link">连接监控端</h3>
+      <div class="row">
+        <span class="muted" data-i18n="room">房间码</span>
+        <input id="room" style="width:110px" class="mono">
+        <button id="btnNewRoom" data-i18n="new_room">生成房间码</button>
+        <button class="pri" id="btnLink" data-i18n="connect">连接</button>
+      </div>
+      <div class="note" data-i18n="link_local"></div>
+      <div class="note" data-i18n="link_warn"></div>
+    </div>
+
+    <div class="card">
+      <h3 data-i18n="log">事件记录</h3>
+      <div class="log" id="log"></div>
+    </div>
+  </aside>
+</main>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <h2 data-i18n="start_t">开始现场监测</h2>
+    <p data-i18n="start_d"></p>
+    <button class="pri" id="btnStart" style="width:100%;padding:12px;font-size:15px" data-i18n="start_btn">▶ 开始</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.webgpu.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-feedback.js"></script>
+<script src="js/shk-ble.js"></script>
+<script src="js/shk-fall.js"></script>
+<script src="js/shk-ppe.js"></script>
+<script src="js/shk-live.js"></script>
+</body>
+</html>

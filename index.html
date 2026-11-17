@@ -1620,6 +1620,16 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
             <div><div class="mod-title" id="cam-title">AI视频分析</div><div class="mod-sub" id="cam-sub">实时PPE检测 · 危险行为识别 · 精度≥95%</div></div>
             <div class="mod-badge"><div class="dot"></div><span id="cam-live-lbl">实时监控</span></div>
           </div>
+          <!-- SHine-K 3.0 真实监测入口（live.html / center.html） -->
+          <div class="rv" style="background:#fff;border:2px solid var(--a);border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+            <div style="flex:1;min-width:240px">
+              <div style="font-weight:800;font-size:15px;color:var(--ink)">🎥 真实现场监测 · 실제 현장 모니터링</div>
+              <div style="font-size:12.5px;color:var(--ink3);margin-top:3px">真实摄像头 AI（安全帽·背心·跌倒·SOS）＋ 蓝牙心率带 / EmoConnect 手表 ＋ 警报声·语音·USB 警示灯。视频只在本机分析，监控端只收骨架和数字。</div>
+              <div id="shk3-live-status" style="font-size:12px;margin-top:6px;font-weight:700"></div>
+            </div>
+            <a href="live.html" target="_blank" style="background:var(--a);color:#fff;font-weight:800;padding:10px 16px;border-radius:10px">▶ 打开现场端</a>
+            <a href="center.html" target="_blank" style="border:1px solid var(--a);color:var(--a);font-weight:800;padding:10px 16px;border-radius:10px">打开监控端</a>
+          </div>
           <div class="cam-layout rv">
             <div>
               <div class="cam-main">
@@ -4304,5 +4314,7 @@ function downloadBrochure(){
   setInterval(mkBtn,1500);
 })();
 </script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-bridge.js"></script>
 </body>
 </html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · 监控端</title>
+<link rel="stylesheet" href="css/shk3.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small data-i18n="center_title">监控端</small></div></div>
+  <span class="pill" id="pillLink"><i></i><span data-i18n="link">连接</span>: <b id="linkSt">local</b></span>
+  <span class="pill"><i></i><span data-i18n="packets">收到数据包</span> <b id="sRecv">0</b> · <span data-i18n="bytes_video">视频 0 B</span></span>
+  <span class="sp"></span>
+  <span class="muted" data-i18n="room">房间码</span><input id="room" class="mono" style="width:100px">
+  <button class="pri" id="btnLink" data-i18n="connect">连接</button>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="live.html" target="_blank" data-i18n="open_field">打开现场端 ↗</a>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+
+<main class="wrap">
+  <section id="sites"><div class="card"><div class="empty" data-i18n="no_data"></div></div></section>
+  <aside>
+    <div class="card">
+      <h3><span data-i18n="alert_feed">警报</span><span class="sp"></span><button id="btnCsv">CSV</button></h3>
+      <div id="feed"><div class="empty" data-i18n="no_alerts"></div></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="broadcast">向现场广播</h3>
+      <div class="row"><select id="bcSite"></select><input id="bcText" style="flex:1;min-width:160px" data-i18n-ph="bc_ph"><button class="pri" id="btnBc" data-i18n="send">发送</button></div>
+    </div>
+    <div class="card">
+      <h3 data-i18n="log">事件记录</h3>
+      <div class="log" id="log"></div>
+    </div>
+  </aside>
+</main>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <h2 data-i18n="center_title">监控端</h2>
+    <p data-i18n="link_local"></p>
+    <button class="pri" id="btnStart" style="width:100%;padding:12px;font-size:15px" data-i18n="start_btn">▶ 开始</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-feedback.js"></script>
+<script src="js/shk-center.js"></script>
+</body>
+</html>
