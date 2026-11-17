@@ -1392,9 +1392,9 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
             <div class="mod-badge"><div class="dot"></div><span id="ov-live">实时运行中</span></div>
           </div>
           <div class="kpi-row rv">
-            <div class="kpi-card blue"><div class="kpi-label" id="kl1">全部工人</div><div class="kpi-value" id="km1">0</div><div class="kpi-meta" id="kmt1">在线 <span class="up" id="km1b">0</span></div></div>
+            <div class="kpi-card blue"><div class="kpi-label" id="kl1">全部工人</div><div class="kpi-value" id="km1">0</div><div class="kpi-meta" id="kmt1"><span id="shk-kmt1">在线</span> <span class="up" id="km1b">0</span></div></div>
             <div class="kpi-card green"><div class="kpi-label" id="kl2">安全状态</div><div class="kpi-value" id="km2">0</div><div class="kpi-meta"><span class="up" id="kmt2">PPE合规 96%</span></div></div>
-            <div class="kpi-card amber"><div class="kpi-label" id="kl3">老龄(55+)</div><div class="kpi-value" id="km3">0</div><div class="kpi-meta" id="kmt3">高风险 <span class="dn" id="km3b">0</span></div></div>
+            <div class="kpi-card amber"><div class="kpi-label" id="kl3">老龄(55+)</div><div class="kpi-value" id="km3">0</div><div class="kpi-meta" id="kmt3"><span id="shk-kmt3">高风险</span> <span class="dn" id="km3b">0</span></div></div>
             <div class="kpi-card red"><div class="kpi-label" id="kl4">警报</div><div class="kpi-value" id="km4">3</div><div class="kpi-meta"><span class="dn" id="kmt4">危险 1 · 警告 2</span></div></div>
           </div>
           <div class="grid-2 rv">
@@ -2616,14 +2616,14 @@ function initOverviewCharts(){
   destroyChart('cWorker');
   const ctx1=document.getElementById('cWorker');
   if(ctx1) charts.cWorker=new Chart(ctx1,{type:'doughnut',data:{
-    labels:['安全','警告','危险'],
+    labels:(L==='ko'?['안전','경고','위험']:L==='en'?['Safe','Warning','Danger']:['安全','警告','危险']),
     datasets:[{data:[WORKERS.filter(w=>w.status==='ok').length,WORKERS.filter(w=>w.status==='warn').length,WORKERS.filter(w=>w.status==='danger').length],backgroundColor:['#00C896','#FF8C00','#E8133A'],borderWidth:0}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:12},boxWidth:12}}}}});
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,padding:8}}}}});
 
   destroyChart('cTime');
   const ctx2=document.getElementById('cTime');
   if(ctx2) charts.cTime=new Chart(ctx2,{type:'line',data:{
-    labels:Array.from({length:24},(_,i)=>i+'시'),
+    labels:Array.from({length:24},(_,i)=>i+(L==='ko'?'시':L==='en'?'h':'时')),
     datasets:[{label:'AI风险指数',data:[35,42,55,68,82,90,95,78,55,40,38,42,48,52,65,88,92,78,55,38,30,28,25,32],borderColor:'#0F62FE',backgroundColor:'rgba(15,98,254,.08)',fill:true,tension:.4,pointRadius:0}]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,max:100,grid:{color:'rgba(0,0,0,.06)'},ticks:{font:{size:11}}},x:{ticks:{font:{size:10},maxTicksLimit:12},grid:{display:false}}}}});
 
@@ -2637,9 +2637,9 @@ function initOverviewCharts(){
   destroyChart('cPPE');
   const ctx4=document.getElementById('cPPE');
   if(ctx4) charts.cPPE=new Chart(ctx4,{type:'doughnut',data:{
-    labels:['安全帽','护目镜','马甲','手套'],
+    labels:(L==='ko'?['안전모','보안경','조끼','장갑']:L==='en'?['Helmet','Goggles','Vest','Gloves']:['安全帽','护目镜','背心','手套']),
     datasets:[{data:[44,28,18,10],backgroundColor:['#E8133A','#FF8C00','#0F62FE','#7C3AED'],borderWidth:0}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:12},boxWidth:12}}}}});
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,padding:8}}}}});
 }
 function initAICharts(){
   destroyChart('cAge2');
@@ -2652,9 +2652,9 @@ function initAICharts(){
   destroyChart('cPPE2');
   const ctx6=document.getElementById('cPPE2');
   if(ctx6) charts.cPPE2=new Chart(ctx6,{type:'doughnut',data:{
-    labels:['安全帽','护目镜','马甲','手套'],
+    labels:(L==='ko'?['안전모','보안경','조끼','장갑']:L==='en'?['Helmet','Goggles','Vest','Gloves']:['安全帽','护目镜','背心','手套']),
     datasets:[{data:[44,28,18,10],backgroundColor:['#E8133A','#FF8C00','#0F62FE','#7C3AED'],borderWidth:0}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:{size:12},boxWidth:12}}}}});
+  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,padding:8}}}}});
 }
 let hzChart=null;
 const HZ_HIST={temp:[],co:[],dust:[]};
@@ -3477,7 +3477,7 @@ function initZoneHazChart(){
     labels:d.zones.map(z=>z+(L==='en'?'':(L==='ko'?' 구역':'区'))),
     datasets:[{label:'隐患',data:d.counts,backgroundColor:['#0F62FE','#00C896','#E8133A','#7C3AED'],borderRadius:7}]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-    scales:{y:{beginAtZero:true,ticks:{precision:0,font:{size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
+    scales:{y:{beginAtZero:true,suggestedMax:5,ticks:{precision:0,font:{size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}});
 }
 function refreshZoneHazChart(){
   if(!charts.cZoneHaz) return;

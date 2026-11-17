@@ -8,6 +8,7 @@
   var STR = {
     zh: {
       home: '首页',
+      ov_bc: '总览仪表盘', ov_base: '基准 · 每 1.2 秒更新', refresh: '刷新', more2: '更多', al_board: '实时警报现况', c_no: '编号', c_type: '分类', c_msg: '内容', c_zone: '区域', c_time: '时间', c_status: '状态', s_pending: '处理中', s_acked: '已确认', s_escalated: '已上报', lv_danger: '危险', lv_warn: '警告', quick: '快捷菜单', u_person: '名', u_case: '件', wd: ['日','一','二','三','四','五','六'], cmp_t: '教育 · 体检到期',
       mon_real: '现场实测工人', mon_real_d: '来自现场端：摄像头识别到的人 + 蓝牙心率设备。佩戴者在现场端的设备卡片里选择。', mon_demo: '演示数据（模拟工人：心率·血氧·体温·疲劳为随机生成）', mon_none: '现场端未运行或没有识别到人。', c_worker: '工人', c_state: '状态', c_hr: '心率', c_dev: '设备', c_ppe: '安全帽 / 背心', notin: '不在画面中', iot_demo2: '演示数据（环境传感器：温度 · CO · 粉尘，模拟）',
       cam_people: '画面中的工人（实测）', cam_alerts: '实时警报（实测）', cam_none: '现场端未运行或画面中没有人。', cam_noal: '暂无警报', cam_demo: '演示数据（模拟画面，不是真实摄像头）', helmet: '安全帽', vest: '背心', y: '已戴', n: '未戴', u: '无法确认', st: { normal: '正常', suspect: '疑似跌倒', ask: '等待回应', danger: '无回应·危险', sos: 'SOS' }, nopose: '只检查安全帽/背心',
       iot_real: '真实设备（实测）', iot_real_d: '蓝牙设备只能连在开着摄像头的现场电脑上。请在现场端点“＋ 蓝牙心率带 / ＋ EmoConnect 手表”，连上后这里每秒更新。', iot_go: '去现场端连接设备 ↗', iot_none: '还没有连接真实设备。', iot_demo: '演示数据（模拟设备，数值随机生成）', iot_wearer: '佩戴者', iot_battery: '电量', iot_motion: '手腕活动', iot_off: '已断开', iot_nosig: '无信号',
@@ -30,6 +31,7 @@
     },
     ko: {
       home: '홈',
+      ov_bc: '메인 대시보드', ov_base: '기준 · 1.2초마다 갱신', refresh: '새로고침', more2: '더보기', al_board: '실시간 경보 현황', c_no: '번호', c_type: '구분', c_msg: '내용', c_zone: '구역', c_time: '시간', c_status: '상태', s_pending: '처리중', s_acked: '확인', s_escalated: '상향보고', lv_danger: '위험', lv_warn: '경고', quick: '바로가기', u_person: '명', u_case: '건', wd: ['일','월','화','수','목','금','토'], cmp_t: '교육 · 검진 만료',
       mon_real: '현장 실측 작업자', mon_real_d: '현장 화면에서: 카메라가 인식한 사람 + 블루투스 심박 장치. 착용자는 현장 화면의 장치 카드에서 고릅니다.', mon_demo: '시연 데이터 (모의 작업자: 심박·산소·체온·피로는 무작위)', mon_none: '현장 화면이 꺼져 있거나 사람이 없습니다.', c_worker: '작업자', c_state: '상태', c_hr: '심박', c_dev: '장치', c_ppe: '안전모 / 조끼', notin: '화면 밖', iot_demo2: '시연 데이터 (환경 센서: 온도 · CO · 분진, 모의)',
       cam_people: '화면 속 작업자 (실측)', cam_alerts: '실시간 경보 (실측)', cam_none: '현장 화면이 꺼져 있거나 화면에 사람이 없습니다.', cam_noal: '경보 없음', cam_demo: '시연 데이터 (모의 화면, 실제 카메라 아님)', helmet: '안전모', vest: '조끼', y: '착용', n: '미착용', u: '확인 불가', st: { normal: '정상', suspect: '넘어짐 의심', ask: '응답 대기', danger: '무응답·위험', sos: 'SOS' }, nopose: '안전모·조끼만 검사',
       iot_real: '실제 장치 (실측)', iot_real_d: '블루투스 장치는 카메라가 켜진 현장 컴퓨터에서만 연결됩니다. 현장 화면에서 “＋ 블루투스 심박 밴드 / ＋ EmoConnect 워치”를 누르면 여기서 1초마다 갱신됩니다.', iot_go: '현장 화면에서 연결 ↗', iot_none: '아직 연결된 실제 장치가 없습니다.', iot_demo: '시연 데이터 (모의 장치, 무작위 값)', iot_wearer: '착용자', iot_battery: '배터리', iot_motion: '손목 움직임', iot_off: '연결 끊김', iot_nosig: '신호 없음',
@@ -52,6 +54,7 @@
     },
     en: {
       home: 'Home',
+      ov_bc: 'Dashboard', ov_base: 'as of · updates every 1.2 s', refresh: 'Refresh', more2: 'More', al_board: 'Live alert board', c_no: 'No.', c_type: 'Type', c_msg: 'Details', c_zone: 'Zone', c_time: 'Time', c_status: 'Status', s_pending: 'Open', s_acked: 'Acked', s_escalated: 'Escalated', lv_danger: 'Danger', lv_warn: 'Warning', quick: 'Quick menu', u_person: '', u_case: '', wd: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], cmp_t: 'Training · check-up due',
       mon_real: 'Real workers on site', mon_real_d: 'From the field page: people seen by the camera + Bluetooth HR devices. Pick the wearer on the field page device card.', mon_demo: 'Demo data (simulated workers: HR, SpO2, temperature, fatigue are random)', mon_none: 'Field page not running, or nobody detected.', c_worker: 'Worker', c_state: 'Status', c_hr: 'HR', c_dev: 'Device', c_ppe: 'Helmet / vest', notin: 'not in view', iot_demo2: 'Demo data (environment sensors: temperature · CO · dust, simulated)',
       cam_people: 'Workers in view (real)', cam_alerts: 'Live alerts (real)', cam_none: 'Field page not running, or nobody in view.', cam_noal: 'No alerts', cam_demo: 'Demo data (simulated view, not a real camera)', helmet: 'Helmet', vest: 'Vest', y: 'on', n: 'missing', u: 'unsure', st: { normal: 'normal', suspect: 'possible fall', ask: 'waiting reply', danger: 'no reply · danger', sos: 'SOS' }, nopose: 'helmet/vest only',
       iot_real: 'Real devices', iot_real_d: 'Bluetooth devices connect only on the field computer that runs the camera. On the field page click “＋ Bluetooth HR strap / ＋ EmoConnect watch”; this list then updates every second.', iot_go: 'Connect on the field page ↗', iot_none: 'No real device connected yet.', iot_demo: 'Demo data (simulated devices, random values)', iot_wearer: 'Wearer', iot_battery: 'Battery', iot_motion: 'Wrist motion', iot_off: 'disconnected', iot_nosig: 'no signal',
@@ -416,18 +419,97 @@
       rows.map(function (r) { return '<tr style="border-bottom:1px solid #EEF1F6"><td style="padding:7px 8px;font-family:var(--mono);font-weight:800">' + r[1] + ' <small style="color:var(--ink4);font-weight:500">' + esc(r[0]) + '</small></td><td style="padding:7px 8px">' + r[2] + '</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:800">' + (r[3] !== '—' ? '❤ ' + r[3] : '—') + '</td><td style="padding:7px 8px">' + r[4] + '</td><td style="padding:7px 8px">' + r[5] + '</td></tr>'; }).join('') + '</table>';
   }
 
+  /* ---------- 总览仪表盘：韩国门户/管理系统常见版式 ----------
+   * 标题 + 导航路径 + 基准时间 → 现况要约带（竖线分隔）→ 警报公告板 + 快捷菜单 → 四个小图表 → 到期提醒 + 区域上报 */
+  var OV_MORE = { cTime: 'ai', cWorker: 'monitor', cAge: 'elderly', cPPE: 'camera', cZoneHaz: 'alerts' };
+  function buildOverview() {
+    var p = $('panel-overview'); if (!p || $('shk-ov-board')) return;
+    p.classList.add('shk-ov');
+    var hd = p.querySelector('.mod-hd');
+    var bc = document.createElement('div'); bc.className = 'shk-bc';
+    bc.innerHTML = '<span class="ic">⌂</span> <span data-s="home"></span> <span class="sep">›</span> <b data-s="ov_bc"></b>';
+    hd.appendChild(bc);
+    var base = document.createElement('div'); base.className = 'shk-base';
+    base.innerHTML = '<span id="shk-ov-time"></span> <span data-s="ov_base"></span> <button id="shk-ov-ref">⟳ <span data-s="refresh"></span></button>';
+    hd.after(base);
+    $('shk-ov-ref').onclick = function () { try { window.updateKPIs && window.updateKPIs(); window.initOverviewCharts && window.initOverviewCharts(); window.initZoneHazChart && window.initZoneHazChart(); window.renderCompliance && window.renderCompliance(); } catch (e) {} renderOverview(); };
+    var kr = p.querySelector('.kpi-row'); kr.classList.add('shk-sum');
+    var icons = ['👷', '✅', '🧓', '🚨'];
+    kr.querySelectorAll('.kpi-card').forEach(function (c, i) { c.setAttribute('data-ic', icons[i]); });
+    // 警报公告板 + 快捷菜单
+    var row = document.createElement('div'); row.className = 'shk-ov-row2';
+    row.innerHTML = '<div class="shk-box" id="shk-ov-board"><div class="bh"><b data-s="al_board"></b><a data-go="alerts"><span data-s="more2"></span> +</a></div><div id="shk-ov-alerts"></div></div>' +
+      '<div class="shk-box"><div class="bh"><b data-s="quick"></b></div><div class="shk-quick" id="shk-ov-quick"></div></div>';
+    kr.after(row);
+    // 四个图表一行
+    var g4 = document.createElement('div'); g4.className = 'shk-ov-g4';
+    ['cTime', 'cWorker', 'cAge', 'cPPE'].forEach(function (id) { var cv = $(id); if (cv) g4.appendChild(cv.closest('.card')); });
+    row.after(g4);
+    // 原来的两行 grid-2 中剩下的：到期提醒 + 区域上报
+    var bottom = document.createElement('div'); bottom.className = 'shk-ov-row3';
+    var cmp = p.querySelector('.cmp-card'), hz = $('cZoneHaz') && $('cZoneHaz').closest('.card');
+    if (cmp) bottom.appendChild(cmp); if (hz) bottom.appendChild(hz);
+    g4.after(bottom);
+    p.querySelectorAll('.grid-2').forEach(function (g) { if (!g.children.length) g.remove(); });
+    // 每个图表卡片加“更多 +”
+    Object.keys(OV_MORE).forEach(function (id) {
+      var c = $(id) && $(id).closest('.card'); if (!c || c.querySelector('.shk-more')) return;
+      var a = document.createElement('a'); a.className = 'shk-more'; a.dataset.go = OV_MORE[id]; a.innerHTML = '<span data-s="more2"></span> +';
+      c.insertBefore(a, c.firstChild);
+    });
+    if (cmp && !cmp.querySelector('.shk-more')) { var a2 = document.createElement('a'); a2.className = 'shk-more'; a2.dataset.go = 'register'; a2.innerHTML = '<span data-s="more2"></span> +'; cmp.querySelector('.cmp-hd').appendChild(a2); }
+    p.querySelectorAll('[data-go]').forEach(function (a) { a.onclick = function () { window.showPanel(a.dataset.go); }; });
+    relabel(); renderOverview();
+    setTimeout(function () { window.dispatchEvent(new Event('resize')); }, 60);
+  }
+  var OV_TXT = {
+    zh: { 'shk-kmt1': '在线', 'shk-kmt3': '高风险', 'cs-work': '按状态 · 实时', 'cs-time': 'AI 预测高风险：06-08 时 / 14-16 时', 'cs-age': '55 岁以上风险明显偏高', 'cs-ppe': '安全帽未佩戴占 44%' },
+    ko: { 'shk-kmt1': '접속', 'shk-kmt3': '고위험', 'cs-work': '상태별 · 실시간', 'cs-time': 'AI 예측 고위험: 06-08시 / 14-16시', 'cs-age': '55세 이상 위험이 뚜렷이 높음', 'cs-ppe': '안전모 미착용 44%' },
+    en: { 'shk-kmt1': 'Online', 'shk-kmt3': 'High risk', 'cs-work': 'By status · live', 'cs-time': 'AI high-risk hours: 06-08 / 14-16', 'cs-age': 'Risk clearly higher at 55+', 'cs-ppe': 'No helmet: 44%' }
+  };
+  function renderOverview() {
+    var s = S(), d = new Date(), pad = function (n) { return (n < 10 ? '0' : '') + n; };
+    var tx = OV_TXT[L()]; Object.keys(tx).forEach(function (id) { var e = $(id); if (e && e.textContent !== tx[id]) e.textContent = tx[id]; });
+    var t = $('shk-ov-time'); if (!t) return;
+    t.textContent = d.getFullYear() + '.' + pad(d.getMonth() + 1) + '.' + pad(d.getDate()) + '(' + s.wd[d.getDay()] + ') ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    // 要约带单位
+    ['km1', 'km2', 'km3'].forEach(function (id) { var e = $(id); if (e) e.setAttribute('data-u', s.u_person); });
+    var e4 = $('km4'); if (e4) e4.setAttribute('data-u', s.u_case);
+    // 公告板
+    var al = []; try { al = JSON.parse(localStorage.getItem('shk_alerts') || '[]'); } catch (x) {}
+    var box = $('shk-ov-alerts');
+    if (!al.length) box.innerHTML = '<div class="empty">' + s.no_alert + '</div>';
+    else box.innerHTML = '<table class="shk-tb"><thead><tr><th style="width:52px">' + s.c_no + '</th><th style="width:70px">' + s.c_type + '</th><th>' + s.c_msg + '</th><th style="width:70px">' + s.c_zone + '</th><th style="width:76px">' + s.c_time + '</th><th style="width:76px">' + s.c_status + '</th></tr></thead><tbody>' +
+      al.slice(0, 6).map(function (a, i) {
+        var real = /^\[(实测|실측|REAL)\]/.test(a.title || ''), title = String(a.title || '').replace(/^\[[^\]]+\]\s*/, '');
+        var st = a.status === 'acked' ? s.s_acked : a.status === 'escalated' ? s.s_escalated : s.s_pending;
+        var tm = new Date(a.ts); 
+        return '<tr><td class="c">' + (al.length - i) + '</td><td class="c"><span class="lv ' + (a.level === 'danger' ? 'd' : 'w') + '">' + (a.level === 'danger' ? s.lv_danger : s.lv_warn) + '</span></td>' +
+          '<td class="m">' + (real ? '<span class="rl">' + s.real + '</span> ' : '') + esc(title) + '</td><td class="c">' + esc(a.zone || '-') + '</td><td class="c mono">' + pad(tm.getHours()) + ':' + pad(tm.getMinutes()) + '</td>' +
+          '<td class="c"><span class="st ' + (a.status || 'pending') + '">' + st + '</span></td></tr>';
+      }).join('') + '</tbody></table>';
+    // 快捷菜单
+    var q = $('shk-ov-quick');
+    if (q && !q.dataset.lang || q.dataset.lang !== L()) {
+      q.dataset.lang = L();
+      var items = [['register', '🪪'], ['monitor', '❤️'], ['checklist', '✅'], ['camera', '📹'], ['alerts', '🚨'], ['briefing', '📢'], ['reports', '🧾'], ['elderly', '👴']];
+      q.innerHTML = items.filter(function (it) { return allowed(it[0]); }).map(function (it) { return '<a data-go="' + it[0] + '"><i>' + it[1] + '</i><span>' + esc(s.cards[it[0]][0]) + '</span></a>'; }).join('');
+      q.querySelectorAll('[data-go]').forEach(function (a) { a.onclick = function () { window.showPanel(a.dataset.go); }; });
+    }
+  }
+
   function isHome() { var p = $('panel-home'); return !!(p && p.classList.contains('active')); }
 
   function setup() {
     if (!$('app')) return;
-    buildTopbar(); buildSidebar(); buildHome(); buildIot(); buildCam(); buildMon(); wrapShow(); relabel();
+    buildTopbar(); buildSidebar(); buildHome(); buildIot(); buildCam(); buildMon(); buildOverview(); wrapShow(); relabel();
   }
 
   function boot() {
     setup();
     ['app-btn-zh', 'app-btn-ko', 'app-btn-en'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('click', function () { setTimeout(function () { relabel(); if (isHome()) renderHome(); }, 80); }); });
     setInterval(function () { if (isHome()) renderHome(); }, 4000);
-    setInterval(function () { var p = $('panel-iot'); if (p && p.classList.contains('active')) renderIot(); var c = $('panel-camera'); if (c && c.classList.contains('active')) renderCam(); var mo = $('panel-monitor'); if (mo && mo.classList.contains('active')) renderMon(); }, 1000);
+    setInterval(function () { var p = $('panel-iot'); if (p && p.classList.contains('active')) renderIot(); var c = $('panel-camera'); if (c && c.classList.contains('active')) renderCam(); var mo = $('panel-monitor'); if (mo && mo.classList.contains('active')) renderMon(); var ov = $('panel-overview'); if (ov && ov.classList.contains('active')) renderOverview(); }, 1000);
     var shown = false;
     setInterval(function () {
       wrapShow(); checkPending();
