@@ -8,6 +8,7 @@
   var STR = {
     zh: {
       home: '首页',
+      mon_real: '现场实测工人', mon_real_d: '来自现场端：摄像头识别到的人 + 蓝牙心率设备。佩戴者在现场端的设备卡片里选择。', mon_demo: '演示数据（模拟工人：心率·血氧·体温·疲劳为随机生成）', mon_none: '现场端未运行或没有识别到人。', c_worker: '工人', c_state: '状态', c_hr: '心率', c_dev: '设备', c_ppe: '安全帽 / 背心', notin: '不在画面中', iot_demo2: '演示数据（环境传感器：温度 · CO · 粉尘，模拟）',
       cam_people: '画面中的工人（实测）', cam_alerts: '实时警报（实测）', cam_none: '现场端未运行或画面中没有人。', cam_noal: '暂无警报', cam_demo: '演示数据（模拟画面，不是真实摄像头）', helmet: '安全帽', vest: '背心', y: '已戴', n: '未戴', u: '无法确认', st: { normal: '正常', suspect: '疑似跌倒', ask: '等待回应', danger: '无回应·危险', sos: 'SOS' }, nopose: '只检查安全帽/背心',
       iot_real: '真实设备（实测）', iot_real_d: '蓝牙设备只能连在开着摄像头的现场电脑上。请在现场端点“＋ 蓝牙心率带 / ＋ EmoConnect 手表”，连上后这里每秒更新。', iot_go: '去现场端连接设备 ↗', iot_none: '还没有连接真实设备。', iot_demo: '演示数据（模拟设备，数值随机生成）', iot_wearer: '佩戴者', iot_battery: '电量', iot_motion: '手腕活动', iot_off: '已断开', iot_nosig: '无信号',
       live: '现场监测', search: '搜索功能或工人姓名…', menu_lang: '语言', menu_a11y: '字号 / 主题 / 声音',
@@ -29,6 +30,7 @@
     },
     ko: {
       home: '홈',
+      mon_real: '현장 실측 작업자', mon_real_d: '현장 화면에서: 카메라가 인식한 사람 + 블루투스 심박 장치. 착용자는 현장 화면의 장치 카드에서 고릅니다.', mon_demo: '시연 데이터 (모의 작업자: 심박·산소·체온·피로는 무작위)', mon_none: '현장 화면이 꺼져 있거나 사람이 없습니다.', c_worker: '작업자', c_state: '상태', c_hr: '심박', c_dev: '장치', c_ppe: '안전모 / 조끼', notin: '화면 밖', iot_demo2: '시연 데이터 (환경 센서: 온도 · CO · 분진, 모의)',
       cam_people: '화면 속 작업자 (실측)', cam_alerts: '실시간 경보 (실측)', cam_none: '현장 화면이 꺼져 있거나 화면에 사람이 없습니다.', cam_noal: '경보 없음', cam_demo: '시연 데이터 (모의 화면, 실제 카메라 아님)', helmet: '안전모', vest: '조끼', y: '착용', n: '미착용', u: '확인 불가', st: { normal: '정상', suspect: '넘어짐 의심', ask: '응답 대기', danger: '무응답·위험', sos: 'SOS' }, nopose: '안전모·조끼만 검사',
       iot_real: '실제 장치 (실측)', iot_real_d: '블루투스 장치는 카메라가 켜진 현장 컴퓨터에서만 연결됩니다. 현장 화면에서 “＋ 블루투스 심박 밴드 / ＋ EmoConnect 워치”를 누르면 여기서 1초마다 갱신됩니다.', iot_go: '현장 화면에서 연결 ↗', iot_none: '아직 연결된 실제 장치가 없습니다.', iot_demo: '시연 데이터 (모의 장치, 무작위 값)', iot_wearer: '착용자', iot_battery: '배터리', iot_motion: '손목 움직임', iot_off: '연결 끊김', iot_nosig: '신호 없음',
       live: '현장 모니터링', search: '기능 또는 근로자 이름 검색…', menu_lang: '언어', menu_a11y: '글자 / 테마 / 소리',
@@ -50,6 +52,7 @@
     },
     en: {
       home: 'Home',
+      mon_real: 'Real workers on site', mon_real_d: 'From the field page: people seen by the camera + Bluetooth HR devices. Pick the wearer on the field page device card.', mon_demo: 'Demo data (simulated workers: HR, SpO2, temperature, fatigue are random)', mon_none: 'Field page not running, or nobody detected.', c_worker: 'Worker', c_state: 'Status', c_hr: 'HR', c_dev: 'Device', c_ppe: 'Helmet / vest', notin: 'not in view', iot_demo2: 'Demo data (environment sensors: temperature · CO · dust, simulated)',
       cam_people: 'Workers in view (real)', cam_alerts: 'Live alerts (real)', cam_none: 'Field page not running, or nobody in view.', cam_noal: 'No alerts', cam_demo: 'Demo data (simulated view, not a real camera)', helmet: 'Helmet', vest: 'Vest', y: 'on', n: 'missing', u: 'unsure', st: { normal: 'normal', suspect: 'possible fall', ask: 'waiting reply', danger: 'no reply · danger', sos: 'SOS' }, nopose: 'helmet/vest only',
       iot_real: 'Real devices', iot_real_d: 'Bluetooth devices connect only on the field computer that runs the camera. On the field page click “＋ Bluetooth HR strap / ＋ EmoConnect watch”; this list then updates every second.', iot_go: 'Connect on the field page ↗', iot_none: 'No real device connected yet.', iot_demo: 'Demo data (simulated devices, random values)', iot_wearer: 'Wearer', iot_battery: 'Battery', iot_motion: 'Wrist motion', iot_off: 'disconnected', iot_nosig: 'no signal',
       live: 'Live monitoring', search: 'Search features or worker names…', menu_lang: 'Language', menu_a11y: 'Text / theme / sound',
@@ -170,6 +173,7 @@
     if (hit) { window.showPanel(hit); return; }
     // 否则当作工人姓名，在实时监控里筛选
     window.showPanel('monitor');
+    var md = $('shk-mon-demo'); if (md) md.open = true;
     var ws = $('ws'); if (ws) { ws.value = q; ws.dispatchEvent(new Event('input', { bubbles: true })); ws.dispatchEvent(new Event('keyup', { bubbles: true })); }
   }
 
@@ -308,7 +312,7 @@
       '<div id="shk-iot-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px"></div>';
     hd.after(real);
     var det = document.createElement('details'); det.id = 'shk-iot-demo';
-    det.innerHTML = '<summary style="cursor:pointer;font-weight:800;color:var(--ink3);padding:10px 4px;font-size:.9rem" data-s="iot_demo"></summary>';
+    det.innerHTML = '<summary style="cursor:pointer;font-weight:800;color:var(--ink3);padding:10px 4px;font-size:.9rem" data-s="iot_demo2"></summary>';
     var nodes = []; for (var n = real.nextSibling; n; n = n.nextSibling) nodes.push(n);
     nodes.forEach(function (n) { det.appendChild(n); });
     p.appendChild(det);
@@ -371,18 +375,59 @@
     }).join('') : '<div style="color:var(--ink4);font-size:.8rem">' + s.cam_noal + '</div>';
   }
 
+  /* ---------- 实时监控页：现场实测工人在上，模拟工人折叠 ---------- */
+  function buildMon() {
+    var p = $('panel-monitor'); if (!p || $('shk-mon-real')) return;
+    var hd = p.querySelector('.mod-hd');
+    var real = document.createElement('div'); real.id = 'shk-mon-real';
+    real.style.cssText = 'background:#fff;border:2px solid var(--a);border-radius:14px;padding:16px 18px;margin-bottom:16px';
+    real.innerHTML = '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:240px"><div style="font-weight:900;font-size:1rem" data-s="mon_real"></div>' +
+      '<div style="font-size:.8rem;color:var(--ink3);margin-top:3px" data-s="mon_real_d"></div></div>' +
+      '<a href="live.html" target="_blank" class="shk-live-btn" style="height:40px"><b></b><span data-s="hero_b1"></span></a></div><div id="shk-mon-list" style="margin-top:12px;overflow-x:auto"></div>';
+    hd.after(real);
+    var det = document.createElement('details'); det.id = 'shk-mon-demo';
+    det.innerHTML = '<summary style="cursor:pointer;font-weight:800;color:var(--ink3);padding:10px 4px;font-size:.9rem" data-s="mon_demo"></summary>';
+    var nodes = []; for (var n = real.nextSibling; n; n = n.nextSibling) nodes.push(n);
+    nodes.forEach(function (n) { det.appendChild(n); });
+    p.appendChild(det);
+    det.addEventListener('toggle', function () { if (det.open) setTimeout(function () { try { window.renderTable && window.renderTable(); window.initBiometrics && window.initBiometrics(); window.dispatchEvent(new Event('resize')); } catch (e) {} }, 50); });
+    relabel(); renderMon();
+  }
+  function renderMon() {
+    var box = $('shk-mon-list'); if (!box) return;
+    var s = S(), now = Date.now(), sites = window.__shk3Sites || {}, D = window.__shk3Dev || {}, rows = [], used = {};
+    var tag = function (v) { var c = v === true ? 'var(--g)' : v === false ? 'var(--r)' : 'var(--w)'; return '<b style="color:' + c + '">' + (v === true ? s.y : v === false ? s.n : s.u) + '</b>'; };
+    var devFor = function (site, wid) { var r = null; Object.keys(D).forEach(function (k) { var d = D[k].d; if (d.site === site && d.wearer === wid && now - D[k].at < 5000) { r = d; used[k] = 1; } }); return r; };
+    Object.keys(sites).forEach(function (site) {
+      var x = sites[site]; if (now - x.last > 5000) return;
+      (x.list || []).forEach(function (p) {
+        var d = devFor(site, p.id), st = p.st || 'normal';
+        rows.push([site, p.id, '<span style="color:' + (st === 'normal' ? 'var(--ink3)' : 'var(--r)') + ';font-weight:700">' + (p.po === 'nopose' ? s.nopose : (s.st[st] || st)) + '</span>',
+          d && d.hr != null ? d.hr : (p.hr != null ? p.hr : '—'), d ? esc(d.name || d.wid) + (d.battery != null ? ' · ' + d.battery + '%' : '') : '—', tag(p.helmet) + ' / ' + tag(p.vest)]);
+      });
+    });
+    Object.keys(D).forEach(function (k) {
+      if (used[k] || now - D[k].at > 5000) return; var d = D[k].d;
+      rows.push([d.site, esc(d.wid), '<span style="color:var(--ink4)">' + s.notin + '</span>', d.hr != null ? d.hr : '—', esc(d.name || d.wid) + (d.battery != null ? ' · ' + d.battery + '%' : ''), '—']);
+    });
+    if (!rows.length) { box.innerHTML = '<div style="color:var(--ink4);font-size:.85rem">' + s.mon_none + '</div>'; return; }
+    var th = 'style="text-align:left;font-size:.72rem;color:var(--ink4);padding:6px 8px;border-bottom:1px solid #E6E9F0"';
+    box.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:.84rem"><tr><th ' + th + '>' + s.c_worker + '</th><th ' + th + '>' + s.c_state + '</th><th ' + th + '>' + s.c_hr + '</th><th ' + th + '>' + s.c_dev + '</th><th ' + th + '>' + s.c_ppe + '</th></tr>' +
+      rows.map(function (r) { return '<tr style="border-bottom:1px solid #EEF1F6"><td style="padding:7px 8px;font-family:var(--mono);font-weight:800">' + r[1] + ' <small style="color:var(--ink4);font-weight:500">' + esc(r[0]) + '</small></td><td style="padding:7px 8px">' + r[2] + '</td><td style="padding:7px 8px;font-family:var(--mono);font-weight:800">' + (r[3] !== '—' ? '❤ ' + r[3] : '—') + '</td><td style="padding:7px 8px">' + r[4] + '</td><td style="padding:7px 8px">' + r[5] + '</td></tr>'; }).join('') + '</table>';
+  }
+
   function isHome() { var p = $('panel-home'); return !!(p && p.classList.contains('active')); }
 
   function setup() {
     if (!$('app')) return;
-    buildTopbar(); buildSidebar(); buildHome(); buildIot(); buildCam(); wrapShow(); relabel();
+    buildTopbar(); buildSidebar(); buildHome(); buildIot(); buildCam(); buildMon(); wrapShow(); relabel();
   }
 
   function boot() {
     setup();
     ['app-btn-zh', 'app-btn-ko', 'app-btn-en'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('click', function () { setTimeout(function () { relabel(); if (isHome()) renderHome(); }, 80); }); });
     setInterval(function () { if (isHome()) renderHome(); }, 4000);
-    setInterval(function () { var p = $('panel-iot'); if (p && p.classList.contains('active')) renderIot(); var c = $('panel-camera'); if (c && c.classList.contains('active')) renderCam(); }, 1000);
+    setInterval(function () { var p = $('panel-iot'); if (p && p.classList.contains('active')) renderIot(); var c = $('panel-camera'); if (c && c.classList.contains('active')) renderCam(); var mo = $('panel-monitor'); if (mo && mo.classList.contains('active')) renderMon(); }, 1000);
     var shown = false;
     setInterval(function () {
       wrapShow(); checkPending();

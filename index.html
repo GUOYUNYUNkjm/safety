@@ -1530,7 +1530,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         <!-- ── MONITOR ── -->
         <div class="panel" id="panel-monitor">
           <div class="mod-hd rv">
-            <div><div class="mod-title" id="mon-title">实时监控</div><div class="mod-sub" id="mon-sub">心率·血氧·体温·疲劳度 实时同步</div></div>
+            <div><div class="mod-title" id="mon-title">实时监控</div><div class="mod-sub" id="mon-sub">上方：现场实测的工人与心率 · 下方：模拟工人的心率·血氧·体温·疲劳（演示数据）</div></div>
             <div class="mod-badge"><div class="dot"></div><span id="mon-live">实时</span></div>
           </div>
           <div class="kpi-row rv">
@@ -1683,7 +1683,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         <!-- ── IOT ── -->
         <div class="panel" id="panel-iot">
           <div class="mod-hd rv">
-            <div><div class="mod-title" id="iot-title">IoT传感器 & 可穿戴设备</div><div class="mod-sub" id="iot-sub">真实设备在现场端连接（蓝牙心率带 · EmoConnect 手表）· 下方模拟设备为演示数据</div></div>
+            <div><div class="mod-title" id="iot-title">IoT传感器 & 可穿戴设备</div><div class="mod-sub" id="iot-sub">真实设备在现场端连接（蓝牙心率带 · EmoConnect 手表）· 下方环境传感器为演示数据</div></div>
             <div class="mod-badge"><div class="dot"></div><span id="iot-live">实时数据流</span></div>
           </div>
           <div class="kpi-row rv">
@@ -1871,12 +1871,12 @@ zh:{
   reg_title:'工人注册',reg_sub:'支持表单 / QR码 / NFC三种方式',
   fl1:'姓名 *',fl2:'年龄 *',fl3:'工种 *',fl4:'班次',fl5:'工号/联系方式',
   reg_btn:'注册',
-  mon_title:'实时监控',mon_sub:'心率·血氧·体温·疲劳度 实时同步',
+  mon_title:'实时监控',mon_sub:'上方：现场实测的工人与心率 · 下方：模拟工人的心率·血氧·体温·疲劳（演示数据）',
   wth1:'工人',wth2:'状态',wth3:'心率',wth4:'血氧',wth5:'体温',wth6:'PPE',wth7:'标签',wth8:'区域',
   fb_all:'全部',fb_el:'55岁+',fb_al:'警报',
   cl_title:'智能巡检清单',cl_sub:'数字化巡检，实时记录与追踪',
   cam_title:'AI视频分析',cam_sub:'真实摄像头在现场端运行（安全帽 · 背心 · 跌倒 · SOS）· 下方模拟画面为演示数据',
-  iot_title:'IoT传感器 & 可穿戴设备',iot_sub:'真实设备在现场端连接（蓝牙心率带 · EmoConnect 手表）· 下方模拟设备为演示数据',
+  iot_title:'IoT传感器 & 可穿戴设备',iot_sub:'真实设备在现场端连接（蓝牙心率带 · EmoConnect 手表）· 下方环境传感器为演示数据',
   el_title:'老龄工人专属模块',el_sub:'全球首创 · 骨骼·热应激·反应时间三项专属指标',
   al_title:'警报中心',al_sub:'危险识别精度≥95% · 数据延迟≤1秒 · 摔倒自动联动119',
   ai_title:'AI灾害预测',ai_sub:'历史数据 + 实时生体信号 + 作业环境综合分析',
@@ -1905,12 +1905,12 @@ ko:{
   reg_title:'근로자 등록',reg_sub:'폼 / QR코드 / NFC 세 가지 방식 지원',
   fl1:'이름 *',fl2:'나이 *',fl3:'공종 *',fl4:'근무반',fl5:'ID / 연락처',
   reg_btn:'등록하기',
-  mon_title:'실시간 모니터링',mon_sub:'심박수·혈중산소·체온·피로도 실시간 동기화',
+  mon_title:'실시간 모니터링',mon_sub:'위: 현장 실측 작업자와 심박 · 아래: 모의 작업자의 심박·산소·체온·피로 (시연 데이터)',
   wth1:'근로자',wth2:'상태',wth3:'심박수',wth4:'혈중산소',wth5:'체온',wth6:'PPE',wth7:'태그',wth8:'구역',
   fb_all:'전체',fb_el:'55세+',fb_al:'경보',
   cl_title:'스마트 체크리스트',cl_sub:'디지털 점검, 실시간 기록 및 추적',
   cam_title:'AI 영상 분석',cam_sub:'실제 카메라는 현장 화면에서 실행 (안전모 · 조끼 · 넘어짐 · SOS) · 아래 모의 화면은 시연 데이터',
-  iot_title:'IoT 센서 & 웨어러블 기기',iot_sub:'실제 장치는 현장 화면에서 연결 (블루투스 심박 밴드 · EmoConnect 워치) · 아래 모의 장치는 시연 데이터',
+  iot_title:'IoT 센서 & 웨어러블 기기',iot_sub:'실제 장치는 현장 화면에서 연결 (블루투스 심박 밴드 · EmoConnect 워치) · 아래 환경 센서는 시연 데이터',
   el_title:'고령 근로자 전용 모듈',el_sub:'세계 최초 · 근골격계·열스트레스·반응시간 3지표',
   al_title:'경보 센터',al_sub:'위험행동 인식 ≥95% · 데이터 지연 ≤1초 · 넘어짐 감지 119 자동연계',
   ai_title:'AI 재해예측',ai_sub:'과거 사고 데이터 + 실시간 생체신호 + 작업환경 종합분석',
@@ -1939,12 +1939,12 @@ en:{
   reg_title:'Worker Registration',reg_sub:'Form / QR Code / NFC supported',
   fl1:'Name *',fl2:'Age *',fl3:'Job Type *',fl4:'Shift',fl5:'ID / Contact',
   reg_btn:'Register',
-  mon_title:'Live Monitor',mon_sub:'Heart rate · SpO2 · Temperature · Fatigue — live sync',
+  mon_title:'Live Monitor',mon_sub:'Top: real workers and heart rate from the field · Below: simulated workers (demo data)',
   wth1:'Worker',wth2:'Status',wth3:'Heart Rate',wth4:'SpO2',wth5:'Temp',wth6:'PPE',wth7:'Tags',wth8:'Zone',
   fb_all:'All',fb_el:'55+',fb_al:'Alert',
   cl_title:'Smart Inspection Checklist',cl_sub:'Digitalized inspections, live record & track',
   cam_title:'AI Video Analysis',cam_sub:'The real camera runs on the field page (helmet · vest · fall · SOS) · simulated view below is demo data',
-  iot_title:'IoT Sensors & Wearables',iot_sub:'Real devices connect on the field page (Bluetooth HR strap · EmoConnect watch) · simulated devices below are demo data',
+  iot_title:'IoT Sensors & Wearables',iot_sub:'Real devices connect on the field page (Bluetooth HR strap · EmoConnect watch) · environment sensors below are demo data',
   el_title:'Elderly Worker Module',el_sub:'World\'s first · Musculoskeletal · Heat stress · Reaction time',
   al_title:'Alert Center',al_sub:'Detection accuracy ≥95% · Latency ≤1s · Fall auto 119',
   ai_title:'AI Disaster Prediction',ai_sub:'Historical data + live vitals + environment analysis',
@@ -3623,7 +3623,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       ch_sms:'短信',ch_kakao:'KakaoTalk',ch_push:'App推送',ch_email:'邮件',ch_siren:'声光报警',
       install:'安装到主屏',offline:'⚠ 网络已断开 — 已切换离线模式，数据将在恢复后同步',
       about:'关于',privacy:'隐私政策',terms:'服务条款',contact:'联系我们',
-      fired:'危险告警已触发',delivered:'已送达',no_perm:'当前角色无此权限',
+      fired:'危险告警已触发',fired_w:'警告已触发',delivered:'已送达',no_perm:'当前角色无此权限',
       ab_body:'<h4>SHine-K 3.0 · 产业安全平台</h4>面向制造业的工人安全与健康一体化监测平台，全球首创老龄工人专属模块。本页面为研究/演示版本，数据为模拟生成。<br><br>庆云大学 보건대학',
       pv_body:'<h4>采集信息</h4>姓名、工号、年龄、国籍、工种；心率·血氧·体温·疲劳等健康/生体信息；区域与PPE状态。<h4>使用目的</h4>仅用于作业安全监测、危险预警与应急联动。<h4>保留与删除</h4>默认保留 {d} 天，超期自动删除；您可随时在「设置→数据与合规」删除全部本地数据。<h4>第三方</h4>119 联动仅在确认危险时触发并记录。<h4>法律依据</h4>《개인정보보호법(PIPA)》《산업안전보건법》、GDPR。',
       tm_body:'<h4>服务条款（摘要）</h4>1. 本平台为安全辅助工具，不替代现场安全管理与法定义务。<br>2. AI识别/预测结果仅供参考，最终判断由安全管理人员负责。<br>3. 严禁将健康数据用于与安全无关的用途。<br>4. 演示版本不承诺可用性与数据保全。',
@@ -3652,7 +3652,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       ch_sms:'SMS',ch_kakao:'카카오톡',ch_push:'앱 푸시',ch_email:'이메일',ch_siren:'경광등',
       install:'홈 화면에 설치',offline:'⚠ 네트워크 끊김 — 오프라인 모드, 복구 시 동기화',
       about:'소개',privacy:'개인정보처리방침',terms:'이용약관',contact:'연락처',
-      fired:'위험 경보 발생',delivered:'전달 완료',no_perm:'현재 역할은 권한이 없습니다',
+      fired:'위험 경보 발생',fired_w:'경고 발생',delivered:'전달 완료',no_perm:'현재 역할은 권한이 없습니다',
       ab_body:'<h4>SHine-K 3.0 · 산업안전 플랫폼</h4>제조업 근로자 안전·건강 통합 모니터링 플랫폼. 세계 최초 고령 근로자 전용 모듈.<br>연구/데모 버전이며 데이터는 시뮬레이션입니다.<br><br>경운대학교 보건대학',
       pv_body:'<h4>수집 정보</h4>이름·사번·나이·국적·직종, 심박·산소·체온·피로 등 건강/생체정보, 구역·PPE 상태.<h4>이용 목적</h4>작업안전 모니터링, 위험 경보, 응급 연계.<h4>보관·삭제</h4>기본 {d}일 보관 후 자동 삭제, 「설정→데이터」에서 즉시 삭제 가능.<h4>제3자</h4>119 연계는 위험 확정 시에만.<h4>근거</h4>PIPA·산업안전보건법·GDPR.',
       tm_body:'<h4>이용약관(요약)</h4>1. 본 플랫폼은 안전 보조 도구이며 법정 의무를 대체하지 않습니다.<br>2. AI 결과는 참고용, 최종 판단은 안전관리자 책임.<br>3. 건강데이터의 목적 외 사용 금지.<br>4. 데모 버전은 가용성·보존을 보장하지 않습니다.',
@@ -3681,7 +3681,7 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       ch_sms:'SMS',ch_kakao:'KakaoTalk',ch_push:'App Push',ch_email:'Email',ch_siren:'Siren',
       install:'Install app',offline:'⚠ Offline — switched to offline mode, will sync on reconnect',
       about:'About',privacy:'Privacy',terms:'Terms',contact:'Contact',
-      fired:'Danger alert fired',delivered:'Delivered',no_perm:'Your role lacks this permission',
+      fired:'Danger alert fired',fired_w:'Warning',delivered:'Delivered',no_perm:'Your role lacks this permission',
       ab_body:'<h4>SHine-K 3.0 · Industrial Safety Platform</h4>Integrated worker safety & health monitoring for manufacturing. World-first elderly-worker module. Research/demo build with simulated data.<br><br>Kyungwoon University',
       pv_body:'<h4>Data collected</h4>Name, ID, age, nationality, job; HR/SpO₂/temp/fatigue health data; zone & PPE.<h4>Purpose</h4>Workplace safety monitoring, alerts, emergency dispatch only.<h4>Retention</h4>Default {d} days then auto-deleted; erase anytime in Settings→Data.<h4>Third parties</h4>119 only on confirmed danger.<h4>Basis</h4>PIPA, OSHA(KR), GDPR.',
       tm_body:'<h4>Terms (summary)</h4>1. Safety-aid tool, not a substitute for legal duties.<br>2. AI outputs are advisory; final calls by the safety officer.<br>3. No use of health data beyond safety.<br>4. Demo build offers no availability/retention guarantee.',
@@ -3753,9 +3753,10 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
       channels:deliveredChannels(),status:'pending',escalated:false};
     alerts.unshift(a); if(alerts.length>200)alerts.length=200; store.set('shk_alerts',alerts);
     audit('alert_fired',title+' @'+a.zone+' → '+a.channels.join('/'));
-    toast('🚨 '+t('fired'),title+'<div class="ent-deliv">'+a.channels.map(c=>'<span>'+c+' ✓</span>').join('')+'</div>',
-      'danger',[{label:t('ack'),cls:'ent-btn-p',fn:()=>ackAlert(a.id)}]);
-    try{ if(cfg.tts!==false && 'speechSynthesis' in window){ var _u=new SpeechSynthesisUtterance((L_()==='ko'?'위험 경보. ':L_()==='en'?'Danger alert. ':'危险警报。')+String(title).replace(/[·•]/g,' ')); _u.lang=L_()==='ko'?'ko-KR':L_()==='en'?'en-US':'zh-CN'; _u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(_u);} }catch(e){}
+    const _dg=a.level==='danger';
+    toast((_dg?'🚨 ':'⚠️ ')+t(_dg?'fired':'fired_w'),title+'<div class="ent-deliv">'+a.channels.map(c=>'<span>'+c+' ✓</span>').join('')+'</div>',
+      _dg?'danger':'warn',[{label:t('ack'),cls:'ent-btn-p',fn:()=>ackAlert(a.id)}]);
+    try{ if(cfg.tts!==false && 'speechSynthesis' in window){ var _u=new SpeechSynthesisUtterance((a.level==='danger'?(L_()==='ko'?'위험 경보. ':L_()==='en'?'Danger alert. ':'危险警报。'):(L_()==='ko'?'경고. ':L_()==='en'?'Warning. ':'警告。'))+String(title).replace(/[·•]/g,' ')); _u.lang=L_()==='ko'?'ko-KR':L_()==='en'?'en-US':'zh-CN'; _u.rate=1.05; speechSynthesis.cancel(); speechSynthesis.speak(_u);} }catch(e){}
     if(a.level==='danger'){
       a._timer=setTimeout(()=>{ if(a.status==='pending'){a.escalated=true;a.status='escalated';store.set('shk_alerts',alerts);
         audit('alert_escalated',title+' (>'+cfg.escalateSec+'s unacked)');

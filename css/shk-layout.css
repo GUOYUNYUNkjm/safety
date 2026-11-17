@@ -146,3 +146,6 @@ body:not(.shk-login) #ent-login{display:none!important}
 #btn-realai{display:none!important}
 #shk3-cam-card{flex-wrap:wrap}
 @media(max-width:900px){#shk-cam-real{grid-template-columns:1fr!important}}
+
+/* IoT 页：工人手环模拟卡片与“实时监控”重复，去掉；环境传感器保留在演示区 */
+#panel-iot #iotGrid,#panel-iot .kpi-row{display:none!important}
