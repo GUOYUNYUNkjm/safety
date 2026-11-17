@@ -182,7 +182,7 @@
     // 侧栏底部：不显示个人姓名
     var info = aside.querySelector('.sb-user-info'), role = aside.querySelector('.sb-user-role'), avt = aside.querySelector('.sb-avatar');
     if (avt) avt.textContent = 'SK';
-    if (info && info.firstChild && info.firstChild.nodeType === 3) info.firstChild.textContent = S().user + ' ';
+    if (info && info.firstChild && info.firstChild.nodeType === 3) info.firstChild.textContent = 'SHine-K ';
     if (role) role.textContent = 'SHine-K 3.0';
     try { if (localStorage.getItem('shk3_mini')) document.body.classList.add('shk-mini'); } catch (x) {}
   }
@@ -250,7 +250,7 @@
     var s = S();
     document.querySelectorAll('[data-s]').forEach(function (e) { if (s[e.dataset.s] != null) e.textContent = s[e.dataset.s]; });
     var inp = $('global-search'); if (inp) inp.placeholder = s.search;
-    var info = document.querySelector('#sidebar .sb-user-info'); if (info && info.firstChild && info.firstChild.nodeType === 3) info.firstChild.textContent = s.user + ' ';
+    var info = document.querySelector('#sidebar .sb-user-info'); if (info && info.firstChild && info.firstChild.nodeType === 3) info.firstChild.textContent = 'SHine-K ';
   }
 
   /* ---------- showPanel：加入“首页”，并始终保持在最外层 ---------- */
