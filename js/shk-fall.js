@@ -1,7 +1,7 @@
 /* SHine-K 3.0 · 跌倒 / 求救 / 姿势 判断（每个被追踪的人一个状态机）
  * 输入：MediaPipe Pose 的 33 个关节点（0~1 归一化坐标）+ 画面宽高 + 时间(ms)
  * 规则（全部是本页面自己的阈值，可在 CONFIG 中调整）：
- *   ① 倒地姿势 = 躯干倾斜 > 55° 或 人体框 宽/高 > 1.1
+ *   ① 倒地姿势 = 躯干倾斜 > 55° 或 人体框 宽/高 > 1.1（需看到髋部；宽高比还需看到腿）
  *      （若髋部仍明显高于脚踝 = 深弯腰，不算倒地）
  *   ② 疑似跌倒 = 倒地姿势，且 1.5 秒内有快速下坠（髋/肩下降速度 > 0.45 画面高/秒）或 1 秒内还是站姿
  *   ③ 5 秒内站起来 → 只记录“已自行站起”，不报警
@@ -64,15 +64,17 @@
     return {
       box: [minX, minY, maxX, maxY], aspect: bh > 0 ? bw / bh : 0, tilt: tilt,
       hipY: hp ? hp.y : null, shY: sh ? sh.y : null, handUp: handUp, bothUp: bothUp, hipHigh: hipHigh,
+      hasLeg: [L.lk, L.rk, L.la, L.ra].some(function (i) { return vis(lm[i]); }),
       cx: (minX + maxX) / 2, cy: (minY + maxY) / 2
     };
   }
 
+  /* 必须看到肩和髋才判断倒地；“宽高比”规则还要求看到腿（只拍到上半身时，框天然是宽的） */
   function isDown(f) {
-    if (f.hipHigh) return false; // 深弯腰：不算倒地
-    return (f.tilt != null && f.tilt > CONFIG.downTilt) || f.aspect > CONFIG.downAspect;
+    if (f.hipHigh || f.tilt == null) return false; // 深弯腰 / 看不到髋部：不判断
+    return f.tilt > CONFIG.downTilt || (f.hasLeg && f.aspect > CONFIG.downAspect);
   }
-  function isStanding(f) { return (f.tilt == null || f.tilt < CONFIG.standTilt) && f.aspect < CONFIG.standAspect; }
+  function isStanding(f) { return f.tilt != null && f.tilt < CONFIG.standTilt && (!f.hasLeg || f.aspect < CONFIG.standAspect); }
 
   /* 每人一个状态机 */
   function FallFSM(id) {
