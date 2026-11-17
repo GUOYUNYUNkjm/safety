@@ -7,7 +7,10 @@
   'use strict';
   var STR = {
     zh: {
-      home: '首页', live: '现场监测', search: '搜索功能或工人姓名…', menu_lang: '语言', menu_a11y: '字号 / 主题 / 声音',
+      home: '首页',
+      cam_people: '画面中的工人（实测）', cam_alerts: '实时警报（实测）', cam_none: '现场端未运行或画面中没有人。', cam_noal: '暂无警报', cam_demo: '演示数据（模拟画面，不是真实摄像头）', helmet: '安全帽', vest: '背心', y: '已戴', n: '未戴', u: '无法确认', st: { normal: '正常', suspect: '疑似跌倒', ask: '等待回应', danger: '无回应·危险', sos: 'SOS' }, nopose: '只检查安全帽/背心',
+      iot_real: '真实设备（实测）', iot_real_d: '蓝牙设备只能连在开着摄像头的现场电脑上。请在现场端点“＋ 蓝牙心率带 / ＋ EmoConnect 手表”，连上后这里每秒更新。', iot_go: '去现场端连接设备 ↗', iot_none: '还没有连接真实设备。', iot_demo: '演示数据（模拟设备，数值随机生成）', iot_wearer: '佩戴者', iot_battery: '电量', iot_motion: '手腕活动', iot_off: '已断开', iot_nosig: '无信号',
+      live: '现场监测', search: '搜索功能或工人姓名…', menu_lang: '语言', menu_a11y: '字号 / 主题 / 声音',
       menu_mode: '数据模式', menu_brochure: '宣传册 PDF', menu_landing: '返回介绍页', menu_logout: '退出登录', user: 'SHine-K 用户',
       hero_tag: '实测 · 视频不上传', hero_t: '真实现场监测', hero_d: '电脑摄像头 AI 识别安全帽、背心、跌倒和 SOS；连接蓝牙心率带、EmoConnect 手表和警示灯，现场立即发出警报和语音。监控端只接收骨架和数字。',
       hero_b1: '▶ 打开现场端', hero_b2: '打开监控端', hero_now: '现场端状态',
@@ -25,7 +28,10 @@
       }
     },
     ko: {
-      home: '홈', live: '현장 모니터링', search: '기능 또는 근로자 이름 검색…', menu_lang: '언어', menu_a11y: '글자 / 테마 / 소리',
+      home: '홈',
+      cam_people: '화면 속 작업자 (실측)', cam_alerts: '실시간 경보 (실측)', cam_none: '현장 화면이 꺼져 있거나 화면에 사람이 없습니다.', cam_noal: '경보 없음', cam_demo: '시연 데이터 (모의 화면, 실제 카메라 아님)', helmet: '안전모', vest: '조끼', y: '착용', n: '미착용', u: '확인 불가', st: { normal: '정상', suspect: '넘어짐 의심', ask: '응답 대기', danger: '무응답·위험', sos: 'SOS' }, nopose: '안전모·조끼만 검사',
+      iot_real: '실제 장치 (실측)', iot_real_d: '블루투스 장치는 카메라가 켜진 현장 컴퓨터에서만 연결됩니다. 현장 화면에서 “＋ 블루투스 심박 밴드 / ＋ EmoConnect 워치”를 누르면 여기서 1초마다 갱신됩니다.', iot_go: '현장 화면에서 연결 ↗', iot_none: '아직 연결된 실제 장치가 없습니다.', iot_demo: '시연 데이터 (모의 장치, 무작위 값)', iot_wearer: '착용자', iot_battery: '배터리', iot_motion: '손목 움직임', iot_off: '연결 끊김', iot_nosig: '신호 없음',
+      live: '현장 모니터링', search: '기능 또는 근로자 이름 검색…', menu_lang: '언어', menu_a11y: '글자 / 테마 / 소리',
       menu_mode: '데이터 모드', menu_brochure: '브로슈어 PDF', menu_landing: '소개 페이지', menu_logout: '로그아웃', user: 'SHine-K 사용자',
       hero_tag: '실측 · 영상 미전송', hero_t: '실제 현장 모니터링', hero_d: '카메라 AI가 안전모·조끼·넘어짐·SOS를 인식하고, 블루투스 심박 밴드·EmoConnect 워치·경광등과 연결해 현장에서 바로 경보와 음성을 냅니다. 관제는 골격과 숫자만 받습니다.',
       hero_b1: '▶ 현장 화면 열기', hero_b2: '관제 화면 열기', hero_now: '현장 상태',
@@ -43,7 +49,10 @@
       }
     },
     en: {
-      home: 'Home', live: 'Live monitoring', search: 'Search features or worker names…', menu_lang: 'Language', menu_a11y: 'Text / theme / sound',
+      home: 'Home',
+      cam_people: 'Workers in view (real)', cam_alerts: 'Live alerts (real)', cam_none: 'Field page not running, or nobody in view.', cam_noal: 'No alerts', cam_demo: 'Demo data (simulated view, not a real camera)', helmet: 'Helmet', vest: 'Vest', y: 'on', n: 'missing', u: 'unsure', st: { normal: 'normal', suspect: 'possible fall', ask: 'waiting reply', danger: 'no reply · danger', sos: 'SOS' }, nopose: 'helmet/vest only',
+      iot_real: 'Real devices', iot_real_d: 'Bluetooth devices connect only on the field computer that runs the camera. On the field page click “＋ Bluetooth HR strap / ＋ EmoConnect watch”; this list then updates every second.', iot_go: 'Connect on the field page ↗', iot_none: 'No real device connected yet.', iot_demo: 'Demo data (simulated devices, random values)', iot_wearer: 'Wearer', iot_battery: 'Battery', iot_motion: 'Wrist motion', iot_off: 'disconnected', iot_nosig: 'no signal',
+      live: 'Live monitoring', search: 'Search features or worker names…', menu_lang: 'Language', menu_a11y: 'Text / theme / sound',
       menu_mode: 'Data mode', menu_brochure: 'Brochure PDF', menu_landing: 'Intro page', menu_logout: 'Sign out', user: 'SHine-K user',
       hero_tag: 'Real · no video upload', hero_t: 'Real field monitoring', hero_d: 'Camera AI detects helmets, vests, falls and SOS; Bluetooth HR straps, the EmoConnect watch and a beacon trigger alarms and voice on site. The center receives only skeletons and numbers.',
       hero_b1: '▶ Open field page', hero_b2: 'Open center page', hero_now: 'Field status',
@@ -63,13 +72,11 @@
   };
   // 卡片：[id, 图标, 背景, 分类, 是否实测, 外部链接]
   var CARDS = [
-    ['live', '🎥', 'linear-gradient(135deg,#0A1E4A,#0F62FE)', 'real', 1, 'live.html'],
-    ['center', '🛰', 'linear-gradient(135deg,#0B3B5C,#00B4D8)', 'real', 1, 'center.html'],
     ['overview', '📊', 'linear-gradient(135deg,#E9F0FF,#C9DAFF)', 'watch', 0],
     ['monitor', '❤️', 'linear-gradient(135deg,#FFE8EC,#FFC7D1)', 'watch', 0],
-    ['camera', '📹', 'linear-gradient(135deg,#E0F7FC,#B4ECF7)', 'watch', 0],
+    ['camera', '📹', 'linear-gradient(135deg,#E0F7FC,#B4ECF7)', 'real', 1],
     ['alerts', '🚨', 'linear-gradient(135deg,#FFF1E0,#FFD9A8)', 'watch', 0],
-    ['iot', '⌚', 'linear-gradient(135deg,#EEF0FF,#D5D9FF)', 'watch', 0],
+    ['iot', '⌚', 'linear-gradient(135deg,#EEF0FF,#D5D9FF)', 'real', 1],
     ['register', '🪪', 'linear-gradient(135deg,#E0FAF3,#B5F0DE)', 'people', 0],
     ['elderly', '👴', 'linear-gradient(135deg,#F3EFFE,#DED2FC)', 'people', 0],
     ['checklist', '✅', 'linear-gradient(135deg,#EAF7E6,#C9EBBF)', 'people', 0],
@@ -177,8 +184,7 @@
       return d;
     };
     var home = mk('sb-home', '<svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z"/></svg>', 'home');
-    var live = mk('shk-sb-live', '<svg viewBox="0 0 24 24"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>', 'live', 'live.html');
-    aside.insertBefore(home, first); aside.insertBefore(live, first);
+    aside.insertBefore(home, first);
     // 侧栏底部：不显示个人姓名
     var info = aside.querySelector('.sb-user-info'), role = aside.querySelector('.sb-user-role'), avt = aside.querySelector('.sb-avatar');
     if (avt) avt.textContent = 'SK';
@@ -290,17 +296,93 @@
     if (e.target.closest && e.target.closest('#sidebar,#pageContent,.topbar-app')) lastUserClick = Date.now();
   }, true);
 
+  /* ---------- IoT 页：真实设备在上，模拟设备折叠 ---------- */
+  function buildIot() {
+    var p = $('panel-iot'); if (!p || $('shk-iot-real')) return;
+    var hd = p.querySelector('.mod-hd');
+    var real = document.createElement('div'); real.id = 'shk-iot-real';
+    real.style.cssText = 'background:#fff;border:2px solid var(--a);border-radius:14px;padding:16px 18px;margin-bottom:16px';
+    real.innerHTML = '<div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:240px"><div style="font-weight:900;font-size:1rem" data-s="iot_real"></div>' +
+      '<div style="font-size:.8rem;color:var(--ink3);margin-top:3px" data-s="iot_real_d"></div></div>' +
+      '<a href="live.html" target="_blank" class="shk-live-btn" style="height:40px"><b></b><span data-s="iot_go"></span></a></div>' +
+      '<div id="shk-iot-list" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px"></div>';
+    hd.after(real);
+    var det = document.createElement('details'); det.id = 'shk-iot-demo';
+    det.innerHTML = '<summary style="cursor:pointer;font-weight:800;color:var(--ink3);padding:10px 4px;font-size:.9rem" data-s="iot_demo"></summary>';
+    var nodes = []; for (var n = real.nextSibling; n; n = n.nextSibling) nodes.push(n);
+    nodes.forEach(function (n) { det.appendChild(n); });
+    p.appendChild(det);
+    relabel(); renderIot();
+  }
+  function renderIot() {
+    var box = $('shk-iot-list'); if (!box) return;
+    var s = S(), D = window.__shk3Dev || {}, now = Date.now();
+    var keys = Object.keys(D).filter(function (k) { return now - D[k].at < 15000; });
+    if (!keys.length) { box.innerHTML = '<div style="color:var(--ink4);font-size:.85rem">' + s.iot_none + '</div>'; return; }
+    box.innerHTML = keys.map(function (k) {
+      var d = D[k].d, stale = now - D[k].at > 4000 || d.conn === false;
+      var hr = d.hr != null && !stale ? d.hr + '<small style="font-size:.75rem;color:var(--ink3)"> bpm</small>' : '<small style="font-size:.8rem;color:var(--ink4)">' + (stale ? s.iot_off : s.iot_nosig) + '</small>';
+      var x = [];
+      if (d.wearer) x.push(s.iot_wearer + ' #' + String(d.wearer).replace('P', ''));
+      if (d.battery != null) x.push(s.iot_battery + ' ' + d.battery + '%');
+      if (d.motion != null) x.push(s.iot_motion + ' ' + d.motion + '%');
+      if (d.hrv != null) x.push('HRV ' + d.hrv + ' ms');
+      return '<div style="border:1px solid #E6E9F0;border-left:4px solid ' + (stale ? 'var(--ink4)' : 'var(--g)') + ';border-radius:10px;padding:10px 12px">' +
+        '<div style="display:flex;justify-content:space-between;gap:8px"><b style="font-size:.88rem">' + esc(d.name || d.wid) + '</b><span style="font-size:.7rem;font-weight:800;color:#E8133A">● ' + s.real + '</span></div>' +
+        '<div style="font-size:.72rem;color:var(--ink4)">' + esc(d.site) + ' · ' + esc(d.wid) + '</div>' +
+        '<div style="font-size:1.6rem;font-weight:900;font-family:var(--mono);margin:6px 0 2px">' + hr + '</div>' +
+        '<div style="font-size:.75rem;color:var(--ink3)">' + esc(x.join(' · ')) + '</div></div>';
+    }).join('');
+  }
+
+  /* ---------- AI视频分析页：真实摄像头结果在上，模拟画面折叠 ---------- */
+  function buildCam() {
+    var card = $('shk3-cam-card'); if (!card || $('shk-cam-real')) return;
+    var box = document.createElement('div'); box.id = 'shk-cam-real';
+    box.style.cssText = 'flex-basis:100%;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:14px;margin-top:6px';
+    box.innerHTML = '<div><div style="font-weight:800;font-size:.85rem;margin-bottom:6px" data-s="cam_people"></div><div id="shk-cam-people"></div></div>' +
+      '<div><div style="font-weight:800;font-size:.85rem;margin-bottom:6px" data-s="cam_alerts"></div><div id="shk-cam-alerts"></div></div>';
+    card.appendChild(box);
+    var det = document.createElement('details'); det.id = 'shk-cam-demo';
+    det.innerHTML = '<summary style="cursor:pointer;font-weight:800;color:var(--ink3);padding:10px 4px;font-size:.9rem" data-s="cam_demo"></summary>';
+    var nodes = []; for (var n = card.nextSibling; n; n = n.nextSibling) nodes.push(n);
+    nodes.forEach(function (n) { det.appendChild(n); });
+    card.parentNode.appendChild(det);
+    det.addEventListener('toggle', function () { if (det.open) setTimeout(function () { try { window.initCamera && window.initCamera(); window.dispatchEvent(new Event('resize')); } catch (e) {} }, 50); });
+    relabel(); renderCam();
+  }
+  function renderCam() {
+    var pb = $('shk-cam-people'), ab = $('shk-cam-alerts'); if (!pb) return;
+    var s = S(), now = Date.now(), sites = window.__shk3Sites || {}, rows = [], als = [];
+    Object.keys(sites).forEach(function (k) {
+      var x = sites[k]; if (now - x.last > 5000) return;
+      (x.list || []).forEach(function (p) { rows.push([k, p]); });
+      (x.alerts || []).forEach(function (a) { if (!a.cleared) als.push([k, a]); });
+    });
+    var tag = function (v) { var c = v === true ? 'var(--g)' : v === false ? 'var(--r)' : 'var(--w)'; return '<b style="color:' + c + '">' + (v === true ? s.y : v === false ? s.n : s.u) + '</b>'; };
+    pb.innerHTML = rows.length ? '<table style="width:100%;border-collapse:collapse;font-size:.8rem">' + rows.map(function (r) {
+      var p = r[1], st = p.st || 'normal';
+      return '<tr style="border-bottom:1px solid #EEF1F6"><td style="padding:5px 4px;font-family:var(--mono);font-weight:800">' + esc(p.id) + '</td><td>' + s.helmet + ' ' + tag(p.helmet) + '</td><td>' + s.vest + ' ' + tag(p.vest) + '</td>' +
+        '<td style="color:' + (st === 'normal' ? 'var(--ink3)' : 'var(--r)') + ';font-weight:700">' + (p.po === 'nopose' ? s.nopose : (s.st[st] || st)) + '</td><td style="font-family:var(--mono)">' + (p.hr != null ? '❤ ' + p.hr : '') + '</td></tr>';
+    }).join('') + '</table>' : '<div style="color:var(--ink4);font-size:.8rem">' + s.cam_none + '</div>';
+    ab.innerHTML = als.length ? als.slice(0, 6).map(function (r) {
+      var a = r[1];
+      return '<div style="display:flex;gap:8px;font-size:.8rem;padding:4px 0;border-bottom:1px solid #EEF1F6"><i style="width:8px;height:8px;border-radius:50%;margin-top:6px;flex-shrink:0;background:' + (a.level === 'danger' ? 'var(--r)' : 'var(--w)') + '"></i><span>' + esc(a.msg) + '<small style="display:block;color:var(--ink4)">' + esc(r[0]) + ' · ' + new Date(a.at).toLocaleTimeString() + '</small></span></div>';
+    }).join('') : '<div style="color:var(--ink4);font-size:.8rem">' + s.cam_noal + '</div>';
+  }
+
   function isHome() { var p = $('panel-home'); return !!(p && p.classList.contains('active')); }
 
   function setup() {
     if (!$('app')) return;
-    buildTopbar(); buildSidebar(); buildHome(); wrapShow(); relabel();
+    buildTopbar(); buildSidebar(); buildHome(); buildIot(); buildCam(); wrapShow(); relabel();
   }
 
   function boot() {
     setup();
     ['app-btn-zh', 'app-btn-ko', 'app-btn-en'].forEach(function (id) { var e = $(id); if (e) e.addEventListener('click', function () { setTimeout(function () { relabel(); if (isHome()) renderHome(); }, 80); }); });
     setInterval(function () { if (isHome()) renderHome(); }, 4000);
+    setInterval(function () { var p = $('panel-iot'); if (p && p.classList.contains('active')) renderIot(); var c = $('panel-camera'); if (c && c.classList.contains('active')) renderCam(); }, 1000);
     var shown = false;
     setInterval(function () {
       wrapShow(); checkPending();

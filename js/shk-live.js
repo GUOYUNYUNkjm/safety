@@ -478,7 +478,7 @@
     send({ type: 'hb', cam: running, pose: !!pose, ppe: SHKPPE.loaded, alerts: alerts.length });
     devices.forEach(function (d) {
       var v = d.view || {}, w = d.wearer === 'auto' ? d.wearerId : d.wearer;
-      send({ type: 'vitals', wid: d.uid, wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true });
+      send({ type: 'vitals', wid: d.uid, name: d.name, conn: !!(d.device && d.device.gatt && d.device.gatt.connected), wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true });
     });
   }, 1000);
   window.addEventListener('beforeunload', function () { send({ type: 'bye' }); });

@@ -141,3 +141,8 @@ body:not(.shk-login) #ent-login{display:none!important}
   .shk-hero h2{font-size:1.35rem}
   .shk-menu{position:fixed;right:8px;left:8px;top:62px;width:auto}
 }
+
+/* 旧的“实测 AI”按钮（通用模型，只能认出人）：由现场端取代 */
+#btn-realai{display:none!important}
+#shk3-cam-card{flex-wrap:wrap}
+@media(max-width:900px){#shk-cam-real{grid-template-columns:1fr!important}}

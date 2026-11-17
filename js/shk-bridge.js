@@ -8,8 +8,13 @@
     if (!m.site) return;
     var s = sites[m.site] || (sites[m.site] = { people: 0, last: 0, hr: [] });
     s.last = Date.now();
-    if (m.type === 'pose') s.people = (m.people || []).length;
+    if (m.type === 'pose') { s.people = (m.people || []).length; s.list = m.people || []; }
+    s.alerts = s.alerts || [];
+    if (m.type === 'alert' && m.aid) { s.alerts = s.alerts.filter(function (a) { return a.aid !== m.aid; }); s.alerts.unshift({ aid: m.aid, level: m.level, msg: m.msg, at: Date.now() }); s.alerts.length = Math.min(s.alerts.length, 20); }
+    if (m.type === 'clear' && m.aid) { s.alerts.forEach(function (a) { if (a.aid === m.aid) a.cleared = true; }); }
+    window.__shk3Sites = sites;
     if (m.type === 'vitals' && m.hr != null) s.hr = [m.hr];
+    if (m.type === 'vitals' && m.wid) { var D = window.__shk3Dev || (window.__shk3Dev = {}); D[m.site + '/' + m.wid] = { d: m, at: Date.now() }; }
     if (m.type === 'alert' && m.aid) {
       var k = m.aid + ':' + m.level;
       if (seen[k]) return; seen[k] = 1;
