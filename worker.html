@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1220">
+<title>SHine-K 3.0 · 工人端</title>
+<link rel="stylesheet" href="css/shk3.css">
+<link rel="stylesheet" href="css/shk-worker.css">
+</head>
+<body class="wk-body">
+<header class="wk-top">
+  <div class="brand"><div class="logo">SK</div><div><b id="wkName">—</b><small id="wkSub"></small></div></div>
+  <span class="sp"></span>
+  <span class="pill" id="pillLink"><i></i><b id="linkSt">—</b></span>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+</header>
+
+<main class="wk-main">
+  <section class="wk-status" id="status"></section>
+
+  <button class="wk-sos" id="btnSos"><span data-i18n="w_sos">🆘 按住 2 秒求救</span><i id="sosBar"></i></button>
+
+  <div class="card"><h3 data-i18n="w_now">我的状态</h3><div id="mine"></div></div>
+  <div class="card"><h3 data-i18n="w_permits">我的作业票</h3><div id="myPermits"></div></div>
+
+  <div class="card">
+    <h3 data-i18n="w_report">上报隐患 / 未遂事件</h3>
+    <div class="wk-form">
+      <div class="seg" id="rType"><button data-v="hazard" class="on" data-i18n="w_hazard">隐患</button><button data-v="nearmiss" data-i18n="w_nearmiss">未遂事件</button></div>
+      <input id="rWhere" data-i18n-ph="w_where">
+      <textarea id="rText" rows="3" data-i18n-ph="w_desc"></textarea>
+      <div class="seg" id="rSev"><button data-v="low" data-i18n="w_low">一般</button><button data-v="mid" class="on" data-i18n="w_mid">较大</button><button data-v="high" data-i18n="w_high">重大</button></div>
+      <button class="pri" id="btnReport" data-i18n="w_submit">提交</button>
+      <div class="muted" id="rMsg"></div>
+    </div>
+  </div>
+
+  <div class="card"><h3 data-i18n="w_points">安全积分</h3><div id="points"></div></div>
+
+  <div class="card">
+    <h3 data-i18n="w_devices">手表 · 跌倒检测</h3>
+    <div class="row" style="gap:6px;flex-wrap:wrap"><button id="btnWatch" data-i18n="w_watch">＋ 连接手表（安卓 Chrome）</button><button id="btnFall" data-i18n="w_fall_on">开启手机跌倒检测</button></div>
+    <div id="devInfo" class="muted" style="margin-top:6px"></div>
+  </div>
+
+  <div class="card">
+    <h3 data-i18n="w_setup">设置</h3>
+    <div class="wk-form">
+      <label><span data-i18n="w_code">工号</span><input id="code" list="rosterList" autocomplete="off"><datalist id="rosterList"></datalist></label>
+      <label><span data-i18n="w_site">现场</span><input id="site" placeholder="SITE-A"></label>
+      <label><span data-i18n="room">房间码</span><input id="room" class="mono" inputmode="numeric"></label>
+      <button class="pri" id="btnSave" data-i18n="w_save">保存并连接</button>
+      <label class="row" style="gap:6px"><input type="checkbox" id="chkWake"> <span data-i18n="w_wake">保持屏幕常亮</span></label>
+      <div class="note" data-i18n="w_note"></div>
+    </div>
+  </div>
+  <p class="muted" style="text-align:center;font-size:12px"><a href="index.html" data-i18n="back">← 返回平台</a></p>
+</main>
+
+<div class="wk-alert" id="alertBox" role="alertdialog" aria-live="assertive"><div class="in"><b id="alTitle"></b><p id="alBody"></p><button id="alOk" data-i18n="w_got">知道了</button></div></div>
+
+<div class="gate" id="gate">
+  <div class="box">
+    <h2 data-i18n="w_title">工人手机端</h2>
+    <p data-i18n="w_start_d"></p>
+    <button class="pri" id="btnStart" style="width:100%;padding:14px;font-size:16px" data-i18n="w_start">▶ 开启提醒</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-feedback.js"></script>
+<script src="js/shk-ble.js"></script>
+<script src="js/shk-store.js"></script>
+<script src="js/shk-risk.js"></script>
+<script src="js/shk-permit.js"></script>
+<script src="js/shk-worker.js"></script>
+</body>
+</html>

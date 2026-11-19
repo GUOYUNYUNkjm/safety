@@ -120,3 +120,43 @@ body.easy-on .adm{display:none!important}
 .wbtns{margin-top:12px;gap:8px;flex-wrap:wrap}
 .bt{display:inline-block;font-size:10px;font-weight:800;line-height:1;padding:3px 5px;border-radius:4px;background:#e5e7eb;color:#111;margin-right:6px;vertical-align:1px}
 .bt.bx{background:#ff6900;color:#fff}.bt.bh{background:#c7000b;color:#fff}.bt.ba{background:#111;color:#fff}
+
+/* 危险区域编辑 */
+#overlay.zedit{cursor:crosshair;z-index:4}
+.zpanel{display:none;margin-top:8px;padding:10px;border:1px solid var(--bdr,#e5e7eb);border-radius:10px;background:#fafbfc}
+.zpanel.open{display:block}
+.zrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid #eef0f3;font-size:13px;flex-wrap:wrap}
+.zrow i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.zform{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.zform label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#555}
+.zform label.ck{flex-direction:row;align-items:center;gap:6px;font-size:13px;color:#222}
+.zform .row{grid-column:1/-1}
+/* 热应激卡片 */
+.env-big{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:10px;background:#ecfdf5;margin-bottom:6px}
+.env-big.warn{background:#fff7e6}.env-big.dng{background:#ffe8ec}
+.env-big b{font-size:30px;line-height:1}.env-big small{font-size:12px;color:#666;display:block}
+.env-row{display:flex;flex-wrap:wrap;gap:10px;font-size:13px;margin:6px 0}
+.env-more summary{cursor:pointer;font-size:12px;color:#666;margin-top:6px}
+/* 设备风险 */
+.dev .risk{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px;margin-top:4px}
+.dev .risk>div{flex-basis:100%}
+.dev .meta select[data-wk]{max-width:150px}
+
+/* 监控端 · 应急处置 */
+.focus{display:none;margin:14px auto 0;max-width:1400px;padding:0 18px}
+.focus.on{display:block}
+.focus .fhd{display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:#E8133A;color:#fff;padding:10px 14px;border-radius:12px 12px 0 0;animation:blink 1.4s infinite}
+.focus .fhd.done{background:#0f766e;animation:none}
+.focus .fhd button{background:#fff;color:#111;border:0}
+.focus .fbody{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;border:2px solid #E8133A;border-top:0;border-radius:0 0 12px 12px;padding:12px;background:#fff}
+.focus .fcv{background:#0B1220;border-radius:10px;overflow:hidden;min-height:340px}
+.focus .fcv canvas{width:100%;height:100%;min-height:340px;display:block}
+.focus .kv{width:100%;font-size:13px;border-collapse:collapse}
+.focus .kv th{text-align:left;color:#666;font-weight:600;padding:3px 8px 3px 0;white-space:nowrap;vertical-align:top}
+.focus .kv td{padding:3px 0}
+.focus .fsteps{display:flex;flex-direction:column;gap:4px;font-size:13px;margin:8px 0}
+.focus .fsteps label{display:flex;gap:6px;align-items:center}
+.focus .fsnap img{max-width:100%;border-radius:8px;display:block;margin:6px 0}
+a.btn,label.btn{cursor:pointer;display:inline-flex;align-items:center;padding:7px 12px;border:1px solid var(--bdr,#d0d5dd);border-radius:9px;text-decoration:none;color:inherit;font-weight:700;font-size:13px;background:#fff}
+.tb tr.foc td{background:#ffe8ec}
+@media (max-width:900px){.focus .fbody{grid-template-columns:1fr}}

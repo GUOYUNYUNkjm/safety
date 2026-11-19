@@ -235,3 +235,12 @@ body:not(.shk-login) #ent-login{display:none!important}
   .shk-tb th:nth-child(2),.shk-tb td:nth-child(2){width:52px!important}
   .shk-quick span{font-size:.68rem}
 }
+
+/* 智能安全模块入口 */
+.shk-mods{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:10px 0 18px}
+.shk-mod{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:14px;background:#fff;color:inherit;text-decoration:none;transition:box-shadow .15s,transform .15s}
+.shk-mod:hover{box-shadow:0 6px 18px rgba(15,98,254,.12);transform:translateY(-1px)}
+.shk-mod i{font-style:normal;font-size:22px}.shk-mod b{font-size:15px}.shk-mod span{font-size:12.5px;color:#667085;line-height:1.5}
+@media (max-width:1100px){.shk-mods{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.shk-mods{grid-template-columns:1fr}}
+.home-wrap .shk-hero + .shk-sec{margin-top:20px}

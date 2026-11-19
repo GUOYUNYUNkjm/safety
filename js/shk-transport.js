@@ -37,14 +37,16 @@
     }
   };
 
-  Transport.prototype.send = function (msg) {
+  /* opts.mqtt：false = 只在本机浏览器内传（不上公共服务器）；函数 = 上传前先去掉隐私字段 */
+  Transport.prototype.send = function (msg, opts) {
     msg.from = this.clientId;
     msg.ts = msg.ts || Date.now();
     var txt = JSON.stringify(msg);
     this.stats.sent++; this.stats.bytes += txt.length;
     if (this.bc) { try { this.bc.postMessage(msg); } catch (e) {} }
-    if (this.mqtt && this.mqttState === 'on') {
-      try { this.mqtt.publish(TOPIC_ROOT + this.room + '/' + msg.type, txt, { qos: 0 }); } catch (e) {}
+    if (this.mqtt && this.mqttState === 'on' && !(opts && opts.mqtt === false)) {
+      var out = (opts && typeof opts.mqtt === 'function') ? JSON.stringify(opts.mqtt(JSON.parse(txt))) : txt;
+      try { this.mqtt.publish(TOPIC_ROOT + this.room + '/' + msg.type, out, { qos: 0 }); } catch (e) {}
     }
     return txt.length;
   };

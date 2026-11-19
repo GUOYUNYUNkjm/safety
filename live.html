@@ -16,6 +16,8 @@
   <span class="sp"></span>
   <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
   <a href="center.html" target="_blank" data-i18n="open_center">打开监控端 ↗</a>
+  <a href="ops.html" target="_blank">📄 ↗</a>
+  <a href="worker.html" target="_blank">📱 ↗</a>
   <a href="index.html" data-i18n="back">← 返回平台</a>
 </header>
 
@@ -48,6 +50,11 @@
         <button id="btnMute" data-i18n="mute">静音</button>
         <button id="btnTest" data-i18n="test_alarm">测试警报</button>
       </div>
+      <div class="row adm" style="margin-top:8px;gap:8px;flex-wrap:wrap">
+        <button id="btnZones">✎ 危险区域</button>
+        <label class="row muted" style="gap:6px;font-size:12px"><input type="checkbox" id="chkSnap"> <span data-i18n="snap_opt"></span></label>
+      </div>
+      <div class="zpanel adm" id="zonePanel"></div>
       <div class="stats adm">
         <span>FPS <b id="sFps">0</b></span>
         <span>Pose <b id="sPose">0</b> ms</span>
@@ -68,6 +75,8 @@
       <h3 data-i18n="alerts">当前警报</h3>
       <div id="alerts"><div class="empty" data-i18n="no_alerts"></div></div>
     </div>
+
+    <div class="card" id="cardEnv"></div>
 
     <div class="card adm" id="cardDevices">
       <h3 data-i18n="devices">可穿戴设备 & 警示灯</h3>
@@ -131,6 +140,11 @@
 <script src="js/shk-ble.js"></script>
 <script src="js/shk-fall.js"></script>
 <script src="js/shk-ppe.js"></script>
+<script src="js/shk-store.js"></script>
+<script src="js/shk-risk.js"></script>
+<script src="js/shk-permit.js"></script>
+<script src="js/shk-heat.js"></script>
+<script src="js/shk-zones.js"></script>
 <script src="js/shk-live.js"></script>
 </body>
 </html>

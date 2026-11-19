@@ -8,6 +8,40 @@
 (function () {
   'use strict';
   var t = SHKI18N.t, FB = SHKFeedback;
+  SHKI18N.add({
+    zh: { worker: '工人', wk_none: '未绑定', risk: '风险', rl_ok: '正常', rl_watch: '关注', rl_warn: '预警', rl_stop: '停止作业',
+      rs_sustain_stop: '心率储备 {v}% 持续 {m} 分钟', rs_maxhr: '心率 {v} 超过个人上限 {m}', rs_heat_combo: '热指数 {v}℃ 下心率储备 {m}%', rs_low_hr: '心率过低 {v}',
+      rs_drop: '心率骤降 {v}→{m}', rs_sustain_warn: '心率储备 {v}% 持续 {m} 分钟', rs_spike: '无明显活动心率突然上升 {v}', rs_heat: '热指数 {v}℃',
+      ev_risk_warn: '{id} 生理预警：{why}', say_risk_warn: '{id}，你的心率偏高，请放慢节奏，补水休息。',
+      ev_stop: '{id} 停止作业：{why}', say_stop: '{id}，你的心率异常，现在禁止作业。请到阴凉处坐下休息，等待班组长确认。',
+      ev_recovered: '{id} 心率已恢复，等待确认复工', release: '确认复工', ev_release: '{id} 已确认复工（{by}）',
+      ev_collapse: '{id} 疑似晕倒：{why}', say_collapse: '紧急！{id}疑似晕倒，附近人员立即前往救援。',
+      ev_lost_after: '{id} 心率异常后手表信号中断，疑似晕倒', why_lost: '信号中断',
+      emg_bc: '紧急广播：{where}{id}{what}，附近急救员立即前往，其他人员不要靠近危险区域。',
+      pos_l: '左', pos_c: '中', pos_r: '右', pos_t: '上', pos_m: '中', pos_b: '下', pos_fmt: '画面{v}{h}方', snap_opt: '紧急时向监控端发送该工人截图（包含画面，只在紧急情况下）' },
+    ko: { worker: '작업자', wk_none: '미지정', risk: '위험도', rl_ok: '정상', rl_watch: '관찰', rl_warn: '경고', rl_stop: '작업 중지',
+      rs_sustain_stop: '심박 예비율 {v}% {m}분 지속', rs_maxhr: '심박 {v}, 개인 상한 {m} 초과', rs_heat_combo: '열지수 {v}℃에서 심박 예비율 {m}%', rs_low_hr: '심박 너무 낮음 {v}',
+      rs_drop: '심박 급강하 {v}→{m}', rs_sustain_warn: '심박 예비율 {v}% {m}분 지속', rs_spike: '활동 없이 심박 급상승 {v}', rs_heat: '열지수 {v}℃',
+      ev_risk_warn: '{id} 생리 경고: {why}', say_risk_warn: '{id}, 심박이 높습니다. 속도를 줄이고 물을 마시며 쉬세요.',
+      ev_stop: '{id} 작업 중지: {why}', say_stop: '{id}, 심박 이상으로 지금은 작업할 수 없습니다. 그늘에 앉아 쉬고 반장의 확인을 기다리세요.',
+      ev_recovered: '{id} 심박 회복, 작업 재개 확인 대기', release: '작업 재개 확인', ev_release: '{id} 작업 재개 확인 ({by})',
+      ev_collapse: '{id} 실신 의심: {why}', say_collapse: '긴급! {id} 실신 의심. 근처 인원은 즉시 구조하세요.',
+      ev_lost_after: '{id} 심박 이상 후 워치 신호 끊김, 실신 의심', why_lost: '신호 끊김',
+      emg_bc: '긴급 방송: {where} {id} {what}. 근처 응급요원은 즉시 출동하고, 다른 사람은 위험구역에 접근하지 마세요.',
+      pos_l: '왼쪽', pos_c: '가운데', pos_r: '오른쪽', pos_t: '위', pos_m: '중간', pos_b: '아래', pos_fmt: '화면 {v} {h}', snap_opt: '긴급 시 해당 작업자 캡처를 관제로 전송 (영상 포함, 긴급 상황에서만)' },
+    en: { worker: 'Worker', wk_none: 'Unassigned', risk: 'Risk', rl_ok: 'Normal', rl_watch: 'Watch', rl_warn: 'Warning', rl_stop: 'Stop work',
+      rs_sustain_stop: 'HR reserve {v}% for {m} min', rs_maxhr: 'HR {v} above personal limit {m}', rs_heat_combo: 'HR reserve {m}% at heat index {v} °C', rs_low_hr: 'HR too low {v}',
+      rs_drop: 'HR fell {v}→{m}', rs_sustain_warn: 'HR reserve {v}% for {m} min', rs_spike: 'HR jumped {v} without activity', rs_heat: 'Heat index {v} °C',
+      ev_risk_warn: '{id} vital-sign warning: {why}', say_risk_warn: '{id}, your heart rate is high. Slow down, drink water and rest.',
+      ev_stop: '{id} stop work: {why}', say_stop: '{id}, your heart rate is abnormal. You may not work now. Sit down in the shade and wait for your team leader.',
+      ev_recovered: '{id} heart rate recovered, waiting for return-to-work approval', release: 'Approve return', ev_release: '{id} cleared to return to work ({by})',
+      ev_collapse: '{id} possible collapse: {why}', say_collapse: 'Emergency! {id} may have collapsed. People nearby, go and help now.',
+      ev_lost_after: '{id} watch signal lost after abnormal heart rate, possible collapse', why_lost: 'signal lost',
+      emg_bc: 'Emergency: {where} {id} {what}. First aiders nearby go now; everyone else keep clear of the area.',
+      pos_l: 'left', pos_c: 'centre', pos_r: 'right', pos_t: 'top', pos_m: 'middle', pos_b: 'bottom', pos_fmt: '{v} {h} of view', snap_opt: 'In an emergency, send a snapshot of that worker to the center (contains video, emergencies only)' }
+  });
+  var EMG = { fall_noresp: 1, confirm_noresp: 1, sos: 1, impact_danger: 1, collapse: 1, fire: 1 };
+  var drawHooks = [];
   var MP_VER = '1.2.3';
   var POSE_MODELS = ['models/pose_landmarker_lite.task', // 本站自带（Apache-2.0，Google MediaPipe）
     'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task'];
@@ -286,6 +320,7 @@
       g.fillStyle = c; g.fillRect(x, Math.max(0, y - W / 38), tw + 12, W / 38);
       g.fillStyle = '#fff'; g.fillText(label, x + 6, Math.max(W / 50, y - W / 150));
     });
+    drawHooks.forEach(function (f) { try { f(g, W, H); } catch (e) { console.warn(e); } });
     $('badge').textContent = (skel ? '🦴 ' : '● ') + site + ' · ' + tracks.length + ' · ' + new Date().toLocaleTimeString();
   }
   function ppeTxt(tk, k, ic) { var v = tk.ppe[k]; return ic + (v === true ? '✓' : v === false ? '✗' : '?'); }
@@ -307,7 +342,10 @@
     if (cur.say) FB.speak(cur.say);
     if (cur.level === 'danger') { FB.siren('danger'); FB.vibrate([600, 200, 600, 200, 600]); FB.notify('SHine-K ⚠', cur.msg); }
     else { FB.beep(880, 180); setTimeout(function () { FB.beep(880, 180); }, 260); FB.vibrate([300]); if (!hasDanger()) FB.sendBeacon('Y'); }
-    send({ type: 'alert', aid: cur.aid, key: cur.key, wid: cur.wid, kind: cur.kind, level: cur.level, msg: cur.msg });
+    if (a.loc) cur.loc = a.loc;
+    if (!cur.loc) cur.loc = locOfWid(cur.wid);
+    send({ type: 'alert', aid: cur.aid, key: cur.key, wid: cur.wid, kind: cur.kind, level: cur.level, msg: cur.msg, loc: cur.loc, worker: cur.worker || workerCodeOfWid(cur.wid), emg: !!EMG[cur.kind] });
+    if (EMG[cur.kind] && cur.level === 'danger') emergency(cur);
     renderAlerts();
   }
   raise._cool = {};
@@ -325,6 +363,11 @@
   }
   function ackLocal(key) {
     var a = alerts.find(function (x) { return x.key === key; }); if (!a) return;
+    if (a.kind === 'stop_work') {   // 停止作业不能在现场一键解除：只停警报声，复工要等心率恢复后确认
+      var d0 = devices.find(function (d) { return d.uid === a.wid; });
+      if (d0 && d0.risk && d0.risk.recovered) { releaseDevice(d0, 'field'); return; }
+      a.ackCenter = a.ackCenter || t('ack'); FB.stopSiren(); renderAlerts(); return;
+    }
     var tk = tracks.find(function (x) { return 'P' + x.id === a.wid; }); if (tk) tk.fsm.reset();
     var dv = devices.find(function (d) { return d.uid === a.wid; }); if (dv) dv.impactState = null;
     clearAlert(key, 'field');
@@ -419,6 +462,9 @@
         d.lostRaised = true; d.view = Object.assign({}, d.view || {}, { hr: null }); renderDevice(d);
         var who = devLabel(d);
         raise({ key: key, wid: d.uid, kind: 'dev_lost', level: 'warn', msg: (g.lost || '{id}').replace('{id}', who + ' (' + d.name + ')'), say: (g.lost_say || '').replace('{id}', who) });
+        // 之前心率已经异常（预警 / 停止作业）后手表突然没信号 → 按疑似晕倒处理
+        if (d.risk && (d.risk.level === 'warn' || d.risk.level === 'stop') && now - (d.risk.at || 0) < 60000)
+          raise({ key: d.uid + ':collapse', wid: d.uid, kind: 'collapse', level: 'danger', msg: t('ev_lost_after', { id: who }), say: t('say_collapse', { id: who }) });
       } else if (d.lostRaised) { d.lostRaised = false; clearAlert(key); }
     });
   }, 1000);
@@ -430,17 +476,13 @@
 
   function onVitals(dev, d) {
     var now = Date.now(), who = devLabel(dev), key = dev.uid;
-    // 心率规则：≥150 或 <45 持续 10 秒 = 危险；≥120 持续 30 秒 = 提醒
+    // 简单心率规则：≥150 持续 10 秒 → 提醒（更细的判断见下面的风险评估）
     if (d.hr != null) {
-      if (d.hr >= 150 || d.hr < 45) {
+      if (d.hr >= 150) {
         dev.hrBadSince = dev.hrBadSince || now;
-        if (now - dev.hrBadSince > 10000) raise({ key: key + ':hr', wid: dev.uid, kind: 'hr_danger', level: 'danger', msg: t('ev_hr_danger', { id: who }) + ' (' + d.hr + ' bpm)', say: t('say_hr_danger', { id: who }) });
-      } else dev.hrBadSince = null;
-      if (d.hr >= 120) {
-        dev.hrHighSince = dev.hrHighSince || now;
-        if (now - dev.hrHighSince > 30000) raise({ key: key + ':hr', wid: dev.uid, kind: 'hr_high', level: 'warn', msg: t('ev_hr_high', { id: who }) + ' (' + d.hr + ' bpm)', say: t('say_hr_high', { id: who }) });
-      } else dev.hrHighSince = null;
-      if (d.hr < 120 && d.hr >= 45) clearAlert(key + ':hr');
+        if (now - dev.hrBadSince > 10000) raise({ key: key + ':hr', wid: dev.uid, kind: 'hr_high', level: 'warn', msg: t('ev_hr_danger', { id: who }) + ' (' + d.hr + ' bpm)', say: t('say_hr_danger', { id: who }) });
+      } else { dev.hrBadSince = null; if (d.hr < 140) clearAlert(key + ':hr'); }
+      riskUpdate(dev, d, now, who);
     }
     // EmoConnect 手腕撞击：撞击后 5 秒几乎不动 → 询问；再 15 秒不动 → 危险；晃动手腕 → 解除
     if (dev.kind === 'emo' && d.impact && d.impact.at > (dev.lastImpact || 0)) { dev.lastImpact = d.impact.at; dev.impactState = { at: d.impact.at, stage: 0 }; }
@@ -456,21 +498,151 @@
     renderDevice(dev);
   }
 
+
+  /* ================= 生理风险评估（shk-risk.js） ================= */
+  function rosterOf(code) { return code && window.SHKStore ? SHKStore.get('roster', code) : null; }
+  function workerOfDev(dev) {
+    if (dev.worker) return rosterOf(dev.worker);
+    var w = window.SHKStore && SHKStore.all('roster').find(function (r) { return r.watch && r.watch === dev.uid; });
+    if (w) dev.worker = w.id;
+    return w || null;
+  }
+  function devName(dev) { var w = workerOfDev(dev); return w ? (w.name || w.id) + (devLabel(dev).charAt(0) === '#' ? ' ' + devLabel(dev) : '') : devLabel(dev); }
+  function whyTxt(r) { return (r.reasons || []).filter(function (x) { return x.k !== 'heat' || r.reasons.length === 1; }).map(function (x) { return t('rs_' + x.k, x); }).join('；'); }
+  function riskUpdate(dev, d, now, who) {
+    var w = workerOfDev(dev);
+    if (!dev.model) dev.model = new SHKRisk.RiskModel({});
+    if (w) { dev.model.age = +w.age || null; dev.model.restHR = +w.rest || null; }
+    var env = window.SHKHeat ? SHKHeat.current() : {};
+    var r = dev.model.update(now, d.hr, d.motion != null ? d.motion : null, { hi: env.hi });
+    if (!r) return;
+    var prev = dev.risk ? dev.risk.level : 'ok', name = devName(dev), why = whyTxt(r);
+    dev.risk = r;
+    if (r.collapse) raise({ key: dev.uid + ':collapse', wid: dev.uid, kind: 'collapse', level: 'danger', msg: t('ev_collapse', { id: name, why: why }), say: t('say_collapse', { id: name }), worker: w && w.id });
+    if (r.level === 'stop') {
+      if (r.recovered) {
+        var a = alerts.find(function (x) { return x.key === dev.uid + ':stop'; });
+        if (a && a.level === 'danger') { a.level = 'warn'; a.msg = t('ev_recovered', { id: name }); a.say = null; FB.stopSiren(); afterClear(); send({ type: 'alert', aid: a.aid, key: a.key, wid: a.wid, kind: 'stop_work', level: 'warn', msg: a.msg, loc: a.loc, worker: w && w.id, recovered: true }); renderAlerts(); }
+      } else if (prev !== 'stop' || !alerts.some(function (x) { return x.key === dev.uid + ':stop'; })) {
+        dev.stopSaidAt = now;
+        raise({ key: dev.uid + ':stop', wid: dev.uid, kind: 'stop_work', level: 'danger', msg: t('ev_stop', { id: name, why: why }), say: t('say_stop', { id: name }), worker: w && w.id });
+        if (w) notify(w.id, { level: 'danger', title: t('rl_stop'), body: t('say_stop', { id: name }), sticky: true });
+        clearAlert(dev.uid + ':risk');
+      }
+    } else if (r.level === 'warn') {
+      if (prev !== 'warn') {
+        raise({ key: dev.uid + ':risk', wid: dev.uid, kind: 'risk_warn', level: 'warn', msg: t('ev_risk_warn', { id: name, why: why || t('rl_warn') }), say: t('say_risk_warn', { id: name }), cooldown: 5 * 60000, worker: w && w.id });
+        if (w) notify(w.id, { level: 'warn', title: t('rl_warn'), body: t('say_risk_warn', { id: name }) });
+      }
+    } else if (prev === 'warn') clearAlert(dev.uid + ':risk');
+  }
+  function releaseDevice(dev, by) {
+    if (!dev.model) return;
+    dev.model.release(); dev.risk = Object.assign({}, dev.risk || {}, { level: 'ok', recovered: false });
+    clearAlert(dev.uid + ':stop', by); clearAlert(dev.uid + ':collapse', by);
+    var w = workerOfDev(dev), msg = t('ev_release', { id: devName(dev), by: by });
+    log('info', msg); FB.speak(msg); send({ type: 'event', kind: 'release', wid: dev.uid, level: 'info', msg: msg });
+    if (w) notify(w.id, { level: 'info', title: t('release'), body: msg });
+    renderDevices();
+  }
+  /* 停止作业期间每 60 秒提醒一次，直到确认复工 */
+  setInterval(function () {
+    var now = Date.now();
+    devices.forEach(function (d) {
+      if (!d.risk || d.risk.level !== 'stop' || d.risk.recovered) return;
+      if (now - (d.stopSaidAt || 0) < 60000) return;
+      d.stopSaidAt = now; var name = devName(d), w = workerOfDev(d);
+      FB.speak(t('say_stop', { id: name })); FB.vibrate([400, 200, 400]);
+      if (w) notify(w.id, { level: 'danger', title: t('rl_stop'), body: t('say_stop', { id: name }), sticky: true });
+    });
+  }, 5000);
+
+  /* ================= 身份 · 位置 · 通知 ================= */
+  function trackOfDev(dev) { var w = dev.wearer === 'auto' ? dev.wearerId : (dev.wearer === 'none' ? null : +dev.wearer); return w ? tracks.find(function (tk) { return tk.id === w; }) : null; }
+  function devOfTrack(tk) { return devices.find(function (d) { return (d.wearer === 'auto' ? d.wearerId : +d.wearer) === tk.id; }); }
+  function workerOfTrack(tk) { var d = devOfTrack(tk); return d ? workerOfDev(d) : null; }
+  function deviceOfWorker(code) { return devices.find(function (d) { workerOfDev(d); return d.worker === code; }); }
+  function workerCodeOfWid(wid) {
+    if (!wid) return null;
+    var d = devices.find(function (x) { return x.uid === wid; }); if (d) { var w = workerOfDev(d); return w ? w.id : null; }
+    var tk = tracks.find(function (x) { return 'P' + x.id === wid; }); if (tk) { var w2 = workerOfTrack(tk); return w2 ? w2.id : null; }
+    return null;
+  }
+  function locOf(tk) {
+    if (!tk || !tk.f) return { site: site };
+    var b = tk.f.box, x = (b[0] + b[2]) / 2, y = b[3];
+    var h = x < 0.34 ? 'l' : x > 0.66 ? 'r' : 'c', v = y < 0.34 ? 't' : y > 0.66 ? 'b' : 'm';
+    var env = window.SHKHeat ? SHKHeat.current() : {}, sel = $('camSel');
+    return { site: site, zone: tk.zoneName || null, x: +x.toFixed(3), y: +y.toFixed(3), pos: t('pos_fmt', { h: t('pos_' + h), v: t('pos_' + v) }), track: 'P' + tk.id,
+      cam: sel && sel.selectedOptions[0] ? sel.selectedOptions[0].textContent.slice(0, 40) : '', gps: env.lat != null ? [+env.lat.toFixed(4), +env.lon.toFixed(4)] : null, at: Date.now() };
+  }
+  function locOfWid(wid) {
+    if (!wid) return null;
+    var tk = tracks.find(function (x) { return 'P' + x.id === wid; });
+    if (!tk) { var d = devices.find(function (x) { return x.uid === wid; }); if (d) tk = trackOfDev(d); }
+    return tk ? locOf(tk) : { site: site };
+  }
+  function notify(to, o) { if (!to) return; send(Object.assign({ type: 'notify', to: to }, o)); }
+
+  /* ================= 紧急情况：广播 · 通知所有人手机 · （可选）截图 ================= */
+  function emergency(a) {
+    if (a.emgAt) return; a.emgAt = Date.now();
+    var loc = a.loc || {}, who = a.wid && a.wid.charAt(0) === 'P' ? '#' + a.wid.slice(1) : (devices.find(function (d) { return d.uid === a.wid; }) ? devName(devices.find(function (d) { return d.uid === a.wid; })) : a.wid);
+    var what = t('st_' + (a.kind === 'sos' ? 'sos' : 'danger'));
+    if (a.kind === 'collapse') what = t('ev_collapse', { id: '', why: '' }).replace(/[:：]\s*$/, '').trim();
+    var text = t('emg_bc', { where: site + (loc.zone ? ' ' + loc.zone + ' ' : ' ') + (loc.pos || ''), id: who, what: what });
+    setTimeout(function () { FB.speak(text); }, 2500);   // 先响警报，再用工厂广播（本机扬声器）说清楚位置
+    notify('*', { level: 'danger', title: '🚨 ' + site + (loc.zone ? ' · ' + loc.zone : ''), body: text, emg: true, loc: loc });
+  }
+  var snapOn = false; try { snapOn = localStorage.getItem('shk3_snap') === '1'; } catch (e) {}
+  var snapCv = document.createElement('canvas');
+  setInterval(function () {
+    if (!snapOn || !running || !video.videoWidth) return;
+    alerts.filter(function (a) { return EMG[a.kind] && a.level === 'danger'; }).forEach(function (a) {
+      var tk = tracks.find(function (x) { return 'P' + x.id === a.wid; });
+      if (!tk) { var d = devices.find(function (x) { return x.uid === a.wid; }); if (d) tk = trackOfDev(d); }
+      if (!tk) return;
+      var W = video.videoWidth, H = video.videoHeight, b = tk.f.box, m = 0.3;
+      var x0 = Math.max(0, b[0] - (b[2] - b[0]) * m) * W, y0 = Math.max(0, b[1] - (b[3] - b[1]) * m) * H;
+      var x1 = Math.min(1, b[2] + (b[2] - b[0]) * m) * W, y1 = Math.min(1, b[3] + (b[3] - b[1]) * m) * H;
+      var sw = x1 - x0, sh = y1 - y0; if (sw < 10 || sh < 10) return;
+      var k = Math.min(1, 360 / Math.max(sw, sh)); snapCv.width = Math.round(sw * k); snapCv.height = Math.round(sh * k);
+      snapCv.getContext('2d').drawImage(video, x0, y0, sw, sh, 0, 0, snapCv.width, snapCv.height);
+      send({ type: 'snap', aid: a.aid, wid: a.wid, img: snapCv.toDataURL('image/jpeg', 0.6) });
+    });
+  }, 2000);
+
   var BRAND_ICON = { xiaomi: '<span class="bt bx">MI</span>', huawei: '<span class="bt bh">HW</span>', apple: '<span class="bt ba">iOS</span>', other: '<span class="bt">⌚</span>' };
   function renderDevices() {
     var box = $('devices');
     box.innerHTML = devices.map(function (d, i) {
       return '<div class="dev" id="dev-' + i + '"><div><div class="nm">' + (BRAND_ICON[d.brand] || '') + esc(d.name) + ' <span class="muted mono">' + d.uid + '</span></div>' +
         '<div class="muted" data-st></div></div><div class="big" data-hr>—</div>' +
-        '<div class="meta"><span>' + t('wearer') + '</span><select data-w></select><span data-x></span><span class="sp"></span><button data-dc>✕</button></div></div>';
+        '<div class="meta"><span>' + t('wearer') + '</span><select data-w></select><span>' + t('worker') + '</span><select data-wk></select><span data-x></span><span class="sp"></span><button data-dc>✕</button></div>' +
+        '<div class="risk" data-r></div></div>';
     }).join('');
     devices.forEach(function (d, i) {
       var el = $('dev-' + i), sel = el.querySelector('[data-w]');
       el.querySelector('[data-dc]').onclick = function () { d.disconnect(); devices.splice(i, 1); clearAlertsFor(d.uid); renderDevices(); };
       sel.onchange = function () { d.wearer = sel.value; };
       fillWearer(d, sel);
+      var wk = el.querySelector('[data-wk]'); fillWorker(d, wk);
+      wk.onchange = function () {
+        // 绑定：把手表编号记到名单里，下次连上同一块手表自动认出是谁
+        if (d.worker) { var old = rosterOf(d.worker); if (old && old.watch === d.uid) SHKStore.put('roster', Object.assign({}, old, { watch: '' })); }
+        d.worker = wk.value || null;
+        var r = rosterOf(d.worker); if (r) SHKStore.put('roster', Object.assign({}, r, { watch: d.uid }));
+        renderDevice(d);
+      };
       renderDevice(d);
     });
+  }
+  function fillWorker(d, sel) {
+    workerOfDev(d);
+    var list = window.SHKStore ? SHKStore.all('roster') : [];
+    var opts = '<option value="">' + t('wk_none') + '</option>' + list.map(function (r) { return '<option value="' + esc(r.id) + '">' + esc(r.id) + (r.name ? ' ' + esc(r.name) : '') + '</option>'; }).join('');
+    if (sel.innerHTML !== opts) sel.innerHTML = opts;
+    sel.value = d.worker || '';
   }
   function fillWearer(d, sel) {
     var opts = '<option value="auto">auto</option>' + tracks.map(function (tk) { return '<option value="' + tk.id + '">#' + tk.id + '</option>'; }).join('') + '<option value="none">' + t('not_in_view') + '</option>';
@@ -487,6 +659,18 @@
     if (v.motion != null) x.push(t('motion') + ' ' + v.motion + '%');
     if (v.contact === false) x.push('⚠ contact');
     el.querySelector('[data-x]').textContent = x.join(' · ');
+    var r = d.risk, rb = el.querySelector('[data-r]');
+    if (rb) {
+      if (!r) rb.innerHTML = '';
+      else {
+        var cls = r.level === 'stop' ? 'no' : r.level === 'warn' ? 'q' : r.level === 'watch' ? 'q' : 'ok';
+        rb.innerHTML = '<span class="tag ' + cls + '">' + t('risk') + ' ' + r.score + ' · ' + t('rl_' + r.level) + (r.recovered ? ' ✓' : '') + '</span>' +
+          '<span class="muted mono">%HRR ' + r.hrr + '% · PSI ' + r.psi + ' · ' + (d.model && d.model.restHR ? 'rest' : 'base') + ' ' + r.base + ' · max ' + r.hrmax + (r.hi != null ? ' · HI ' + r.hi + '℃' : '') + '</span>' +
+          (whyTxt(r) ? '<div class="muted">' + esc(whyTxt(r)) + '</div>' : '') +
+          (r.level === 'stop' && r.recovered ? '<button class="pri" data-rel>' + t('release') + '</button>' : '');
+        var rel = rb.querySelector('[data-rel]'); if (rel) rel.onclick = function () { releaseDevice(d, 'field'); };
+      }
+    }
   }
 
   /* ================= 工人卡片 ================= */
@@ -504,10 +688,10 @@
         (dv && dv.view && dv.view.hr != null ? '<span class="tag">❤ ' + dv.view.hr + ' bpm</span>' : '') + '</div></div>';
     }).join('');
   }
-  function renderAll() { if ($('watchDlg').style.display !== 'none') renderWatchDlg(); SHKI18N.apply(); renderWorkers(); renderAlerts(); renderDevices(); if (typeof renderEasy === 'function') renderEasy(); }
+  function renderAll() { if ($('watchDlg').style.display !== 'none') renderWatchDlg(); SHKI18N.apply(); if (window.SHKHeat) SHKHeat.rebuild(); if (window.SHKZones) SHKZones.rebuild(); renderWorkers(); renderAlerts(); renderDevices(); if (typeof renderEasy === 'function') renderEasy(); }
   setInterval(function () {
     renderWorkers();
-    devices.forEach(function (d, i) { var el = $('dev-' + i); if (el) fillWearer(d, el.querySelector('[data-w]')); });
+    devices.forEach(function (d, i) { var el = $('dev-' + i); if (el) { fillWearer(d, el.querySelector('[data-w]')); var wk = el.querySelector('[data-wk]'); if (wk && document.activeElement !== wk) fillWorker(d, wk); renderDevice(d); } });
   }, 700);
 
   /* ================= 传输（只发数字和骨架） ================= */
@@ -519,7 +703,8 @@
       var kp = (tk.lm && !tk.noPose) ? KP13.map(function (i) { var p = tk.lm[i]; return p && p.visibility > 0.4 ? [+p.x.toFixed(3), +p.y.toFixed(3)] : null; }) : [];
       var dv = devices.find(function (d) { return (d.wearer === 'auto' ? d.wearerId : +d.wearer) === tk.id; });
       return { id: 'P' + tk.id, kp: kp, bx: tk.f.box.map(function (v) { return +v.toFixed(3); }), st: tk.fsm.state, po: tk.noPose ? 'nopose' : tk.fsm.posture, tilt: tk.f.tilt != null ? Math.round(tk.f.tilt) : null,
-        helmet: tk.ppe.helmet, vest: tk.ppe.vest, hr: dv && dv.view ? dv.view.hr : null };
+        helmet: tk.ppe.helmet, vest: tk.ppe.vest, hr: dv && dv.view ? dv.view.hr : null, zone: tk.zoneName || null, zok: tk.zoneId ? tk.zoneOk !== false : null,
+        wk: dv ? (workerOfDev(dv) || {}).id || null : null, risk: dv && dv.risk ? dv.risk.level : null };
     });
     send({ type: 'pose', people: people, ar: video.videoWidth ? +(video.videoWidth / video.videoHeight).toFixed(3) : 1.78 });
   }, 200);
@@ -527,14 +712,34 @@
     send({ type: 'hb', cam: running, pose: !!pose, ppe: SHKPPE.loaded, alerts: alerts.length });
     devices.forEach(function (d) {
       var v = d.view || {}, w = d.wearer === 'auto' ? d.wearerId : d.wearer;
-      send({ type: 'vitals', wid: d.uid, name: d.name, conn: devConn(d), wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.brand && d.brand !== 'hr' ? d.brand : d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true });
+      send({ type: 'vitals', wid: d.uid, name: d.name, conn: devConn(d), wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.brand && d.brand !== 'hr' ? d.brand : d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true,
+        worker: (workerOfDev(d) || {}).id || null, risk: d.risk ? { level: d.risk.level, score: d.risk.score, hrr: d.risk.hrr, psi: d.risk.psi, why: whyTxt(d.risk), recovered: d.risk.recovered } : null });
     });
   }, 1000);
   window.addEventListener('beforeunload', function () { send({ type: 'bye' }); });
 
+  /* 外部系统（消防主机 / 门禁）→ 现场 */
+  SHKI18N.add({ zh: { ev_fire: '消防主机火警：{zone}', say_fire: '火警！{zone}发生火警，请所有人员按疏散路线立即撤离，不要乘坐电梯。', ev_access_deny: '门禁拒绝 {w} 进入「{zone}」：{why}', why_np: '没有有效作业票', why_nl: '不在作业票名单' },
+    ko: { ev_fire: '소방 수신기 화재: {zone}', say_fire: '화재 경보! {zone}에서 화재가 발생했습니다. 모든 인원은 대피로를 따라 즉시 대피하고 엘리베이터를 타지 마세요.', ev_access_deny: '출입 거부 {w} → 「{zone}」: {why}', why_np: '유효한 작업허가 없음', why_nl: '작업허가 명단에 없음' },
+    en: { ev_fire: 'Fire panel alarm: {zone}', say_fire: 'Fire alarm in {zone}! Everyone evacuate now by the escape routes. Do not use the lifts.', ev_access_deny: 'Access denied for {w} to “{zone}”: {why}', why_np: 'no valid permit', why_nl: 'not on the permit' } });
+  tr.on(function (m) {
+    if (m.type === 'fire' && (!m.site || m.site === site)) {
+      var zn = m.zone || site;
+      raise({ key: 'FIRE:' + zn, wid: 'FIRE', kind: 'fire', level: 'danger', msg: t('ev_fire', { zone: zn }), say: t('say_fire', { zone: zn }), loc: { site: site, zone: m.zone || null } });
+      notify('*', { level: 'danger', title: '🔥 ' + t('ev_fire', { zone: zn }), body: t('say_fire', { zone: zn }), emg: true });
+    }
+    if (m.type === 'access' && m.zone && window.SHKStore) {
+      var z = SHKStore.get('zones', m.zone); if (!z || z.site !== site || !z.permit) return;
+      var p = SHKPermit.forZone(z.id), ok = p && SHKPermit.status(p) === 'active' && SHKPermit.allowed(p, m.worker), why = !p || SHKPermit.status(p) !== 'active' ? t('why_np') : t('why_nl');
+      send({ type: 'access_res', zone: z.id, door: m.door, worker: m.worker, allow: !!ok, why: ok ? '' : why });
+      if (!ok) { raise({ key: 'ACC:' + m.worker + ':' + z.id, wid: 'ACC-' + m.worker, kind: 'access_deny', level: 'warn', msg: t('ev_access_deny', { w: m.worker, zone: z.name, why: why }), say: t('ev_access_deny', { w: m.worker, zone: z.name, why: why }), auto: 60000 }); notify(m.worker, { level: 'warn', title: z.name, body: t('ev_access_deny', { w: m.worker, zone: z.name, why: why }) }); }
+    }
+  });
+
   /* 监控端 → 现场 */
   tr.on(function (m) {
-    if (m.type !== 'cmd' || (m.site && m.site !== site)) return;
+    if (m.type !== 'cmd' || (m.site && m.site !== site && m.site !== '*')) return;
+    if (m.action === 'release' && m.wid) { var rd = devices.find(function (d) { return d.uid === m.wid; }); if (rd) releaseDevice(rd, m.by || 'center'); }
     if (m.action === 'say' && m.text) { FB.speak(m.text); log('info', t('ev_center_say', { text: m.text })); }
     if (m.action === 'ack') {
       var a = alerts.find(function (x) { return x.aid === m.aid || x.key === m.key; });
@@ -629,5 +834,15 @@
   }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
 
-  window.SHKLive = { tracks: function () { return tracks; }, alerts: function () { return alerts; }, raise: raise };
+  window.SHKLive = {
+    tracks: function () { return tracks; }, alerts: function () { return alerts; }, devices: function () { return devices; },
+    raise: raise, clearAlert: clearAlert, send: send, log: log, notify: notify, tr: tr, canvas: cv, video: video,
+    site: function () { return site; }, running: function () { return running; },
+    onDraw: function (f) { drawHooks.push(f); }, beacon: function (c) { FB.sendBeacon(c); },
+    workerOf: workerOfTrack, deviceOfWorker: deviceOfWorker, locOf: locOf, release: releaseDevice
+  };
+  if (window.SHKStore) SHKStore.attach(tr);
+  if (window.SHKHeat) SHKHeat.init({ box: $('cardEnv'), raise: raise, clear: clearAlert, send: send, log: log });
+  if (window.SHKZones) SHKZones.init(window.SHKLive);
+  if ($('chkSnap')) { $('chkSnap').checked = snapOn; $('chkSnap').onchange = function () { snapOn = this.checked; try { localStorage.setItem('shk3_snap', snapOn ? '1' : '0'); } catch (e) {} }; }
 })();

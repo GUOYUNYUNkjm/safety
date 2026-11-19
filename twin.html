@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · 数字孪生 / 巡检</title>
+<link rel="stylesheet" href="css/shk3.css">
+<link rel="stylesheet" href="css/shk-ops.css">
+<link rel="stylesheet" href="css/shk-twin.css">
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"}}</script>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small id="twTitle">数字孪生 / 巡检</small></div></div>
+  <span class="pill" id="pillLink"><i></i><b id="linkSt">local</b></span>
+  <span class="sp"></span>
+  <span class="muted" data-i18n="room">房间码</span><input id="room" class="mono" style="width:100px">
+  <button class="pri" id="btnLink" data-i18n="connect">连接</button>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+<nav class="ops-tabs" id="tabs"></nav>
+<div class="tw-wrap" id="wrap">
+  <div class="tw-3d" id="v3d"><canvas id="cv3d"></canvas><div class="tw-legend" id="legend"></div><div class="tw-note" id="note3d"></div></div>
+  <aside class="tw-side" id="side"></aside>
+</div>
+<section class="tw-ar" id="ar" style="display:none">
+  <div class="ar-cam"><video id="arVideo" playsinline muted autoplay></video><div class="ar-frame"></div><div class="ar-card" id="arCard"></div></div>
+  <div class="ar-ctl" id="arCtl"></div>
+</section>
+<div class="tw-print" id="printArea"></div>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-store.js"></script>
+<script src="js/shk-permit.js"></script>
+<script type="module" src="js/shk-twin.js"></script>
+</body>
+</html>

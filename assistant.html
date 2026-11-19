@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · AI 安全助手</title>
+<link rel="stylesheet" href="css/shk3.css">
+<link rel="stylesheet" href="css/shk-ops.css">
+<link rel="stylesheet" href="css/shk-assistant.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small id="asTitle">AI 安全助手</small></div></div>
+  <span class="pill" id="pillLlm"><i></i><b id="llmSt">—</b></span>
+  <span class="sp"></span>
+  <button id="btnSet">⚙</button>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="ops.html" target="_blank">📄 ↗</a>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+<nav class="ops-tabs" id="tabs"></nav>
+<main class="ops-main" id="main"></main>
+<div class="gate" id="setDlg" style="display:none"><div class="box" id="setBox" style="max-width:640px"></div></div>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-store.js"></script>
+<script src="js/shk-permit.js"></script>
+<script src="js/shk-kb.js"></script>
+<script src="js/shk-assistant.js"></script>
+</body>
+</html>

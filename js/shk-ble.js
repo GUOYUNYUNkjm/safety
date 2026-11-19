@@ -160,6 +160,58 @@
   MiAdvBand.prototype.isConnected = function () { return Date.now() - this.lastAt < 10000; };
   MiAdvBand.prototype.disconnect = function () { this.manualClose = true; try { this._ac && this._ac.abort(); } catch (e) {} };
 
+  /* ================= 温湿度计（热应激用） =================
+   * 1) 标准环境传感服务 0x181A：温度 0x2A6E（sint16，0.01 °C）、湿度 0x2A6F（uint16，0.01 %）
+   *    —— ESP32 自制传感器、刷了 pvvx/ATC 固件的小米温湿度计等。
+   * 2) 小米米家蓝牙温湿度计 2（LYWSD03MMC，原厂固件）：服务 ebe0ccb0-…，特征 ebe0ccc1-… 通知
+   *    数据：int16 温度/100、uint8 湿度、uint16 电压 mV。 */
+  var MI_TH_SVC = 'ebe0ccb0-7a0a-4b0c-8a1a-6ff2997da3a6', MI_TH_CHR = 'ebe0ccc1-7a0a-4b0c-8a1a-6ff2997da3a6';
+  function EnvSensor() { Emitter.call(this); this.kind = 'env'; this.t = null; this.rh = null; this.lastAt = 0; this._poll = null; }
+  EnvSensor.prototype = Object.create(Emitter.prototype);
+  EnvSensor.prototype.request = async function () {
+    this.device = await navigator.bluetooth.requestDevice({
+      filters: [{ services: ['environmental_sensing'] }, { namePrefix: 'LYWSD' }, { namePrefix: 'ATC_' }, { namePrefix: 'MJ_HT' }, { namePrefix: 'Mi Temp' }],
+      optionalServices: ['environmental_sensing', MI_TH_SVC, 'battery_service']
+    });
+    this.name = this.device.name || 'Thermometer';
+    var self = this;
+    this.device.addEventListener('gattserverdisconnected', function () { self.emit('status', 'disconnected'); });
+    var server = await this.device.gatt.connect(), ok = false;
+    try {
+      var ess = await server.getPrimaryService('environmental_sensing');
+      var tc = await ess.getCharacteristic('temperature'), hc = null;
+      try { hc = await ess.getCharacteristic('humidity'); } catch (e) {}
+      var readT = function (dv) { self.t = dv.getInt16(0, true) / 100; self._emit(); };
+      var readH = function (dv) { self.rh = dv.getUint16(0, true) / 100; self._emit(); };
+      var sub = async function (c, fn) {
+        if (!c) return;
+        if (c.properties.notify || c.properties.indicate) { c.addEventListener('characteristicvaluechanged', function (e) { fn(e.target.value); }); await c.startNotifications(); }
+        if (c.properties.read) fn(await c.readValue());
+      };
+      await sub(tc, readT); await sub(hc, readH);
+      if (!tc.properties.notify && !tc.properties.indicate) this._poll = setInterval(async function () { try { readT(await tc.readValue()); if (hc) readH(await hc.readValue()); } catch (e) {} }, 10000);
+      ok = true;
+    } catch (e) {}
+    if (!ok) {
+      try {
+        var mi = await server.getPrimaryService(MI_TH_SVC), ch = await mi.getCharacteristic(MI_TH_CHR);
+        ch.addEventListener('characteristicvaluechanged', function (e) { self._mi(e.target.value); });
+        await ch.startNotifications(); ok = true;
+      } catch (e) {}
+    }
+    if (!ok) { try { this.device.gatt.disconnect(); } catch (e) {} var err = new Error('NO_ENV_SERVICE'); err.code = 'NO_ENV_SERVICE'; throw err; }
+    this.emit('status', 'connected');
+  };
+  EnvSensor.prototype._mi = function (dv) {
+    if (dv.byteLength < 3) return;
+    this.t = dv.getInt16(0, true) / 100; this.rh = dv.getUint8(2);
+    if (dv.byteLength >= 5) this.mv = dv.getUint16(3, true);
+    this._emit();
+  };
+  EnvSensor.prototype._emit = function () { this.lastAt = Date.now(); this.emit('data', { t: this.t, rh: this.rh, mv: this.mv || null }); };
+  EnvSensor.prototype.isConnected = function () { return !!(this.device && this.device.gatt && this.device.gatt.connected); };
+  EnvSensor.prototype.disconnect = function () { clearInterval(this._poll); try { this.device.gatt.disconnect(); } catch (e) {} };
+
   /* ================= EmoConnect 手表 ================= */
   function EmoWatch() {
     HRDevice.call(this);
@@ -290,5 +342,5 @@
 
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
 
-  window.SHKBLE = { supported: supported, HRDevice: HRDevice, MiAdvBand: MiAdvBand, EmoWatch: EmoWatch, _half: half, _rmssd: rmssd };
+  window.SHKBLE = { supported: supported, HRDevice: HRDevice, MiAdvBand: MiAdvBand, EnvSensor: EnvSensor, EmoWatch: EmoWatch, _half: half, _rmssd: rmssd };
 })();

@@ -147,6 +147,8 @@
   }
   window.SHKI18N = {
     t: t, apply: apply, get lang() { return lang; },
+    /* 其他模块追加文字：SHKI18N.add({ zh: {...}, ko: {...}, en: {...} }) */
+    add: function (d) { Object.keys(d).forEach(function (l) { S[l] = S[l] || {}; Object.keys(d[l]).forEach(function (k) { S[l][k] = d[l][k]; }); }); },
     set: function (l) { if (!S[l]) return; lang = l; try { localStorage.setItem('shk3_lang', l); } catch (e) {} apply(); }
   };
 })();

@@ -15,6 +15,7 @@
       live: '现场监测', search: '搜索功能或工人姓名…', menu_lang: '语言', menu_a11y: '字号 / 主题 / 声音',
       menu_mode: '数据模式', menu_brochure: '宣传册 PDF', menu_landing: '返回介绍页', menu_logout: '退出登录', user: 'SHine-K 用户',
       hero_tag: '实测 · 视频不上传', hero_t: '真实现场监测', hero_d: '电脑摄像头 AI 识别安全帽、背心、跌倒和 SOS；连接蓝牙心率带、EmoConnect 手表和警示灯，现场立即发出警报和语音。监控端只接收骨架和数字。',
+      mods_t: '智能安全模块', mods_d: '全部连接真实设备，数据在各台电脑之间用房间码同步', mods: [['📄', '电子作业票', '八大特殊作业审批、气体检测、条件变化自动冻结，只有授权人员进入不告警', 'ops.html'], ['📱', '工人手机端', '提醒同步到手表振动；按住求救；手机跌倒检测；上报隐患与未遂', 'worker.html'], ['🌡', '热应激 · 危险区域', '温湿度计 / 天气算热指数；画危险区域，未佩戴防护禁止进入', 'live.html'], ['🎯', '应急处置', '有人倒下或晕倒，监控端自动跟踪定位并全厂广播', 'center.html'], ['🤖', 'AI 安全助手', '预案问答、隐患报告自动生成、事故案例检索、培训出题', 'assistant.html'], ['🏭', '数字孪生 · AR 巡检', '三维展示区域与人员，巡检路线和二维码扫码巡检', 'twin.html'], ['🏆', '安全积分', '隐患 / 未遂上报奖励、违规扣分、班组排名', 'ops.html#points'], ['🔌', '系统对接', 'EHS / ERP / MES / HR / 门禁 / 消防 / 环保 / 应急平台', 'ops.html#api']],
       hero_b1: '▶ 打开现场端', hero_b2: '打开监控端', hero_b3: '⧉ 分屏演示', hero_now: '现场端状态',
       hero_li: ['摔倒 5 秒内站起：只记录', '5 秒未起：语音询问，请举手', '12 秒无回应：红色警报'],
       t_today: '今日概况', t_alerts: '最新警报', t_workers: '工人管理', t_tools: '工具与报表', more: '查看全部 →',
@@ -38,6 +39,7 @@
       live: '현장 모니터링', search: '기능 또는 근로자 이름 검색…', menu_lang: '언어', menu_a11y: '글자 / 테마 / 소리',
       menu_mode: '데이터 모드', menu_brochure: '브로슈어 PDF', menu_landing: '소개 페이지', menu_logout: '로그아웃', user: 'SHine-K 사용자',
       hero_tag: '실측 · 영상 미전송', hero_t: '실제 현장 모니터링', hero_d: '카메라 AI가 안전모·조끼·넘어짐·SOS를 인식하고, 블루투스 심박 밴드·EmoConnect 워치·경광등과 연결해 현장에서 바로 경보와 음성을 냅니다. 관제는 골격과 숫자만 받습니다.',
+      mods_t: '스마트 안전 모듈', mods_d: '모두 실제 기기와 연결되며, 방 코드로 여러 컴퓨터 간 데이터를 동기화합니다', mods: [['📄', '전자 작업허가', '8대 특수작업 승인, 가스 측정, 조건 변화 시 자동 동결, 허가자만 경보 없이 출입', 'ops.html'], ['📱', '작업자 휴대폰', '알림을 워치 진동으로 전달, 길게 눌러 구조 요청, 넘어짐 감지, 위험요인 신고', 'worker.html'], ['🌡', '열 스트레스 · 위험구역', '온습도계 / 날씨로 열지수 계산, 위험구역 보호구 미착용 출입 금지', 'live.html'], ['🎯', '긴급 대응', '쓰러짐·실신 시 관제가 자동 추적·위치 표시, 전체 방송', 'center.html'], ['🤖', 'AI 안전 도우미', '대응 질의응답, 보고서 자동 생성, 사례 검색, 교육 문제', 'assistant.html'], ['🏭', '디지털 트윈 · AR 순찰', '구역과 인원 3D 표시, 순찰 경로와 QR 순찰', 'twin.html'], ['🏆', '안전 포인트', '신고 보상, 위반 감점, 반 순위', 'ops.html#points'], ['🔌', '시스템 연계', 'EHS / ERP / MES / HR / 출입 / 소방 / 환경 / 비상', 'ops.html#api']],
       hero_b1: '▶ 현장 화면 열기', hero_b2: '관제 화면 열기', hero_b3: '⧉ 분할 화면', hero_now: '현장 상태',
       hero_li: ['넘어진 뒤 5초 안에 일어남: 기록만', '5초 지나도 그대로: 음성 확인, 손 들기', '12초 무응답: 빨간 경보'],
       t_today: '오늘 현황', t_alerts: '최근 경보', t_workers: '근로자 관리', t_tools: '도구·보고서', more: '모두 보기 →',
@@ -61,6 +63,7 @@
       live: 'Live monitoring', search: 'Search features or worker names…', menu_lang: 'Language', menu_a11y: 'Text / theme / sound',
       menu_mode: 'Data mode', menu_brochure: 'Brochure PDF', menu_landing: 'Intro page', menu_logout: 'Sign out', user: 'SHine-K user',
       hero_tag: 'Real · no video upload', hero_t: 'Real field monitoring', hero_d: 'Camera AI detects helmets, vests, falls and SOS; Bluetooth HR straps, the EmoConnect watch and a beacon trigger alarms and voice on site. The center receives only skeletons and numbers.',
+      mods_t: 'Smart safety modules', mods_d: 'All connect to real devices; data syncs between computers with a room code', mods: [['📄', 'E-permits', 'Eight special-work types, gas tests, auto-freeze when conditions change; only authorized people enter without alarm', 'ops.html'], ['📱', 'Worker phone', 'Alerts forwarded to the watch; hold-to-SOS; phone fall detection; hazard reports', 'worker.html'], ['🌡', 'Heat stress · danger zones', 'Heat index from a thermometer or weather; no entry without PPE', 'live.html'], ['🎯', 'Emergency response', 'When someone collapses the center tracks and locates them and broadcasts site-wide', 'center.html'], ['🤖', 'AI safety assistant', 'Plan Q&A, hazard report generation, case search, training quizzes', 'assistant.html'], ['🏭', 'Digital twin · AR inspection', '3D zones and people, inspection routes with QR codes', 'twin.html'], ['🏆', 'Safety points', 'Rewards for reports, deductions for violations, team ranking', 'ops.html#points'], ['🔌', 'Integration', 'EHS / ERP / MES / HR / access / fire / environment / emergency', 'ops.html#api']],
       hero_b1: '▶ Open field page', hero_b2: 'Open center page', hero_b3: '⧉ Split view', hero_now: 'Field status',
       hero_li: ['Up within 5 s after a fall: logged only', 'Still down after 5 s: voice check, raise a hand', 'No reply in 12 s: red alarm'],
       t_today: 'Today', t_alerts: 'Latest alerts', t_workers: 'Workers', t_tools: 'Tools & reports', more: 'See all →',
@@ -208,6 +211,7 @@
       '<div class="shk-hero"><div style="position:relative;z-index:1"><div class="tag"><b></b><span data-s="hero_tag"></span></div>' +
       '<h2 data-s="hero_t"></h2><p data-s="hero_d"></p><div class="btns"><a class="p" href="live.html" target="_blank" data-s="hero_b1"></a><a class="s" href="center.html" target="_blank" data-s="hero_b2"></a><a class="s" href="split.html" target="_blank" data-s="hero_b3"></a></div></div>' +
       '<div class="live"><h4 data-s="hero_now"></h4><div data-shk3-live></div><ul id="shk-hero-li"></ul></div></div>' +
+      '<div class="shk-sec"><h3 data-s="mods_t"></h3><span data-s="mods_d"></span></div><div class="shk-mods" id="shk-mods"></div>' +
       '<div class="shk-tiles">' +
         '<div class="shk-tile"><h3 data-s="t_today"></h3><div class="q" id="shk-q-today"></div><div class="more" data-go="overview" data-s="more"></div></div>' +
         '<div class="shk-tile"><h3 data-s="t_alerts"></h3><div class="lst" id="shk-q-alerts"></div><div class="more" data-go="alerts" data-s="more"></div></div>' +
@@ -233,6 +237,7 @@
     var s = S(); if (!$('panel-home')) return;
     relabel();
     $('shk-hero-li').innerHTML = s.hero_li.map(function (x) { return '<li>' + esc(x) + '</li>'; }).join('');
+    if ($('shk-mods')) $('shk-mods').innerHTML = (s.mods || []).map(function (m) { return '<a class="shk-mod" href="' + m[3] + '" target="_blank" rel="noopener"><i>' + m[0] + '</i><b>' + esc(m[1]) + '</b><span>' + esc(m[2]) + '</span></a>'; }).join('');
     var kv = function (id) { var e = $(id); return e ? e.textContent.trim() : '—'; };
     quad($('shk-q-today'), [['overview', '', kv('km1'), s.k1], ['monitor', '', kv('km2'), s.k2], ['elderly', '', kv('km3'), s.k3], ['alerts', '', kv('km4'), s.k4]]);
     quad($('shk-q-workers'), [['register', '🪪'], ['monitor', '❤️'], ['elderly', '👴'], ['checklist', '✅']]);

@@ -1,0 +1,27 @@
+/* 作业管理 */
+.ops-tabs{display:flex;gap:4px;padding:0 18px;background:#fff;border-bottom:1px solid #e5e7eb;overflow-x:auto;position:sticky;top:0;z-index:4}
+.ops-tabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:12px 14px;font-weight:700;white-space:nowrap;color:#555;position:relative}
+.ops-tabs button.on{border-bottom-color:#2563eb;color:#111}
+.ops-tabs button i{font-style:normal;background:#E8133A;color:#fff;border-radius:9px;font-size:11px;padding:1px 6px;margin-left:6px}
+.ops-main{max-width:1200px;margin:16px auto;padding:0 18px;display:flex;flex-direction:column;gap:14px}
+.ops-main .card{margin:0}
+.seg{display:inline-flex;border:1px solid #d0d5dd;border-radius:9px;overflow:hidden}.seg button{border:0;border-radius:0;background:#fff;padding:7px 12px}.seg button.on{background:#2563eb;color:#fff}
+.pcard{border-left:5px solid #94a3b8}.pcard.active{border-left-color:#0f9d6e}.pcard.frozen,.pcard.expired{border-left-color:#E8133A}.pcard.pending{border-left-color:#d97706}.pcard.closed{opacity:.65}
+.phd{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.phd>i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 16px;margin-top:10px;font-size:13px}
+.pgrid small{display:block;color:#777;font-size:11px}
+.note.dng{background:#ffe8ec;color:#9f1239;margin-top:8px}
+.pform{display:grid;grid-template-columns:1fr 1fr;gap:10px}.pform label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#555}
+.pform .wide{grid-column:1/-1}.pform small{color:#555;font-size:12px}
+.chks{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:4px}.chks label{display:flex;align-items:center;gap:5px;font-size:13px;color:#222;flex-direction:row}
+label.mini{display:flex;flex-direction:column;gap:3px;font-size:12px;color:#555}label.mini input{width:100px}label.mini.wide input{width:100%}
+button.sm{padding:4px 9px;font-size:12px}
+.tb tr.edit input,.tb tr.edit select{width:100%;min-width:60px}
+.rcard p{margin:8px 0;white-space:pre-wrap}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rank td{padding:6px 8px}.rank .bcell{width:45%}.bar{display:block;height:8px;border-radius:4px;background:linear-gradient(90deg,#2563eb,#00C896)}
+.lrow{font-size:13px;padding:4px 0;border-bottom:1px dashed #eee}.lrow .pos{color:#0f9d6e}.lrow .neg{color:#E8133A}
+.rules{font-size:13px;padding-left:18px;line-height:1.7}
+.hlog{background:#0B1220;color:#cbd5e1;padding:10px;border-radius:8px;font-size:12px;white-space:pre-wrap;min-height:40px;max-height:220px;overflow:auto}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 16px;border-radius:10px;z-index:99;font-weight:700}
+@media (max-width:800px){.pform,.grid2{grid-template-columns:1fr}}

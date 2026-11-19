@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · 作业管理</title>
+<link rel="stylesheet" href="css/shk3.css">
+<link rel="stylesheet" href="css/shk-ops.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small id="opsTitle">作业管理</small></div></div>
+  <span class="pill" id="pillLink"><i></i><b id="linkSt">local</b></span>
+  <span class="sp"></span>
+  <span class="muted" data-i18n="room">房间码</span><input id="room" class="mono" style="width:100px">
+  <button class="pri" id="btnLink" data-i18n="connect">连接</button>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="center.html" target="_blank" data-i18n="open_center">打开监控端 ↗</a>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+<nav class="ops-tabs" id="tabs"></nav>
+<main class="ops-main" id="main"></main>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-store.js"></script>
+<script src="js/shk-permit.js"></script>
+<script src="js/shk-ops.js"></script>
+</body>
+</html>
