@@ -15,7 +15,7 @@
       live: '现场监测', search: '搜索功能或工人姓名…', menu_lang: '语言', menu_a11y: '字号 / 主题 / 声音',
       menu_mode: '数据模式', menu_brochure: '宣传册 PDF', menu_landing: '返回介绍页', menu_logout: '退出登录', user: 'SHine-K 用户',
       hero_tag: '实测 · 视频不上传', hero_t: '真实现场监测', hero_d: '电脑摄像头 AI 识别安全帽、背心、跌倒和 SOS；连接蓝牙心率带、EmoConnect 手表和警示灯，现场立即发出警报和语音。监控端只接收骨架和数字。',
-      hero_b1: '▶ 打开现场端', hero_b2: '打开监控端', hero_now: '现场端状态',
+      hero_b1: '▶ 打开现场端', hero_b2: '打开监控端', hero_b3: '⧉ 分屏演示', hero_now: '现场端状态',
       hero_li: ['摔倒 5 秒内站起：只记录', '5 秒未起：语音询问，请举手', '12 秒无回应：红色警报'],
       t_today: '今日概况', t_alerts: '最新警报', t_workers: '工人管理', t_tools: '工具与报表', more: '查看全部 →',
       k1: '全部工人', k2: '安全状态', k3: '老龄 55+', k4: '警报', no_alert: '暂无警报',
@@ -38,7 +38,7 @@
       live: '현장 모니터링', search: '기능 또는 근로자 이름 검색…', menu_lang: '언어', menu_a11y: '글자 / 테마 / 소리',
       menu_mode: '데이터 모드', menu_brochure: '브로슈어 PDF', menu_landing: '소개 페이지', menu_logout: '로그아웃', user: 'SHine-K 사용자',
       hero_tag: '실측 · 영상 미전송', hero_t: '실제 현장 모니터링', hero_d: '카메라 AI가 안전모·조끼·넘어짐·SOS를 인식하고, 블루투스 심박 밴드·EmoConnect 워치·경광등과 연결해 현장에서 바로 경보와 음성을 냅니다. 관제는 골격과 숫자만 받습니다.',
-      hero_b1: '▶ 현장 화면 열기', hero_b2: '관제 화면 열기', hero_now: '현장 상태',
+      hero_b1: '▶ 현장 화면 열기', hero_b2: '관제 화면 열기', hero_b3: '⧉ 분할 화면', hero_now: '현장 상태',
       hero_li: ['넘어진 뒤 5초 안에 일어남: 기록만', '5초 지나도 그대로: 음성 확인, 손 들기', '12초 무응답: 빨간 경보'],
       t_today: '오늘 현황', t_alerts: '최근 경보', t_workers: '근로자 관리', t_tools: '도구·보고서', more: '모두 보기 →',
       k1: '전체 근로자', k2: '안전 상태', k3: '고령 55+', k4: '경보', no_alert: '경보 없음',
@@ -61,7 +61,7 @@
       live: 'Live monitoring', search: 'Search features or worker names…', menu_lang: 'Language', menu_a11y: 'Text / theme / sound',
       menu_mode: 'Data mode', menu_brochure: 'Brochure PDF', menu_landing: 'Intro page', menu_logout: 'Sign out', user: 'SHine-K user',
       hero_tag: 'Real · no video upload', hero_t: 'Real field monitoring', hero_d: 'Camera AI detects helmets, vests, falls and SOS; Bluetooth HR straps, the EmoConnect watch and a beacon trigger alarms and voice on site. The center receives only skeletons and numbers.',
-      hero_b1: '▶ Open field page', hero_b2: 'Open center page', hero_now: 'Field status',
+      hero_b1: '▶ Open field page', hero_b2: 'Open center page', hero_b3: '⧉ Split view', hero_now: 'Field status',
       hero_li: ['Up within 5 s after a fall: logged only', 'Still down after 5 s: voice check, raise a hand', 'No reply in 12 s: red alarm'],
       t_today: 'Today', t_alerts: 'Latest alerts', t_workers: 'Workers', t_tools: 'Tools & reports', more: 'See all →',
       k1: 'Workers', k2: 'Safe', k3: 'Aged 55+', k4: 'Alerts', no_alert: 'No alerts',
@@ -206,7 +206,7 @@
     var p = document.createElement('div'); p.className = 'panel'; p.id = 'panel-home';
     p.innerHTML = '<div class="home-wrap">' +
       '<div class="shk-hero"><div style="position:relative;z-index:1"><div class="tag"><b></b><span data-s="hero_tag"></span></div>' +
-      '<h2 data-s="hero_t"></h2><p data-s="hero_d"></p><div class="btns"><a class="p" href="live.html" target="_blank" data-s="hero_b1"></a><a class="s" href="center.html" target="_blank" data-s="hero_b2"></a></div></div>' +
+      '<h2 data-s="hero_t"></h2><p data-s="hero_d"></p><div class="btns"><a class="p" href="live.html" target="_blank" data-s="hero_b1"></a><a class="s" href="center.html" target="_blank" data-s="hero_b2"></a><a class="s" href="split.html" target="_blank" data-s="hero_b3"></a></div></div>' +
       '<div class="live"><h4 data-s="hero_now"></h4><div data-shk3-live></div><ul id="shk-hero-li"></ul></div></div>' +
       '<div class="shk-tiles">' +
         '<div class="shk-tile"><h3 data-s="t_today"></h3><div class="q" id="shk-q-today"></div><div class="more" data-go="overview" data-s="more"></div></div>' +

@@ -129,10 +129,20 @@
         var v = s.vitals[wid]; if (now - v.at > 5000 || (v.d.wearer && s.people[v.d.wearer])) return;
         rows.push('<tr><td class="mono"><b>' + esc(wid) + '</b></td><td class="muted">' + t('not_in_view') + (v.d.motion != null ? ' · ' + t('motion') + ' ' + v.d.motion + '%' : '') + '</td><td>—</td><td>—</td><td class="mono">' + (v.d.hr != null ? v.d.hr : '—') + '</td><td>' + (v.d.battery != null ? v.d.battery + '%' : '') + '</td></tr>');
       });
-      s.el.querySelector('tbody').innerHTML = rows.join('') || '<tr><td colspan="6" class="muted">' + t('none_yet') + '</td></tr>';
-      s.el.querySelectorAll('button[data-ask]').forEach(function (b) {
-        b.onclick = function () { tr.send({ type: 'cmd', action: 'ask', site: b.dataset.site, wid: b.dataset.ask }); log('info', '[' + b.dataset.site + '] → ' + b.dataset.ask + ' ' + t('req_confirm')); };
-      });
+      var html = rows.join('') || '<tr><td colspan="6" class="muted">' + t('none_yet') + '</td></tr>';
+      if (s.tbodyHtml === html) return;   // 内容没变就不重绘，避免按钮在点击时被替换
+      s.tbodyHtml = html;
+      var tb = s.el.querySelector('tbody');
+      tb.innerHTML = html;
+      if (!tb.dataset.bound) {   // 按下即响应（表格每秒刷新多次，不能等完整的 click）
+        tb.dataset.bound = '1';
+        tb.addEventListener('pointerdown', function (e) {
+          var b = e.target.closest && e.target.closest('button[data-ask]'); if (!b || e.button !== 0) return;
+          e.preventDefault();
+          tr.send({ type: 'cmd', action: 'ask', site: b.dataset.site, wid: b.dataset.ask }); log('info', '[' + b.dataset.site + '] → ' + b.dataset.ask + ' ' + t('req_confirm'));
+          b.disabled = true;
+        });
+      }
     });
   }
   setInterval(renderTables, 500);

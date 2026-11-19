@@ -3,6 +3,8 @@
   'use strict';
   var S = {
     zh: {
+      ez_off_t: '摄像头未开启', ez_off_r: '点击右边的按钮开始现场监测', ez_ok_t: '正常监测中', ez_people: '画面中 {n} 人 · 视频不离开这台电脑', ez_warn_t: '注意', ez_dng_t: '危险', ez_act_cam: '▶ 开启摄像头', ez_act_ack: '✓ 现场已确认', ez_act_sound: '🔊 打开声音', ez_admin: '⚙ 管理员界面', ez_easy: '◀ 简易界面', ch_cam: '摄像头', ch_ai: 'AI', ch_link: '监控', ch_local: '本机', ch_dev: '设备 {n}', ch_sound: '声音', ch_mute: '静音', ez_more: '还有 {n} 条',
+      sp_title: '分屏演示 · 现场端 → 监控端', sp_a: '① 现场端 · 摄像头 + 可穿戴设备 + AI', sp_b: '② 监控端 · 只收骨架与数字', sp_new: '新窗口 ↗', sp_lr: '左右', sp_tb: '上下', sp_narrow: '现场窄', sp_half: '各一半', sp_wide: '现场宽', sp_swap: '⇄ 对调', sp_pose: '坐标·骨架', sp_vit: '生命体征', sp_alert: '警报·事件', sp_cmd: '监控指令', sp_video: '视频', sp_hint: '中间飞过的点 = 真实发送的数据包。分界线可拖动，也可以点一下分界线后用 ←/→ 键调整。',
       field_title: '现场端 · 真实摄像头 AI + 可穿戴设备', center_title: '监控端 · 只接收骨架与数字（不传视频）',
       back: '← 返回平台', open_center: '打开监控端 ↗', open_field: '打开现场端 ↗',
       start_t: '开始现场监测', start_d: '点击后会：打开摄像头、加载 AI 模型、允许声音与语音播报。视频只在这台电脑里分析，不会上传。',
@@ -45,6 +47,8 @@
       packets: '收到数据包', status: '状态', alert_feed: '警报', bytes_video: '视频 0 B'
     },
     ko: {
+      ez_off_t: '카메라 꺼짐', ez_off_r: '오른쪽 버튼을 눌러 현장 모니터링을 시작하세요', ez_ok_t: '정상 감시 중', ez_people: '화면 속 {n}명 · 영상은 이 컴퓨터 밖으로 나가지 않음', ez_warn_t: '주의', ez_dng_t: '위험', ez_act_cam: '▶ 카메라 켜기', ez_act_ack: '✓ 현장 확인', ez_act_sound: '🔊 소리 켜기', ez_admin: '⚙ 관리자 화면', ez_easy: '◀ 쉬운 화면', ch_cam: '카메라', ch_ai: 'AI', ch_link: '관제', ch_local: '이 PC', ch_dev: '장치 {n}', ch_sound: '소리', ch_mute: '음소거', ez_more: '외 {n}건',
+      sp_title: '분할 화면 · 현장 → 관제', sp_a: '① 현장 · 카메라 + 웨어러블 + AI', sp_b: '② 관제 · 골격과 숫자만 수신', sp_new: '새 창 ↗', sp_lr: '좌우', sp_tb: '상하', sp_narrow: '현장 좁게', sp_half: '반반', sp_wide: '현장 넓게', sp_swap: '⇄ 바꾸기', sp_pose: '좌표·골격', sp_vit: '생체신호', sp_alert: '경보·이벤트', sp_cmd: '관제 지시', sp_video: '영상', sp_hint: '가운데를 지나가는 점 = 실제로 보내는 데이터 패킷. 경계선은 끌거나, 한 번 누른 뒤 ←/→ 키로 조절합니다.',
       field_title: '현장 · 실제 카메라 AI + 웨어러블', center_title: '관제 · 골격과 숫자만 수신 (영상 없음)',
       back: '← 플랫폼으로', open_center: '관제 화면 열기 ↗', open_field: '현장 화면 열기 ↗',
       start_t: '현장 모니터링 시작', start_d: '누르면 카메라를 켜고 AI 모델을 불러오며 소리·음성 안내를 켭니다. 영상은 이 컴퓨터에서만 분석하고 올리지 않습니다.',
@@ -85,6 +89,8 @@
       packets: '받은 패킷', status: '상태', alert_feed: '경보', bytes_video: '영상 0 B'
     },
     en: {
+      ez_off_t: 'Camera off', ez_off_r: 'Press the button on the right to start monitoring', ez_ok_t: 'Monitoring normally', ez_people: '{n} in view · video never leaves this computer', ez_warn_t: 'Caution', ez_dng_t: 'Danger', ez_act_cam: '▶ Start camera', ez_act_ack: '✓ Handled on site', ez_act_sound: '🔊 Turn sound on', ez_admin: '⚙ Admin view', ez_easy: '◀ Simple view', ch_cam: 'Camera', ch_ai: 'AI', ch_link: 'Center', ch_local: 'local', ch_dev: 'Devices {n}', ch_sound: 'Sound', ch_mute: 'muted', ez_more: '+{n} more',
+      sp_title: 'Split view · field → center', sp_a: '① Field · camera + wearables + AI', sp_b: '② Center · skeletons and numbers only', sp_new: 'New window ↗', sp_lr: 'Side by side', sp_tb: 'Stacked', sp_narrow: 'Field narrow', sp_half: 'Half', sp_wide: 'Field wide', sp_swap: '⇄ Swap', sp_pose: 'Pose', sp_vit: 'Vitals', sp_alert: 'Alerts', sp_cmd: 'Center cmds', sp_video: 'Video', sp_hint: 'Dots crossing the divider = real data packets. Drag the divider, or click it and use ←/→.',
       field_title: 'Field · real camera AI + wearables', center_title: 'Center · skeletons and numbers only (no video)',
       back: '← Back to platform', open_center: 'Open center ↗', open_field: 'Open field ↗',
       start_t: 'Start field monitoring', start_d: 'Turns on the camera, loads the AI models and enables sound and voice. Video is analysed on this computer only and never uploaded.',

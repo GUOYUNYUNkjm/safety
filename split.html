@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHine-K 3.0 · 分屏演示</title>
+<link rel="stylesheet" href="css/shk3.css">
+<style>
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;overflow:hidden}
+  .top{flex-shrink:0}
+  .seg{display:inline-flex;border:1px solid var(--bdr);border-radius:9px;overflow:hidden}
+  .seg button{border:none;border-radius:0;padding:6px 11px;font-size:12px}
+  .seg button+button{border-left:1px solid var(--bdr)}
+  .seg button.on{background:var(--ink2);color:#fff}
+  .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--ink3);align-items:center}
+  .legend span{display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+  .legend i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .legend b{font-family:var(--mono);color:var(--ink)}
+  .legend .vid b{color:var(--g)}
+  .bar2{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:7px 18px;background:#fff;border-bottom:1px solid var(--bdr);font-size:12px}
+  .bar2 .hint{color:var(--ink4);flex:1;min-width:200px}
+  #split{flex:1;display:flex;min-height:0;background:#E9EDF3}
+  #split.v{flex-direction:column}
+  .pane{display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff}
+  .pane .ph{display:flex;align-items:center;gap:8px;padding:6px 12px;font-size:12px;font-weight:800;color:var(--ink2);background:#F7F8FA;border-bottom:1px solid var(--bdr);flex-shrink:0}
+  .pane .ph .sp{flex:1}
+  .pane iframe{flex:1;border:none;width:100%;min-height:0;background:var(--bg)}
+  #divider{position:relative;flex:0 0 64px;background:linear-gradient(90deg,#E9EDF3,#DCE3EE 50%,#E9EDF3);cursor:col-resize;outline:none}
+  #split.v #divider{cursor:row-resize;background:linear-gradient(180deg,#E9EDF3,#DCE3EE 50%,#E9EDF3)}
+  #divider:focus-visible{box-shadow:inset 0 0 0 2px var(--a)}
+  #divider canvas{position:absolute;inset:0;width:100%;height:100%}
+  #divider .grip{position:absolute;left:50%;top:50%;width:6px;height:46px;margin:-23px 0 0 -3px;border-radius:3px;background:#B6C0D0}
+  #split.v #divider .grip{width:46px;height:6px;margin:-3px 0 0 -23px}
+  #split.drag iframe{pointer-events:none}
+  .swap #paneA{order:3}.swap #paneB{order:1}.swap #divider{order:2}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand"><div class="logo">SK</div><div>SHine-K 3.0 <small data-i18n="sp_title">分屏演示</small></div></div>
+  <span class="sp"></span>
+  <div class="seg" id="segDir"><button data-v="h" data-i18n="sp_lr">左右</button><button data-v="v" data-i18n="sp_tb">上下</button></div>
+  <div class="seg" id="segSize"><button data-v="30" data-i18n="sp_narrow">现场窄</button><button data-v="50" data-i18n="sp_half">各一半</button><button data-v="65" data-i18n="sp_wide">现场宽</button></div>
+  <button id="btnSwap" data-i18n="sp_swap">⇄ 对调</button>
+  <div class="row langs"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div>
+  <a href="index.html" data-i18n="back">← 返回平台</a>
+</header>
+<div class="bar2">
+  <div class="legend">
+    <span><i style="background:#3B82F6"></i><span data-i18n="sp_pose">坐标·骨架</span> <b id="cPose">0 B</b></span>
+    <span><i style="background:#00C896"></i><span data-i18n="sp_vit">生命体征</span> <b id="cVit">0 B</b></span>
+    <span><i style="background:#E8133A"></i><span data-i18n="sp_alert">警报·事件</span> <b id="cAlert">0</b></span>
+    <span><i style="background:#FF8C00"></i><span data-i18n="sp_cmd">监控指令</span> <b id="cCmd">0</b></span>
+    <span class="vid">🎥 <span data-i18n="sp_video">视频</span> <b>0 B</b></span>
+  </div>
+  <div class="hint" data-i18n="sp_hint"></div>
+</div>
+<div id="split">
+  <section class="pane" id="paneA">
+    <div class="ph"><span data-i18n="sp_a">① 现场端</span><span class="sp"></span><a href="live.html" target="_blank" data-i18n="sp_new">新窗口 ↗</a></div>
+    <iframe id="frA" src="live.html" title="field" allow="camera; microphone; bluetooth; serial; autoplay; fullscreen"></iframe>
+  </section>
+  <div id="divider" tabindex="0" role="separator" aria-orientation="vertical"><canvas id="flow"></canvas><div class="grip"></div></div>
+  <section class="pane" id="paneB">
+    <div class="ph"><span data-i18n="sp_b">② 监控端</span><span class="sp"></span><a href="center.html" target="_blank" data-i18n="sp_new">新窗口 ↗</a></div>
+    <iframe id="frB" src="center.html" title="center" allow="autoplay; fullscreen"></iframe>
+  </section>
+</div>
+
+<script src="js/shk-i18n.js"></script>
+<script src="js/shk-transport.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var split = $('split'), A = $('paneA'), B = $('paneB'), dv = $('divider');
+  var cfg = { dir: 'h', size: 50, swap: false };
+  try { cfg = Object.assign(cfg, JSON.parse(localStorage.getItem('shk3_split') || '{}')); } catch (e) {}
+  function save() { try { localStorage.setItem('shk3_split', JSON.stringify(cfg)); } catch (e) {} }
+
+  /* ---------- 版式 ---------- */
+  function apply() {
+    split.className = cfg.dir === 'v' ? 'v' : '';
+    split.classList.toggle('swap', !!cfg.swap);
+    var a = Math.max(15, Math.min(85, cfg.size));
+    A.style.flex = '0 0 calc(' + a + '% - 32px)'; B.style.flex = '1 1 0';
+    dv.setAttribute('aria-orientation', cfg.dir === 'v' ? 'horizontal' : 'vertical');
+    document.querySelectorAll('#segDir button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === cfg.dir); });
+    document.querySelectorAll('#segSize button').forEach(function (b) { b.classList.toggle('on', +b.dataset.v === Math.round(cfg.size)); });
+    resize();
+  }
+  document.querySelectorAll('#segDir button').forEach(function (b) { b.onclick = function () { cfg.dir = b.dataset.v; save(); apply(); }; });
+  document.querySelectorAll('#segSize button').forEach(function (b) { b.onclick = function () { cfg.size = +b.dataset.v; save(); apply(); }; });
+  $('btnSwap').onclick = function () { cfg.swap = !cfg.swap; save(); apply(); };
+
+  /* ---------- 拖动分界线 ---------- */
+  function sizeFromPointer(e) {
+    var r = split.getBoundingClientRect(), v = cfg.dir === 'v';
+    var pos = v ? (e.clientY - r.top) / r.height : (e.clientX - r.left) / r.width;
+    var pct = pos * 100; if (cfg.swap) pct = 100 - pct;
+    cfg.size = Math.max(15, Math.min(85, pct)); apply();
+  }
+  dv.addEventListener('pointerdown', function (e) {
+    dv.setPointerCapture(e.pointerId); split.classList.add('drag');
+    var mv = function (ev) { sizeFromPointer(ev); };
+    var up = function () { split.classList.remove('drag'); dv.removeEventListener('pointermove', mv); dv.removeEventListener('pointerup', up); save(); };
+    dv.addEventListener('pointermove', mv); dv.addEventListener('pointerup', up);
+  });
+  dv.addEventListener('keydown', function (e) {
+    var dec = cfg.dir === 'v' ? 'ArrowUp' : 'ArrowLeft', inc = cfg.dir === 'v' ? 'ArrowDown' : 'ArrowRight';
+    if (e.key !== dec && e.key !== inc) return;
+    e.preventDefault(); var d = (e.key === inc ? 2 : -2) * (cfg.swap ? -1 : 1);
+    cfg.size = Math.max(15, Math.min(85, cfg.size + d)); apply(); save();
+  });
+
+  /* ---------- 数据包动画：只统计、只显示，数据本身由两个页面直接互传 ---------- */
+  var cv = $('flow'), g = cv.getContext('2d'), dots = [], bytes = { pose: 0, vit: 0 }, cnt = { alert: 0, cmd: 0 };
+  var COL = { pose: '#3B82F6', vit: '#00C896', alert: '#E8133A', cmd: '#FF8C00' };
+  function resize() { var r = dv.getBoundingClientRect(); cv.width = Math.max(1, r.width * 2); cv.height = Math.max(1, r.height * 2); }
+  window.addEventListener('resize', resize);
+  function kb(n) { return n < 1024 ? n + ' B' : n < 1048576 ? (n / 1024).toFixed(1) + ' KB' : (n / 1048576).toFixed(2) + ' MB'; }
+  var lastPose = 0;
+  var tr = new SHKTransport('split');
+  tr.on(function (m) {
+    var size = JSON.stringify(m).length, kind = null;
+    if (m.type === 'pose') { bytes.pose += size; kind = 'pose'; var now = performance.now(); if (now - lastPose < 300) kind = null; else lastPose = now; }
+    else if (m.type === 'vitals') { bytes.vit += size; kind = 'vit'; }
+    else if (m.type === 'alert' || m.type === 'clear' || m.type === 'event') { cnt.alert++; kind = 'alert'; }
+    else if (m.type === 'cmd') { cnt.cmd++; kind = 'cmd'; }
+    $('cPose').textContent = kb(bytes.pose); $('cVit').textContent = kb(bytes.vit);
+    $('cAlert').textContent = cnt.alert; $('cCmd').textContent = cnt.cmd;
+    if (kind) dots.push({ k: kind, t0: performance.now(), lane: Math.random() * 0.7 + 0.15, back: kind === 'cmd', big: kind === 'alert' || kind === 'cmd' });
+    if (dots.length > 80) dots.splice(0, dots.length - 80);
+  });
+  function frame() {
+    requestAnimationFrame(frame);
+    var W = cv.width, H = cv.height, now = performance.now(), v = cfg.dir === 'v';
+    g.clearRect(0, 0, W, H);
+    dots = dots.filter(function (d) { return now - d.t0 < 900; });
+    dots.forEach(function (d) {
+      var p = (now - d.t0) / 900; if (d.back) p = 1 - p;
+      if (cfg.swap) p = 1 - p;
+      var x = v ? d.lane * W : p * W, y = v ? p * H : d.lane * H, r = (d.big ? 7 : 5) * 2 / 2 * 1.4;
+      g.globalAlpha = 1 - Math.abs(0.5 - (now - d.t0) / 900) * 0.6;
+      g.fillStyle = COL[d.k]; g.beginPath(); g.arc(x, y, r, 0, 7); g.fill();
+      g.globalAlpha = 0.25; g.beginPath(); g.arc(x, y, r * 2.2, 0, 7); g.fill();
+    });
+    g.globalAlpha = 1;
+  }
+  requestAnimationFrame(frame);
+
+  /* ---------- 语言：同时切换两个页面 ---------- */
+  SHKI18N.apply();
+  document.querySelectorAll('.langs button').forEach(function (b) {
+    b.classList.toggle('on', b.dataset.l === SHKI18N.lang);
+    b.onclick = function () {
+      SHKI18N.set(b.dataset.l);
+      document.querySelectorAll('.langs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+      ['frA', 'frB'].forEach(function (id) {
+        try { var btn = $(id).contentDocument.querySelector('.langs button[data-l="' + b.dataset.l + '"]'); if (btn) btn.click(); } catch (e) {}
+      });
+    };
+  });
+  apply();
+})();
+</script>
+</body>
+</html>

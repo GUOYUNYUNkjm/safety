@@ -19,6 +19,14 @@
   <a href="index.html" data-i18n="back">← 返回平台</a>
 </header>
 
+<!-- 简易界面：一条大状态栏 + 一个下一步按钮 -->
+<div class="easy" id="easy">
+  <div class="ez-main"><span class="ez-dot" id="ezDot"></span><div><b id="ezTitle">—</b><span id="ezReason"></span></div></div>
+  <div class="ez-chips" id="ezChips"></div>
+  <button class="pri ez-act" id="ezAction" style="display:none"></button>
+  <button class="ez-mode" id="ezMode"></button>
+</div>
+
 <main class="wrap">
   <section>
     <div class="card">
@@ -33,14 +41,14 @@
         <div class="badge" id="badge">—</div>
         <div class="banner" id="banner"></div>
       </div>
-      <div class="row" style="margin-top:10px">
+      <div class="row adm" style="margin-top:10px">
         <label class="row" style="gap:6px"><input type="checkbox" id="chkSkel"> <span data-i18n="skel_only">只显示骨架</span></label>
         <span class="sp"></span>
         <label class="row" style="gap:6px"><span class="muted" data-i18n="site">现场名称</span><input id="siteName" style="width:140px"></label>
         <button id="btnMute" data-i18n="mute">静音</button>
         <button id="btnTest" data-i18n="test_alarm">测试警报</button>
       </div>
-      <div class="stats">
+      <div class="stats adm">
         <span>FPS <b id="sFps">0</b></span>
         <span>Pose <b id="sPose">0</b> ms</span>
         <span>PPE <b id="sPpe">0</b> ms</span>
@@ -61,7 +69,7 @@
       <div id="alerts"><div class="empty" data-i18n="no_alerts"></div></div>
     </div>
 
-    <div class="card">
+    <div class="card adm" id="cardDevices">
       <h3 data-i18n="devices">可穿戴设备 & 警示灯</h3>
       <div class="row">
         <button id="btnHR" data-i18n="add_hr">＋ 蓝牙心率带</button>
@@ -72,7 +80,7 @@
       <div id="devices"></div>
     </div>
 
-    <div class="card">
+    <div class="card adm">
       <h3 data-i18n="link">连接监控端</h3>
       <div class="row">
         <span class="muted" data-i18n="room">房间码</span>
@@ -84,7 +92,7 @@
       <div class="note" data-i18n="link_warn"></div>
     </div>
 
-    <div class="card">
+    <div class="card adm">
       <h3 data-i18n="log">事件记录</h3>
       <div class="log" id="log"></div>
     </div>

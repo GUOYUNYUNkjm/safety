@@ -88,3 +88,24 @@ a{color:var(--a);text-decoration:none}
 table.tb{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:10px}
 table.tb th{text-align:left;font-size:11px;color:var(--ink4);font-weight:700;padding:5px 6px;border-bottom:1px solid var(--bdr)}
 table.tb td{padding:6px;border-bottom:1px solid #eef1f6}
+
+/* ---------- 简易界面 ---------- */
+.easy{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:14px 18px 0;padding:14px 18px;border-radius:14px;background:#fff;border:2px solid var(--bdr);max-width:1500px}
+@media(min-width:1536px){.easy{margin-left:auto;margin-right:auto}}
+.easy.ok{border-color:var(--g);background:var(--gbg)}
+.easy.warn{border-color:var(--w);background:var(--wbg)}
+.easy.dng{border-color:var(--r);background:var(--rbg);animation:ezblink 1.2s infinite}
+@keyframes ezblink{50%{box-shadow:0 0 0 6px rgba(232,19,58,.18)}}
+.ez-main{display:flex;align-items:center;gap:12px;flex:1;min-width:240px}
+.ez-dot{width:16px;height:16px;border-radius:50%;background:var(--ink4);flex-shrink:0}
+.easy.ok .ez-dot{background:var(--g)}.easy.warn .ez-dot{background:var(--w)}.easy.dng .ez-dot{background:var(--r)}
+.ez-main b{display:block;font-size:20px;font-weight:900;line-height:1.25}
+.easy.dng .ez-main b{color:var(--r)}.easy.warn .ez-main b{color:#B35F00}.easy.ok .ez-main b{color:#00775A}
+.ez-main span{display:block;font-size:13px;color:var(--ink3);margin-top:2px}
+.ez-chips{display:flex;gap:6px;flex-wrap:wrap}
+.ez-chips .pill{cursor:default}
+.ez-chips .pill.click{cursor:pointer}
+.ez-act{padding:12px 22px!important;font-size:16px!important;border-radius:12px!important}
+.ez-act.dng{background:var(--r);border-color:var(--r)}
+.ez-mode{font-size:12px!important}
+body.easy-on .adm{display:none!important}

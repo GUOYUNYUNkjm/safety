@@ -455,7 +455,7 @@
         (dv && dv.view && dv.view.hr != null ? '<span class="tag">❤ ' + dv.view.hr + ' bpm</span>' : '') + '</div></div>';
     }).join('');
   }
-  function renderAll() { SHKI18N.apply(); renderWorkers(); renderAlerts(); renderDevices(); }
+  function renderAll() { SHKI18N.apply(); renderWorkers(); renderAlerts(); renderDevices(); if (typeof renderEasy === 'function') renderEasy(); }
   setInterval(function () {
     renderWorkers();
     devices.forEach(function (d, i) { var el = $('dev-' + i); if (el) fillWearer(d, el.querySelector('[data-w]')); });
@@ -507,6 +507,69 @@
   $('btnNewRoom').onclick = function () { $('room').value = SHKTransport.newRoom(); };
   $('btnLink').onclick = function () { if (tr.mqttState === 'off') tr.connectRoom($('room').value); else tr.disconnectRoom(); };
   if ($('room').value) tr.connectRoom($('room').value);
+
+  /* ================= 简易界面 ================= */
+  var easy = true;
+  try { easy = localStorage.getItem('shk3_ui') !== 'admin'; } catch (e) {}
+  function setEasy(on) {
+    easy = on; document.body.classList.toggle('easy-on', on);
+    try { localStorage.setItem('shk3_ui', on ? 'easy' : 'admin'); } catch (e) {}
+    renderEasy();
+  }
+  $('ezMode').onclick = function () { setEasy(!easy); };
+  $('ezAction').onclick = function () {
+    FB.unlock();
+    var a = $('ezAction').dataset.act;
+    if (a === 'cam') startCamera();
+    else if (a === 'ack') ackLocal($('ezAction').dataset.key);
+    else if (a === 'sound') { FB.setMuted(false); $('btnMute').textContent = t('mute'); }
+    renderEasy();
+  };
+  function chip(state, text, onclick) {
+    return '<span class="pill ' + state + (onclick ? ' click' : '') + '"' + (onclick ? ' data-c="' + onclick + '"' : '') + '><i></i>' + esc(text) + '</span>';
+  }
+  function renderEasy() {
+    var bar = $('easy'); if (!bar) return;
+    var dng = alerts.filter(function (a) { return a.level === 'danger'; }), top = dng[0] || alerts[0];
+    var cls, title, reason, act = null, key = '';
+    if (!running) { cls = ''; title = t('ez_off_t'); reason = t('ez_off_r'); act = 'cam'; }
+    else if (top) {
+      cls = top.level === 'danger' ? 'dng' : 'warn';
+      title = (top.level === 'danger' ? t('ez_dng_t') : t('ez_warn_t')) + ' · ' + top.msg;
+      reason = alerts.length > 1 ? t('ez_more', { n: alerts.length - 1 }) : new Date(top.at).toLocaleTimeString();
+      act = 'ack'; key = top.key;
+    } else {
+      cls = 'ok'; title = t('ez_ok_t');
+      reason = t('ez_people', { n: tracks.filter(function (k) { return performance.now() - k.seen < 2000; }).length });
+      if (FB.muted) act = 'sound';
+    }
+    bar.className = 'easy ' + cls;
+    $('ezTitle').textContent = title; $('ezReason').textContent = reason;
+    var b = $('ezAction');
+    if (act) {
+      b.style.display = ''; b.dataset.act = act; b.dataset.key = key;
+      b.textContent = act === 'cam' ? t('ez_act_cam') : act === 'ack' ? t('ez_act_ack') : t('ez_act_sound');
+      b.className = 'pri ez-act' + (cls === 'dng' ? ' dng' : '');
+    } else b.style.display = 'none';
+    $('ezMode').textContent = easy ? t('ez_admin') : t('ez_easy');
+    var ai = !!pose && SHKPPE.loaded, aiLoading = !pose || !SHKPPE.loaded;
+    var link = tr.mqttState === 'on' ? tr.room : tr.mqttState === 'off' ? t('ch_local') : t('st_' + tr.mqttState);
+    var conn = devices.filter(function (d) { return d.device && d.device.gatt && d.device.gatt.connected; }).length;
+    $('ezChips').innerHTML =
+      chip(running ? 'ok' : '', t('ch_cam') + (running ? ' ✓' : ' ✗')) +
+      chip(ai ? 'ok' : (aiLoading ? 'warn' : 'dng'), t('ch_ai') + (ai ? ' ✓' : ' …')) +
+      chip(tr.mqttState === 'error' ? 'dng' : 'ok', t('ch_link') + ' · ' + link) +
+      chip(conn ? 'ok' : '', t('ch_dev', { n: conn }), 'dev') +
+      chip(FB.muted ? 'warn' : 'ok', t('ch_sound') + (FB.muted ? ' · ' + t('ch_mute') : ' ✓'), 'sound');
+    $('ezChips').querySelectorAll('[data-c]').forEach(function (c) {
+      c.onclick = function () {
+        if (c.dataset.c === 'dev') { setEasy(false); var d = $('cardDevices'); if (d) d.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+        if (c.dataset.c === 'sound') { FB.unlock(); FB.setMuted(!FB.muted); $('btnMute').textContent = FB.muted ? t('unmute') : t('mute'); renderEasy(); }
+      };
+    });
+  }
+  setEasy(easy);
+  setInterval(renderEasy, 500);
 
   /* ================= 记录 ================= */
   function log(level, msg) {
