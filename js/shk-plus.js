@@ -313,6 +313,11 @@
   var feed = jget('shk3_px_feed', []);
   try {
     if (window.SHKTransport) new SHKTransport('dash').on(function (m) {
+      if (m && (m.type === 'alert' || m.type === 'clear')) {          // 证据包：记录所有现场警报与处理
+        var lg = jget('shk3_px_alog', []);
+        lg.push({ t: m.type, ts: m.ts || Date.now(), aid: m.aid, key: m.key, kind: m.kind, level: m.level, msg: m.msg, site: m.site, zone: m.loc && m.loc.zone, by: m.by, worker: m.worker });
+        jset('shk3_px_alog', lg.slice(-2000));
+      }
       var k = m && m.kind; if (!k) return;
       if (['near_fall', 'hand_in_machine', 'vehicle_danger', 'vehicle_near', 'voice_sos', 'loud_sound', 'fused_fall', 'fall_fp'].indexOf(k) < 0) return;
       if (m.type === 'clear') return;
@@ -576,5 +581,61 @@
     });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
-  window.SHKPlus = { feelsKMA: feelsKMA, render: render, STR: STR };
+  /* ---------- 大模型（与 AI 安全助手共用设置 shk3_llm） ---------- */
+  function llm() { return jget('shk3_llm', null); }
+  async function ask(system, user, maxTok) {
+    var c = llm(); if (!c || !c.key) throw new Error('NO_LLM');
+    if (c.prov === 'anthropic') {
+      var r = await fetch((c.url || 'https://api.anthropic.com').replace(/\/$/, '') + '/v1/messages', { method: 'POST', headers: { 'content-type': 'application/json', 'x-api-key': c.key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: c.model || 'claude-sonnet-5-5', max_tokens: maxTok || 2000, system: system, messages: [{ role: 'user', content: user }] }) });
+      var j = await r.json(); if (!r.ok) throw new Error((j.error && j.error.message) || r.status);
+      return (j.content || []).map(function (x) { return x.text || ''; }).join('');
+    }
+    var r2 = await fetch((c.url || '').replace(/\/$/, '') + '/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + c.key },
+      body: JSON.stringify({ model: c.model, temperature: 0.2, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }) });
+    var j2 = await r2.json(); if (!r2.ok) throw new Error((j2.error && j2.error.message) || r2.status);
+    return j2.choices[0].message.content;
+  }
+  function parseJSON(txt) {
+    var m = String(txt).replace(/```json|```/g, '');
+    var a = m.indexOf('['), o = m.indexOf('{'), st = (a >= 0 && (o < 0 || a < o)) ? a : o;
+    var en = st === a ? m.lastIndexOf(']') : m.lastIndexOf('}');
+    return JSON.parse(m.slice(st, en + 1));
+  }
+  var LLMS = { zh: ['大模型', '未设置（使用离线规则）', '设置', '服务商', '接口地址', '模型', 'API 密钥', '保存', '清除', '密钥只保存在这台电脑的浏览器里，请求直接从浏览器发给你填写的服务商。与「AI 安全助手」共用同一设置。'],
+    ko: ['LLM', '미설정(오프라인 규칙 사용)', '설정', '제공사', 'API 주소', '모델', 'API 키', '저장', '삭제', '키는 이 브라우저에만 저장되며 요청은 브라우저에서 직접 제공사로 갑니다. 「AI 안전 도우미」와 같은 설정을 씁니다.'],
+    en: ['LLM', 'Not set (offline rules)', 'Settings', 'Provider', 'Endpoint', 'Model', 'API key', 'Save', 'Clear', 'The key stays in this browser; requests go straight from the browser to your provider. Shared with the AI assistant.'] };
+  function llmBar(onChange) {
+    var L = LLMS[lang()], c = llm(), id = 'px-llm-' + Math.random().toString(36).slice(2, 7);
+    setTimeout(function () {
+      var b = $(id); if (!b) return;
+      b.onclick = function () {
+        var c2 = llm() || { prov: 'openai', url: 'https://api.deepseek.com', model: 'deepseek-chat', key: '' };
+        var ov = document.createElement('div'); ov.style.cssText = 'position:fixed;inset:0;background:rgba(10,15,30,.45);z-index:9999;display:grid;place-items:center';
+        ov.innerHTML = '<div class="card" style="width:min(520px,92vw);background:#fff"><div class="card-title">🤖 ' + L[0] + ' · ' + L[2] + '</div><div style="display:grid;gap:10px;margin-top:10px">' +
+          '<label style="font-size:.76rem;font-weight:700">' + L[3] + '<br><select class="px-in" data-p style="width:100%"><option value="openai"' + (c2.prov !== 'anthropic' ? ' selected' : '') + '>OpenAI-compatible (DeepSeek / Qwen / GPT …)</option><option value="anthropic"' + (c2.prov === 'anthropic' ? ' selected' : '') + '>Anthropic Claude</option></select></label>' +
+          '<label style="font-size:.76rem;font-weight:700">' + L[4] + '<br><input class="px-in" data-u style="width:100%" value="' + esc(c2.url || '') + '"></label>' +
+          '<label style="font-size:.76rem;font-weight:700">' + L[5] + '<br><input class="px-in" data-m style="width:100%" value="' + esc(c2.model || '') + '"></label>' +
+          '<label style="font-size:.76rem;font-weight:700">' + L[6] + '<br><input class="px-in" data-k type="password" style="width:100%" value="' + esc(c2.key || '') + '"></label>' +
+          '<div class="px-how" style="margin:0">' + L[9] + '</div><div style="display:flex;gap:8px"><button class="px-btn" data-s>' + L[7] + '</button><button class="px-btn g" data-c>' + L[8] + '</button><button class="px-btn g" data-x>✕</button></div></div></div>';
+        document.body.appendChild(ov);
+        var q = function (x) { return ov.querySelector(x); };
+        q('[data-s]').onclick = function () { jset('shk3_llm', { prov: q('[data-p]').value, url: q('[data-u]').value.trim(), model: q('[data-m]').value.trim(), key: q('[data-k]').value.trim() }); ov.remove(); onChange && onChange(); };
+        q('[data-c]').onclick = function () { try { localStorage.removeItem('shk3_llm'); } catch (e) {} ov.remove(); onChange && onChange(); };
+        q('[data-x]').onclick = function () { ov.remove(); };
+        ov.onclick = function (e) { if (e.target === ov) ov.remove(); };
+      };
+    }, 0);
+    return '<span class="px-src ' + (c && c.key ? 'real' : '') + '" style="cursor:pointer" id="' + id + '">🤖 ' + L[0] + ': ' + esc(c && c.key ? (c.model || c.prov) : L[1]) + ' · ⚙ ' + L[2] + '</span>';
+  }
+
+  /* ---------- 供 shk-plus2.js 注册更多页面 ---------- */
+  function register(def) {
+    var at = NAV.findIndex(function (n) { return n[0] === 'roadmap'; });
+    NAV.splice(at < 0 ? NAV.length : at, 0, [def.key, def.icon, def.bg, def.cat]);
+    ['zh', 'ko', 'en'].forEach(function (l) { STR[l].nav[def.key] = def.nav[l]; Object.keys((def.str || {})[l] || {}).forEach(function (k) { STR[l][k] = def.str[l][k]; }); });
+    R[def.key] = def.render;
+  }
+  window.SHKPlus = { feelsKMA: feelsKMA, heatLevel: heatLevel, render: render, STR: STR, register: register, current: current,
+    h: { esc: esc, jget: jget, jset: jset, lang: lang, S: S, hd: hd, ev: ev, kpi: kpi, srcBadge: srcBadge, clamp: clamp, feedHtml: feedHtml, demoNearfall: demoNearfall, DAY: DAY, ask: ask, llm: llm, llmBar: llmBar, parseJSON: parseJSON, heat: function () { return heat; }, timers: timers } };
 })();

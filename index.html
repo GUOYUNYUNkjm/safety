@@ -3711,12 +3711,12 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
   const ROLE_NAME={admin:{zh:'管理员',ko:'관리자',en:'Admin'},safety:{zh:'安全员',ko:'안전관리자',en:'Safety'},
     lead:{zh:'班组长',ko:'반장',en:'Team Lead'},worker:{zh:'工人',ko:'근로자',en:'Worker'},guest:{zh:'访客',ko:'게스트',en:'Guest'}};
   const ALL_PANELS=['overview','register','monitor','checklist','camera','iot','elderly','briefing','alerts','ai','settings','audit','reports',
-    /* 预测型功能（js/shk-plus.js） */ 'pxnearfall','pxfitcheck','pxheatlaw','pxergo','pxjobfit','pxfusion','pxroadmap'];
+    /* 预测型功能（js/shk-plus.js） */ 'pxnearfall','pxfitcheck','pxheatlaw','pxergo','pxjobfit','pxfusion','pxroadmap','pxra','pxlingo','pxevidence'];
   const PERMS={
     admin:{panels:ALL_PANELS,clear:true,settings:true,del:true,export:true,audit:true},
     safety:{panels:ALL_PANELS.filter(p=>p!=='audit'?true:true),clear:true,settings:true,del:false,export:true,audit:true},
-    lead:{panels:['overview','register','monitor','checklist','camera','briefing','alerts','reports','pxnearfall','pxfitcheck','pxheatlaw','pxjobfit','pxfusion'],clear:true,settings:false,del:false,export:true,audit:false},
-    worker:{panels:['overview','briefing','pxfitcheck'],clear:false,settings:false,del:false,export:false,audit:false},
+    lead:{panels:['overview','register','monitor','checklist','camera','briefing','alerts','reports','pxnearfall','pxfitcheck','pxheatlaw','pxjobfit','pxfusion','pxra','pxlingo','pxevidence'],clear:true,settings:false,del:false,export:true,audit:false},
+    worker:{panels:['overview','briefing','pxfitcheck','pxlingo'],clear:false,settings:false,del:false,export:false,audit:false},
     guest:{panels:ALL_PANELS,clear:false,settings:false,del:false,export:false,audit:false}
   };
   const USERS={admin:'admin123',safety:'safety123',lead:'lead123',worker:'worker123'};
@@ -4315,5 +4315,7 @@ function downloadBrochure(){
 <link rel="stylesheet" href="css/shk-layout.css">
 <script src="js/shk-layout.js"></script>
 <script src="js/shk-plus.js"></script>
+<script src="js/shk-kb.js"></script>
+<script src="js/shk-plus2.js"></script>
 </body>
 </html>

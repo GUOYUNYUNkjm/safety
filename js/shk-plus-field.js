@@ -73,6 +73,11 @@
   function jget(k, d) { try { var v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } }
   function jset(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 
+  /* 记录本模块产生的事件（平台「证据包」「风险评估」读取） */
+  function raise(a) {
+    try { var ev = jget('shk3_px_events', []); ev.push({ ts: Date.now(), kind: a.kind, level: a.level, msg: a.msg, wid: a.wid, site: L.site(), zone: a.zone || null }); jset('shk3_px_events', ev.slice(-2000)); } catch (e) {}
+    L.raise(a);
+  }
   var S = new WeakMap();           // 每个追踪对象的附加状态
   function st(tk) { var s = S.get(tk); if (!s) { s = { h: [], dip: null, lastStumble: 0, stumbles: 0, rula: null, rulaS: null, veh: 3, vehSafeAt: 0, handIn: {}, handOutAt: {}, fuse: null }; S.set(tk, s); } return s; }
   function vis(p, v) { return p && (p.visibility == null || p.visibility > (v || 0.45)); }
@@ -129,7 +134,7 @@
         s.handOutAt[z.id] = null; z.hot = Date.now();
         if (!s.handIn[z.id]) {
           s.handIn[z.id] = now; z.hot = Date.now();
-          L.raise({ key: key, wid: wid(tk), kind: 'hand_in_machine', level: 'danger', msg: tr('ev_hand_in_machine', { id: wid(tk), zone: z.name }), say: t('say_hand_in_machine') });
+          raise({ key: key, wid: wid(tk), kind: 'hand_in_machine', zone: z.name, level: 'danger', msg: tr('ev_hand_in_machine', { id: wid(tk), zone: z.name }), say: t('say_hand_in_machine') });
           L.beacon('R');
         }
       } else if (s.handIn[z.id]) {
@@ -163,7 +168,7 @@
       var zone = zoneOf(tk), b = f.box;
       var rec = { ts: Date.now(), site: L.site(), zone: zone, wid: wid(tk), worker: (L.workerOf && L.workerOf(tk) || {}).id || null, x: +((b[0] + b[2]) / 2).toFixed(3), y: +b[3].toFixed(3), depth: +((d.peak - d.base) / d.h).toFixed(2) };
       var all = jget(KEY_NF, []); all.push(rec); jset(KEY_NF, all.slice(-500));
-      L.raise({ key: wid(tk) + ':stumble', wid: wid(tk), kind: 'near_fall', level: 'warn', msg: tr('ev_near_fall', { id: wid(tk), zone: zone }), say: tr('say_near_fall', { id: wid(tk) }), auto: 8000, cooldown: CFG.stumbleCool });
+      raise({ key: wid(tk) + ':stumble', wid: wid(tk), kind: 'near_fall', zone: zone, level: 'warn', msg: tr('ev_near_fall', { id: wid(tk), zone: zone }), say: tr('say_near_fall', { id: wid(tk) }), auto: 8000, cooldown: CFG.stumbleCool });
       L.send({ type: 'event', kind: 'near_fall', wid: wid(tk), level: 'info', zone: zone, depth: rec.depth, x: rec.x, y: rec.y, msg: tr('ev_near_fall', { id: wid(tk), zone: zone }) });
     }
   }
@@ -203,8 +208,8 @@
     vs.forEach(function (v) { var d = rectDist(fx, fy, v.box) / ph; if (!best || d < best.d) best = { d: d, v: v }; });
     var lvl = best.d < CFG.vehD ? 0 : best.d < CFG.vehP ? 1 : best.d < CFG.vehA ? 2 : 3;
     var key = 'veh:' + wid(tk);
-    if (lvl === 0 && s.veh !== 0) L.raise({ key: key, wid: wid(tk), kind: 'vehicle_danger', level: 'danger', msg: tr('ev_veh_danger', { id: wid(tk) }), say: tr('say_veh_danger', { id: wid(tk) }) });
-    else if (lvl === 1 && s.veh > 1) L.raise({ key: key, wid: wid(tk), kind: 'vehicle_near', level: 'warn', msg: tr('ev_veh_pot', { id: wid(tk) }), cooldown: 20000 });
+    if (lvl === 0 && s.veh !== 0) raise({ key: key, wid: wid(tk), kind: 'vehicle_danger', zone: zoneOf(tk), level: 'danger', msg: tr('ev_veh_danger', { id: wid(tk) }), say: tr('say_veh_danger', { id: wid(tk) }) });
+    else if (lvl === 1 && s.veh > 1) raise({ key: key, wid: wid(tk), kind: 'vehicle_near', zone: zoneOf(tk), level: 'warn', msg: tr('ev_veh_pot', { id: wid(tk) }), cooldown: 20000 });
     s.veh = lvl; finishVeh(tk, s, now);
     return { lvl: lvl, from: [fx, fy], to: [(best.v.box[0] + best.v.box[2]) / 2, best.v.box[3]] };
   }
@@ -231,7 +236,7 @@
           if (!mic.overAt) mic.overAt = now;
           if (now - mic.overAt > CFG.loudMs && now - mic.lastLoud > CFG.loudCool) {
             mic.lastLoud = now;
-            L.raise({ key: 'mic:loud', wid: null, kind: 'loud_sound', level: 'warn', msg: tr('ev_loud', { db: Math.round(db) }), auto: 10000 });
+            raise({ key: 'mic:loud', wid: null, kind: 'loud_sound', level: 'warn', msg: tr('ev_loud', { db: Math.round(db) }), auto: 10000 });
           }
         } else mic.overAt = 0;
         $('pxDb').textContent = Math.round(db) + ' dB';
@@ -246,7 +251,7 @@
           var hit = list.find(function (k) { return txt.indexOf(k.toLowerCase()) >= 0; });
           if (hit && Date.now() - mic.lastVoice > 10000) {
             mic.lastVoice = Date.now();
-            L.raise({ key: 'mic:sos', wid: null, kind: 'voice_sos', level: 'danger', msg: tr('ev_voice_sos', { w: hit }), say: t('say_voice_sos') });
+            raise({ key: 'mic:sos', wid: null, kind: 'voice_sos', level: 'danger', msg: tr('ev_voice_sos', { w: hit }), say: t('say_voice_sos') });
           }
         }
       };
@@ -288,7 +293,7 @@
     if (b.k === 'hit') srcs.push('⌚'); if (audio) srcs.push('🎤');
     if (srcs.length && !s.fuse.done) {
       s.fuse.done = 'conf'; fuStats.confirmed++; jset(KEY_FU, fuStats);
-      L.raise({ key: wid(tk) + ':fused', wid: wid(tk), kind: 'fused_fall', level: 'danger', msg: tr('ev_fused_fall', { id: wid(tk), src: srcs.join('+') }), say: tr('say_fused_fall', { id: wid(tk) }) });
+      raise({ key: wid(tk) + ':fused', wid: wid(tk), kind: 'fused_fall', zone: zoneOf(tk), level: 'danger', msg: tr('ev_fused_fall', { id: wid(tk), src: srcs.join('+') }), say: tr('say_fused_fall', { id: wid(tk) }) });
     } else if (!s.fuse.done && b.k === 'move' && now - s.fuse.t0 > 1500) {
       s.fuse.done = 'fp'; fuStats.fp++; jset(KEY_FU, fuStats); L.log('info', tr('ev_fp', { id: wid(tk) }));
       L.send({ type: 'event', kind: 'fall_fp', wid: wid(tk), level: 'info', msg: tr('ev_fp', { id: wid(tk) }) });
