@@ -34,6 +34,8 @@
       ev_fused_fall: '📷+{src} 双源确认：{id} 跌倒', say_fused_fall: '紧急！{id}跌倒已被多个传感器确认，附近人员立即前往。',
       ev_dust_mask: '😷 {id} 在粉尘区「{zone}」未戴口罩', say_dust_mask: '{id}，这里粉尘浓度高，请立即戴好防尘口罩。',
       ev_dust_lv: '🌫 {who} 今日粉尘暴露已达限值的 {p}%（{zone}）', nt_dust_50: '今日粉尘暴露已达限值一半，请全程佩戴防尘口罩。', nt_dust_80: '今日粉尘暴露已达限值 80%，建议离开粉尘区休息或调岗。', nt_dust_100: '今日粉尘暴露已达到限值，请立即离开粉尘区。',
+      rx_zone: '📍 本机区域', rx_ph: '例如 焊接区', rx_tip: '连到这台电脑的手表 = 人在这个区域（蓝牙约 10 m）', rx_here: '⌚ 在本区域：{n}', rx_none: '⌚ 本区域暂无手表',
+      pm_conn: '🌫 连接粉尘传感器（SDS011）', pm_sim: '模拟读数', pm_cal: '校准系数', pm_use: '作为本区域浓度', pm_note: '光学 PM 传感器是指示值，与法定称重测定不同；校准系数按现场称重采样结果设置。', pm_nos: '这个浏览器不支持 Web Serial（请用电脑 Chrome / Edge）',
       aid_t: '🩹 最近的急救物品', aid_body: '{what}发生在 {where}。最近的 {list}。请附近人员带上前往。', aid_none: '还没有登记急救物品位置', aid_trained: '已培训急救员：{n}',
       ev_fp: '{id}：摄像头判断跌倒，但手环显示仍在正常活动 → 标记为疑似误报', mz_name: '机器危险点', veh_lv: ['危险', '潜在危险', '关注', '安全']
     },
@@ -50,6 +52,8 @@
       ev_fused_fall: '📷+{src} 이중 확인: {id} 넘어짐', say_fused_fall: '긴급! {id} 넘어짐이 여러 센서로 확인되었습니다. 근처 인원은 즉시 가세요.',
       ev_dust_mask: '😷 {id} 분진 구역「{zone}」에서 마스크 미착용', say_dust_mask: '{id}, 이곳은 분진 농도가 높습니다. 방진마스크를 바로 착용하세요.',
       ev_dust_lv: '🌫 {who} 오늘 분진 노출이 기준의 {p}%에 도달({zone})', nt_dust_50: '오늘 분진 노출이 기준의 절반입니다. 방진마스크를 계속 착용하세요.', nt_dust_80: '오늘 분진 노출이 기준의 80%입니다. 분진 구역을 벗어나 쉬거나 작업 전환을 권합니다.', nt_dust_100: '오늘 분진 노출이 기준에 도달했습니다. 즉시 분진 구역을 벗어나세요.',
+      rx_zone: '📍 이 PC 구역', rx_ph: '예: 용접 구역', rx_tip: '이 PC에 연결된 워치 = 이 구역에 있음(블루투스 약 10 m)', rx_here: '⌚ 이 구역: {n}', rx_none: '⌚ 이 구역에 워치 없음',
+      pm_conn: '🌫 분진 센서 연결(SDS011)', pm_sim: '모의 값', pm_cal: '보정계수', pm_use: '이 구역 농도로 사용', pm_note: '광학 PM 센서는 지시값이며 법정 중량 측정과 다릅니다. 보정계수는 현장 중량 시료 결과로 설정하세요.', pm_nos: '이 브라우저는 Web Serial을 지원하지 않습니다(PC Chrome / Edge 사용)',
       aid_t: '🩹 가장 가까운 응급용품', aid_body: '{where}에서 {what}. 가장 가까운 {list}. 근처 인원은 가지고 가세요.', aid_none: '등록된 응급용품 위치가 없습니다', aid_trained: '교육 이수 응급요원: {n}',
       ev_fp: '{id}: 카메라는 넘어짐으로 판단했지만 밴드는 정상 활동 중 → 오경보 의심으로 표시', mz_name: '기계 위험점', veh_lv: ['위험', '잠재 위험', '주의', '안전']
     },
@@ -66,6 +70,8 @@
       ev_fused_fall: '📷+{src} two-source confirmed: {id} fell', say_fused_fall: 'Emergency! {id} fall confirmed by several sensors. People nearby, go now.',
       ev_dust_mask: '😷 {id} without a mask in dust zone "{zone}"', say_dust_mask: '{id}, dust is high here. Put on your dust mask now.',
       ev_dust_lv: '🌫 {who} has reached {p}% of today\'s dust limit ({zone})', nt_dust_50: 'Your dust exposure today is half the limit. Keep your dust mask on.', nt_dust_80: 'Your dust exposure today is 80% of the limit. Leave the dust area for a break or switch tasks.', nt_dust_100: 'Your dust exposure today has reached the limit. Leave the dust area now.',
+      rx_zone: '📍 This PC\'s zone', rx_ph: 'e.g. Welding', rx_tip: 'A watch connected to this PC = the person is in this zone (Bluetooth ≈10 m)', rx_here: '⌚ In this zone: {n}', rx_none: '⌚ No watch in this zone',
+      pm_conn: '🌫 Connect dust sensor (SDS011)', pm_sim: 'Simulate', pm_cal: 'Calibration', pm_use: 'Use as zone concentration', pm_note: 'Optical PM sensors give indicative values, not the statutory gravimetric measurement; set the calibration factor from on-site gravimetric sampling.', pm_nos: 'This browser has no Web Serial (use desktop Chrome / Edge)',
       aid_t: '🩹 Nearest first-aid equipment', aid_body: '{what} at {where}. Nearest: {list}. People nearby, bring it.', aid_none: 'No first-aid locations registered yet', aid_trained: 'Trained first aiders: {n}',
       ev_fp: '{id}: camera saw a fall but the band shows normal activity → marked as likely false alarm', mz_name: 'Machine point', veh_lv: ['Danger', 'Potential', 'Attention', 'Safe']
     }
@@ -106,6 +112,11 @@
     '<div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button id="pxMz" data-i18n="px_mz"></button><button id="pxMzClr" data-i18n="px_mz_clear" style="display:none"></button>' +
     '<button id="pxMic" data-i18n="px_mic"></button><span id="pxDb" class="mono muted" style="font-size:12px"></span></div>' +
     '<div class="note" id="pxMicNote" style="display:none" data-i18n="px_mic_note"></div>' +
+    '<div style="border-top:1px solid var(--bdr);margin:8px 0;padding-top:8px"><div class="row" style="gap:6px;flex-wrap:wrap;align-items:center"><b data-i18n="rx_zone" style="font-size:12px"></b><input id="pxRx" list="pxRxL" style="width:150px" data-i18n-ph="rx_ph"><datalist id="pxRxL"></datalist><span id="pxRxHere" class="muted" style="font-size:12px"></span></div>' +
+    '<div class="muted" style="font-size:11px;margin-top:3px" data-i18n="rx_tip"></div>' +
+    '<div class="row" style="gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px"><button id="pxPm" data-i18n="pm_conn"></button><label class="row muted" style="gap:4px;font-size:12px"><input type="checkbox" id="pxPmSim"><span data-i18n="pm_sim"></span></label>' +
+    '<label class="row muted" style="gap:4px;font-size:12px"><span data-i18n="pm_cal"></span><input id="pxPmCal" type="number" step="0.1" style="width:60px"></label><label class="row muted" style="gap:4px;font-size:12px"><input type="checkbox" id="pxPmUse" checked><span data-i18n="pm_use"></span></label></div>' +
+    '<div id="pxPmVal" class="mono" style="font-size:13px;margin-top:4px"></div><div class="muted" style="font-size:11px" data-i18n="pm_note"></div></div>' +
     '<div id="pxTable" style="font-size:12px;overflow-x:auto"></div>';
   var anchor = $('cardEnv'); if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(card, anchor.nextSibling); else document.body.appendChild(card);
   SHKI18N.apply(card);
@@ -332,10 +343,11 @@
   function dayKey() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
   var dustBuf = {}, dustLast = 0;
   function dustTick(tk, s, now) {
+    var dv0 = devOf(tk); if (dv0 && dv0._pxZone) { s.dustIn = dv0._pxZone; return; }   // 戴着已连接的手表：由手表区域累计（见下）
     var cfg = dustCfg(), z = zoneOf(tk), zc = cfg[z]; if (!zc || !(zc.c > 0)) { s.dustIn = null; return; }
     var dt = s.dustAt ? Math.min(2, (now - s.dustAt) / 1000) : 0; s.dustAt = now; s.dustIn = z;
     var w = (L.workerOf && L.workerOf(tk)) || null, key = w ? w.id : wid(tk), who = w ? (w.name || w.id) : wid(tk);
-    var b = dustBuf[key] || (dustBuf[key] = { who: who, zones: {} }), r = b.zones[z] || (b.zones[z] = { t: 0, tm: 0 });
+    var b = dustBuf[key] || (dustBuf[key] = { who: who, zones: {}, src: 'cam' }), r = b.zones[z] || (b.zones[z] = { t: 0, tm: 0 });
     r.t += dt; if (s.mask === true) r.tm += dt;
     // 粉尘区未戴口罩 20 秒 → 提醒本人
     if (s.mask === false) { if (!s.noMaskAt) s.noMaskAt = now; if (now - s.noMaskAt > 20000) { s.noMaskAt = now + 1e9; raise({ key: wid(tk) + ':dustmask', wid: wid(tk), kind: 'dust_mask', zone: z, level: 'warn', msg: tr('ev_dust_mask', { id: wid(tk), zone: z }), say: tr('say_dust_mask', { id: wid(tk) }), auto: 15000, cooldown: 120000 }); if (w) L.notify(w.id, { level: 'warn', title: '😷', body: tr('say_dust_mask', { id: who }) }); } }
@@ -346,7 +358,7 @@
     var all = jget(KEY_DE, {}), d = dayKey(), day = all[d] || (all[d] = {}), cfg = dustCfg();
     keys.forEach(function (k) {
       var b = dustBuf[k], rec = day[k] || (day[k] = { who: b.who, zones: {}, sent: 0 });
-      rec.who = b.who;
+      rec.who = b.who; rec.src = b.src || rec.src || 'cam';
       Object.keys(b.zones).forEach(function (z) { var r = rec.zones[z] || (rec.zones[z] = { t: 0, tm: 0 }); r.t += b.zones[z].t; r.tm += b.zones[z].tm; });
       // 今日 TWA 占限值的比例 = Σ(C·t) / 8h / 限值（各区域按自己的限值折算后相加）
       var frac = 0, top = '';
@@ -362,6 +374,78 @@
     jset(KEY_DE, all); dustBuf = {};
   }
   setInterval(flushDust, 10000);
+
+  /* ---------- ⑧b 手表区域定位：连到本机的手表 = 人在本机区域 ---------- */
+  var KEY_RX = 'shk3_rx_zone', devSeen = new WeakMap(), presence = {};
+  function rxZone() { return (localStorage.getItem(KEY_RX) || '').trim(); }
+  function rosterName(id) { try { var r = window.SHKStore && SHKStore.get('roster', id); return r ? (r.name || r.id) : null; } catch (e) { return null; } }
+  $('pxRx').value = rxZone();
+  $('pxRx').onchange = function () { try { localStorage.setItem(KEY_RX, this.value.trim()); } catch (e) {} };
+  setInterval(function () {
+    var zone = rxZone(), now = Date.now(), cfg = dustCfg(), here = [];
+    $('pxRxL').innerHTML = Object.keys(cfg).map(function (z) { return '<option value="' + esc(z) + '">'; }).join('');
+    L.devices().forEach(function (d) {
+      var m = devSeen.get(d) || {}; if (d.view && d.view !== m.ref) { m.ref = d.view; m.at = now; } devSeen.set(d, m);
+      var live = !!(m.at && now - m.at < 15000); d._pxZone = live && zone ? zone : null;
+      if (!d._pxZone) return;
+      var key = d.worker || d.uid, who = (d.worker && rosterName(d.worker)) || d.name || d.uid;
+      presence[key] = { who: who, zone: zone, site: L.site(), at: now }; here.push(who);
+      var zc = cfg[zone]; if (!zc || !(zc.c > 0)) return;
+      var tk = L.tracks().find(function (t) { return (d.wearer === 'auto' ? d.wearerId : +d.wearer) === t.id; }), sx = tk ? st(tk) : null;
+      var b = dustBuf[key] || (dustBuf[key] = { who: who, zones: {}, src: 'watch' }); b.src = 'watch'; b.who = who;
+      var r = b.zones[zone] || (b.zones[zone] = { t: 0, tm: 0 }); r.t += 1; if (sx && sx.mask === true) r.tm += 1;
+    });
+    $('pxRxHere').textContent = zone ? (here.length ? t('rx_here', { n: here.join(', ') }) : t('rx_none')) : '';
+  }, 1000);
+  setInterval(function () {
+    var list = Object.keys(presence).filter(function (k) { return Date.now() - presence[k].at < 30000; }).map(function (k) { return Object.assign({ key: k }, presence[k]); });
+    if (list.length) L.send({ type: 'presence', site: L.site(), zone: rxZone(), list: list });
+  }, 10000);
+
+  /* ---------- ⑧c 粉尘传感器 SDS011（USB，Web Serial，9600 波特，10 字节帧 AA C0 … AB） ---------- */
+  var pm = { pm25: null, pm10: null, avg: null, at: 0, simT: null };
+  $('pxPmCal').value = jget('shk3_pm_cal', 1);
+  $('pxPmCal').onchange = function () { jset('shk3_pm_cal', +this.value || 1); };
+  function onPM(p25, p10) {
+    pm.pm25 = p25; pm.pm10 = p10; pm.at = Date.now(); pm.avg = pm.avg == null ? p10 : pm.avg * 0.9 + p10 * 0.1;   // 约 1 分钟平滑
+    var sim = $('pxPmSim').checked;
+    $('pxPmVal').textContent = 'PM2.5 ' + p25.toFixed(1) + ' · PM10 ' + p10.toFixed(1) + ' μg/m³' + (sim ? ' (SIM)' : '') + ' → ' + (pm.avg * (+jget('shk3_pm_cal', 1) || 1) / 1000).toFixed(3) + ' mg/m³';
+  }
+  setInterval(function () {      // 每 10 秒：写入本区域浓度并同步
+    var zone = rxZone(); if (!zone || pm.avg == null || Date.now() - pm.at > 20000) return;
+    var mg = +(pm.avg * (+jget('shk3_pm_cal', 1) || 1) / 1000).toFixed(4);
+    L.send({ type: 'env_dust', site: L.site(), zone: zone, pm25: pm.pm25, pm10: pm.pm10, mg: mg, sim: $('pxPmSim').checked });
+    if (!$('pxPmUse').checked) return;
+    var cfg = dustCfg(); cfg[zone] = Object.assign({ sub: 'other', oel: 10, apf: 10 }, cfg[zone] || {}, { c: mg, src: 'sensor', at: Date.now() });
+    jset(KEY_DZ, cfg); L.send({ type: 'dustcfg', cfg: cfg });
+  }, 10000);
+  $('pxPm').onclick = async function () {
+    if (!('serial' in navigator)) { L.log('warn', t('pm_nos')); $('pxPmVal').textContent = t('pm_nos'); return; }
+    try {
+      var port = await navigator.serial.requestPort(); await port.open({ baudRate: 9600 }); this.classList.add('pri');
+      var buf = [];
+      while (port.readable) {
+        var rd = port.readable.getReader();
+        try {
+          for (;;) {
+            var res = await rd.read(); if (res.done) break;
+            for (var i = 0; i < res.value.length; i++) {
+              buf.push(res.value[i]); if (buf.length > 10) buf.shift();
+              if (buf.length === 10 && buf[0] === 0xAA && buf[1] === 0xC0 && buf[9] === 0xAB) {
+                var sum = 0; for (var j = 2; j < 8; j++) sum += buf[j];
+                if ((sum & 0xFF) === buf[8]) onPM(((buf[3] << 8) | buf[2]) / 10, ((buf[5] << 8) | buf[4]) / 10);
+                buf = [];
+              }
+            }
+          }
+        } catch (e) { L.log('warn', 'SDS011: ' + e.message); } finally { rd.releaseLock(); }
+      }
+    } catch (e) { L.log('warn', 'SDS011: ' + (e.message || e)); }
+  };
+  $('pxPmSim').onchange = function () {
+    clearInterval(pm.simT); pm.simT = null;
+    if (this.checked) { var v = 450; pm.simT = setInterval(function () { v = Math.max(120, Math.min(980, v + (Math.random() - 0.48) * 60)); onPM(v * 0.45, v); }, 1000); }
+  };
 
   /* ---------- ⑨ 紧急时推送最近的急救物品（手机 → 手表） ---------- */
   var KEY_AID = 'shk3_aidpts', aidDone = {};

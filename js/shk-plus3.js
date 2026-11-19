@@ -26,6 +26,10 @@
   setInterval(syncAid, 20000);
   if (tr) tr.on(function (m) {
     if (m.type === 'fa_cert' && m.rec) { var all = jget('shk3_fa_records', []); if (!all.some(function (r) { return r.ts === m.rec.ts && r.name === m.rec.name; })) { all.push(m.rec); jset('shk3_fa_records', all.slice(-1000)); } if (P.current() === 'aid') P.render('aid'); }
+    if (m.type === 'presence' && Array.isArray(m.list)) { var pr = jget('shk3_px_presence', {}); m.list.forEach(function (x) { pr[x.key] = { who: x.who, zone: x.zone, site: x.site, at: x.at || Date.now() }; }); jset('shk3_px_presence', pr); }
+    if (m.type === 'env_dust' && m.zone) { var pm = jget('shk3_px_pm', {}); pm[m.zone] = { pm25: m.pm25, pm10: m.pm10, mg: m.mg, sim: m.sim, site: m.site, at: Date.now() }; jset('shk3_px_pm', pm); }
+    if (m.type === 'dustcfg' && m.cfg) jset('shk3_dust_zones', m.cfg);
+    if ((m.type === 'presence' || m.type === 'env_dust') && P.current() === 'dust' && Date.now() - (renderDust.last || 0) > 8000) { renderDust.last = Date.now(); P.render('dust'); }
     if (m.type === 'event' && (m.kind === 'dust_dose' || m.kind === 'aid_route') && P.current() === (m.kind === 'aid_route' ? 'aid' : 'dust')) P.render(P.current());
   });
   function nearest(site, x, y, list) {
@@ -136,31 +140,34 @@
   }
   var DU = {
     zh: { t: '粉尘个人吸入量 · 职业健康档案', s: '墙上的仪器只知道车间浓度，工人却是走动的：按“谁在哪个区域待了多久、有没有戴口罩”算出每人今天的 8 小时加权平均暴露（TWA）占限值多少、估算实际吸入量，到 50 / 80 / 100 % 自动通知本人手机和手表',
+      live: '实时：谁在哪个区域（手表）· 区域传感器', l_who: '工人', l_zone: '区域', l_ago: '更新', l_none: '还没有收到手表位置：在现场端填「本机区域」并连接手表', pm_t: '粉尘传感器', src_w: '⌚ 手表区域', src_c: '📷 摄像头', c_src: '位置来源',
       k1: '今日超过 80 % 的人', k2: '今日最高', k3: '粉尘区口罩佩戴率', k4: '今日通知', zc: '粉尘区域设置', c_z: '区域（与现场端区域名一致）', c_sub: '物质', c_oel: '限值 TWA mg/m³', c_c: '浓度 mg/m³', c_apf: '口罩防护系数', add: '＋ 添加区域', save: '保存并同步到现场端', del: '删除',
       ex: '今日个人暴露', c_w: '工人', c_t: '粉尘区停留', c_m: '戴口罩', c_twa: 'TWA mg/m³', c_p: '占限值', c_i: '估算吸入量', c_s: '状态', c_n: '通知',
       s0: '正常', s50: '≥50 %：全程戴口罩', s80: '≥80 %：建议调岗 / 休息', s100: '≥100 %：立即离开粉尘区', notify: '📲 通知', sent: '已发送', wk: '近 7 天职业健康档案', wk_avg: '7 天平均',
       n50: '今日粉尘暴露已达限值一半，请全程佩戴防尘口罩。', n80: '今日粉尘暴露已达限值 80%，建议离开粉尘区休息或调岗。', n100: '今日粉尘暴露已达到限值，请立即离开粉尘区。', n0: '今日粉尘暴露正常，请继续佩戴口罩。',
-      how: 'TWA = Σ(区域浓度 × 停留小时) ÷ 8；不同物质按各自限值折算后相加。估算吸入量 = 浓度 × 呼吸量 1.25 m³/h（约 8 小时 10 m³，轻中度劳动假设）× 时间；戴口罩的时间按防护系数折算（半面型防尘口罩默认 10，可改）。停留时间来自现场端摄像头（区域 = 画的危险区域名或画面九宫格），口罩来自 PPE 模型的 Mask / NO-Mask。',
+      how: 'TWA = Σ(区域浓度 × 停留小时) ÷ 8；不同物质按各自限值折算后相加。估算吸入量 = 浓度 × 呼吸量 1.25 m³/h（约 8 小时 10 m³，轻中度劳动假设）× 时间；戴口罩的时间按防护系数折算（半面型防尘口罩默认 10，可改）。停留时间优先用手表区域（每个区域一台现场电脑当蓝牙接收器，手表连在哪台 = 人在哪个区域，约 10 m）；没戴手表的人用摄像头（危险区域名或九宫格）。浓度可以手填，也可以由现场端接的 SDS011 粉尘传感器自动更新。口罩来自 PPE 模型的 Mask / NO-Mask。',
       ev: 'TWA 定义与计算式依据韩国《化学物质及物理因子暴露标准》：以 1 日 8 小时为基准，测定值乘以发生时间之和再除以 8。默认限值请按本国最新标准确认；本页是基于传感器的估算，不能代替依法委托机构进行的作业环境测定。' },
     ko: { t: '분진 개인 흡입량 · 직업건강 기록', s: '벽에 단 측정기는 공정 농도만 알지만 근로자는 움직입니다. "누가 어느 구역에 얼마나 있었고 마스크를 썼는지"로 오늘 8시간 시간가중평균(TWA)이 기준의 몇 %인지, 실제 흡입량을 추정하고 50/80/100%에서 본인 휴대폰·워치로 알립니다',
+      live: '실시간: 누가 어느 구역에(워치) · 구역 센서', l_who: '근로자', l_zone: '구역', l_ago: '갱신', l_none: '아직 워치 위치 없음: 현장 화면에서 「이 PC 구역」을 입력하고 워치를 연결하세요', pm_t: '분진 센서', src_w: '⌚ 워치 구역', src_c: '📷 카메라', c_src: '위치 출처',
       k1: '오늘 80% 초과 인원', k2: '오늘 최고', k3: '분진 구역 마스크 착용률', k4: '오늘 알림', zc: '분진 구역 설정', c_z: '구역(현장 화면 구역명과 동일)', c_sub: '물질', c_oel: '노출기준 TWA mg/m³', c_c: '농도 mg/m³', c_apf: '마스크 보호계수', add: '＋ 구역 추가', save: '저장·현장 동기화', del: '삭제',
       ex: '오늘 개인 노출', c_w: '근로자', c_t: '분진 구역 체류', c_m: '마스크', c_twa: 'TWA mg/m³', c_p: '기준 대비', c_i: '추정 흡입량', c_s: '상태', c_n: '알림',
       s0: '정상', s50: '50% 이상: 마스크 계속 착용', s80: '80% 이상: 작업 전환·휴식 권고', s100: '100% 이상: 즉시 분진 구역 이탈', notify: '📲 알림', sent: '보냄', wk: '최근 7일 직업건강 기록', wk_avg: '7일 평균',
       n50: '오늘 분진 노출이 기준의 절반입니다. 방진마스크를 계속 착용하세요.', n80: '오늘 분진 노출이 기준의 80%입니다. 분진 구역을 벗어나 쉬거나 작업 전환을 권합니다.', n100: '오늘 분진 노출이 기준에 도달했습니다. 즉시 분진 구역을 벗어나세요.', n0: '오늘 분진 노출은 정상입니다. 마스크를 계속 착용하세요.',
-      how: 'TWA = Σ(구역 농도 × 체류 시간) ÷ 8. 물질이 다르면 각 기준으로 환산해 합산. 추정 흡입량 = 농도 × 호흡량 1.25 m³/h(8시간 약 10 m³, 경·중등도 작업 가정) × 시간, 마스크 착용 시간은 보호계수로 나눔(반면형 방진마스크 기본 10, 변경 가능). 체류 시간은 현장 화면 카메라(구역 = 그린 위험구역명 또는 화면 9칸), 마스크는 PPE 모델 Mask / NO-Mask.',
+      how: 'TWA = Σ(구역 농도 × 체류 시간) ÷ 8. 물질이 다르면 각 기준으로 환산해 합산. 추정 흡입량 = 농도 × 호흡량 1.25 m³/h(8시간 약 10 m³, 경·중등도 작업 가정) × 시간, 마스크 착용 시간은 보호계수로 나눔(반면형 방진마스크 기본 10, 변경 가능). 체류 시간은 워치 구역을 우선 사용(구역마다 현장 PC 1대가 블루투스 수신기, 워치가 연결된 PC = 그 구역, 약 10 m), 워치가 없으면 카메라(위험구역명 또는 9칸). 농도는 직접 입력하거나 현장 PC에 연결한 SDS011 분진 센서로 자동 갱신. 마스크는 PPE 모델 Mask / NO-Mask.',
       ev: 'TWA 정의·계산식은 「화학물질 및 물리적인자의 노출기준」: 1일 8시간 기준으로 측정치에 발생시간을 곱해 더한 뒤 8로 나눕니다. 기본 노출기준 값은 최신 고시로 확인하세요. 이 페이지는 센서 기반 추정이며 법정 작업환경측정을 대신하지 않습니다.' },
     en: { t: 'Personal dust intake · health record', s: 'A wall monitor knows the room, but workers move. From who stayed in which zone, for how long and with or without a mask, we estimate each worker\'s 8-hour TWA as a share of the limit and their inhaled dose, and notify their phone and watch at 50 / 80 / 100 %',
+      live: 'Live: who is in which zone (watch) · zone sensors', l_who: 'Worker', l_zone: 'Zone', l_ago: 'Updated', l_none: 'No watch positions yet: set “This PC\'s zone” in the field app and connect a watch', pm_t: 'Dust sensor', src_w: '⌚ Watch zone', src_c: '📷 Camera', c_src: 'Location source',
       k1: 'Over 80 % today', k2: 'Highest today', k3: 'Mask wear in dust zones', k4: 'Notifications today', zc: 'Dust zone settings', c_z: 'Zone (same name as in the field app)', c_sub: 'Substance', c_oel: 'Limit TWA mg/m³', c_c: 'Conc. mg/m³', c_apf: 'Mask protection factor', add: '＋ Add zone', save: 'Save & sync to field', del: 'Delete',
       ex: 'Personal exposure today', c_w: 'Worker', c_t: 'Time in dust', c_m: 'Mask', c_twa: 'TWA mg/m³', c_p: '% of limit', c_i: 'Est. inhaled', c_s: 'Status', c_n: 'Notify',
       s0: 'Normal', s50: '≥50 %: keep mask on', s80: '≥80 %: rotate / rest', s100: '≥100 %: leave dust area now', notify: '📲 Notify', sent: 'Sent', wk: '7-day occupational health record', wk_avg: '7-day mean',
       n50: 'Your dust exposure today is half the limit. Keep your dust mask on.', n80: 'Your dust exposure today is 80% of the limit. Leave the dust area for a break or switch tasks.', n100: 'Your dust exposure today has reached the limit. Leave the dust area now.', n0: 'Your dust exposure today is normal. Keep wearing your mask.',
-      how: 'TWA = Σ(zone concentration × hours) ÷ 8; different substances are each scaled to their own limit and summed. Estimated intake = concentration × breathing 1.25 m³/h (≈10 m³ per 8 h, light–moderate work) × time; masked time is divided by the protection factor (half-mask default 10, editable). Time comes from the field camera (zone = drawn danger-zone name or 3×3 cell); mask from the PPE model\'s Mask / NO-Mask.',
+      how: 'TWA = Σ(zone concentration × hours) ÷ 8; different substances are each scaled to their own limit and summed. Estimated intake = concentration × breathing 1.25 m³/h (≈10 m³ per 8 h, light–moderate work) × time; masked time is divided by the protection factor (half-mask default 10, editable). Time comes first from the watch zone (one field PC per zone acts as the Bluetooth receiver; the PC a watch is connected to = the zone, ≈10 m), otherwise from the camera (danger-zone name or 3×3 cell). Concentration is typed in or updated by an SDS011 dust sensor on the field PC. Mask from the PPE model\'s Mask / NO-Mask.',
       ev: 'TWA definition and formula follow Korea\'s exposure standards for chemical and physical agents: over an 8-hour day, the sum of each measured level times its duration, divided by 8. Check default limits against the latest national standard; this is a sensor-based estimate, not the statutory workplace environment measurement.' }
   };
   function renderDust(p, s0) {
     var s = DU[lang()], cfgR = jget('shk3_dust_zones', null), real = !!(cfgR && Object.keys(cfgR).length), cfg = real ? cfgR : DEMO_DZ;
     var expR = jget('shk3_dust_expo', {}), expReal = Object.keys(expR).length > 0, exp = expReal ? expR : demoExpo(), today = exp[dayKey(Date.now())] || {};
-    var rows = Object.keys(today).map(function (k) { var c = calc(today[k], cfg); c.k = k; c.who = today[k].who || k; return c; }).sort(function (a, b) { return b.pct - a.pct; });
+    var rows = Object.keys(today).map(function (k) { var c = calc(today[k], cfg); c.k = k; c.who = today[k].who || k; c.src = today[k].src || (expReal ? 'cam' : 'watch'); return c; }).sort(function (a, b) { return b.pct - a.pct; });
     var stOf = function (pct) { return pct >= 100 ? 100 : pct >= 80 ? 80 : pct >= 50 ? 50 : 0; }, col = { 0: 'var(--g)', 50: '#F5B400', 80: 'var(--w)', 100: 'var(--r)' };
     var tAll = rows.reduce(function (a, r) { return a + r.t; }, 0), mAll = rows.reduce(function (a, r) { return a + r.t * r.mask; }, 0);
     var notes = jget('shk3_px_events', []).filter(function (e) { return (e.kind === 'dust_dose' || e.kind === 'dust_mask') && e.ts >= new Date(new Date().toDateString()).getTime(); }).length + jget('shk3_px_dustnt', []).filter(function (x) { return x.ts >= new Date(new Date().toDateString()).getTime(); }).length;
@@ -171,10 +178,10 @@
     p.innerHTML = H.hd(s.t, s.s, H.srcBadge(expReal ? rows.length : 0, s0)) +
       '<div class="kpi-row rv">' + H.kpi('red', s.k1, rows.filter(function (r) { return r.pct >= 80; }).length) + H.kpi('amber', s.k2, (rows[0] ? rows[0].pct : 0) + '<small style="font-size:1rem">%</small>', rows[0] ? esc(rows[0].who) : '') +
       H.kpi('blue', s.k3, (tAll ? Math.round(mAll / tAll * 100) : 0) + '<small style="font-size:1rem">%</small>') + H.kpi('green', s.k4, notes) + '</div>' +
-      '<div class="worker-table-wrap rv"><table class="px-t"><tr><th>' + s.c_w + '</th><th>' + s.c_t + '</th><th>' + s.c_m + '</th><th>' + s.c_twa + '</th><th>' + s.c_p + '</th><th>' + s.c_i + '</th><th>' + s.c_s + '</th><th>' + s.c_n + '</th></tr>' +
-      (rows.length ? rows.map(function (r) { var st = stOf(r.pct); return '<tr><td><b>' + esc(r.who) + '</b><br><small style="color:var(--ink4)">' + esc(r.k) + '</small></td><td>' + hrs(r.t) + '</td><td>' + Math.round(r.mask * 100) + '%</td><td>' + r.twa.toFixed(2) + '</td>' +
+      liveCard(s) + '<div class="worker-table-wrap rv"><table class="px-t"><tr><th>' + s.c_w + '</th><th>' + s.c_src + '</th><th>' + s.c_t + '</th><th>' + s.c_m + '</th><th>' + s.c_twa + '</th><th>' + s.c_p + '</th><th>' + s.c_i + '</th><th>' + s.c_s + '</th><th>' + s.c_n + '</th></tr>' +
+      (rows.length ? rows.map(function (r) { var st = stOf(r.pct); return '<tr><td><b>' + esc(r.who) + '</b><br><small style="color:var(--ink4)">' + esc(r.k) + '</small></td><td style="font-size:.76rem">' + (r.src === 'watch' ? s.src_w : s.src_c) + '</td><td>' + hrs(r.t) + '</td><td>' + Math.round(r.mask * 100) + '%</td><td>' + r.twa.toFixed(2) + '</td>' +
         '<td><div style="display:flex;gap:6px;align-items:center"><div class="px-bar" style="width:90px"><i style="width:' + Math.min(100, r.pct) + '%;background:' + col[st] + '"></i></div><b style="color:' + col[st] + '">' + r.pct + '%</b></div></td><td>' + r.inh.toFixed(1) + ' mg</td>' +
-        '<td><span class="px-pill" style="background:' + col[st] + ';color:#fff">' + s['s' + st] + '</span></td><td><button class="px-btn g" style="padding:4px 9px;font-size:.72rem" data-nt="' + esc(r.k) + '" data-p="' + st + '">' + s.notify + '</button></td></tr>'; }).join('') : '<tr><td colspan="8">—</td></tr>') + '</table></div>' +
+        '<td><span class="px-pill" style="background:' + col[st] + ';color:#fff">' + s['s' + st] + '</span></td><td><button class="px-btn g" style="padding:4px 9px;font-size:.72rem" data-nt="' + esc(r.k) + '" data-p="' + st + '">' + s.notify + '</button></td></tr>'; }).join('') : '<tr><td colspan="9">—</td></tr>') + '</table></div>' +
       '<div class="rv" style="display:grid;gap:16px;margin-top:16px"><div class="card" style="overflow-x:auto"><div class="card-title">' + s.wk + '</div><table class="px-t"><tr><th></th>' + days.map(function (d) { return '<th style="font-size:.66rem">' + d.split('-').slice(1).join('/') + '</th>'; }).join('') + '<th>' + s.wk_avg + '</th></tr>' +
       Object.keys(today).concat(Object.keys(exp[days[0]] || {})).filter(function (v, i, a) { return a.indexOf(v) === i; }).map(function (k) {
         var ps = days.map(function (d) { var r = exp[d] && exp[d][k]; return r ? calc(r, cfg).pct : null; }), vals = ps.filter(function (x) { return x != null; }), avg = vals.length ? Math.round(vals.reduce(function (a, b) { return a + b; }, 0) / vals.length) : 0;
@@ -200,6 +207,14 @@
       var lv = +b.dataset.p, body = s['n' + lv]; send({ type: 'notify', to: b.dataset.nt, level: lv >= 100 ? 'danger' : lv ? 'warn' : 'info', title: '🌫 ' + T({ zh: '粉尘暴露', ko: '분진 노출', en: 'Dust exposure' }), body: body, sticky: lv >= 100 });
       var l = jget('shk3_px_dustnt', []); l.push({ ts: Date.now(), to: b.dataset.nt, lv: lv }); jset('shk3_px_dustnt', l.slice(-500)); b.textContent = s.sent; b.disabled = true;
     }; });
+  }
+  function liveCard(s) {
+    var pr = jget('shk3_px_presence', {}), pm = jget('shk3_px_pm', {}), now = Date.now();
+    var ks = Object.keys(pr).filter(function (k) { return now - pr[k].at < 120000; });
+    var ago = function (t) { var x = Math.round((now - t) / 1000); return x < 60 ? x + 's' : Math.round(x / 60) + 'm'; };
+    return '<div class="grid-2 rv" style="margin-bottom:16px"><div class="card"><div class="card-title">📍 ' + s.live + '</div>' +
+      (ks.length ? '<table class="px-t"><tr><th>' + s.l_who + '</th><th>' + s.l_zone + '</th><th>' + s.l_ago + '</th></tr>' + ks.map(function (k) { return '<tr><td><b>' + esc(pr[k].who) + '</b></td><td>⌚ ' + esc(pr[k].zone) + '</td><td>' + ago(pr[k].at) + '</td></tr>'; }).join('') + '</table>' : '<div class="px-how">' + s.l_none + '</div>') + '</div>' +
+      '<div class="card"><div class="card-title">🌫 ' + s.pm_t + '</div>' + (Object.keys(pm).length ? '<table class="px-t">' + Object.keys(pm).map(function (z) { var x = pm[z]; return '<tr><td><b>' + esc(z) + '</b>' + (x.sim ? ' <small>(SIM)</small>' : '') + '</td><td class="mono">PM2.5 ' + (+x.pm25).toFixed(0) + ' · PM10 ' + (+x.pm10).toFixed(0) + ' μg/m³</td><td><b>' + (+x.mg).toFixed(3) + '</b> mg/m³</td><td>' + ago(x.at) + '</td></tr>'; }).join('') + '</table>' : '<div class="px-how">SDS011 → live.html · 🌫</div>') + '</div></div>';
   }
   function dzRow(z, c, s) {
     return '<tr data-dz><td><input class="px-in" data-dzz list="dz-known" value="' + esc(z) + '" style="width:170px;padding:5px 8px"></td><td><select class="px-in" data-dzsub style="padding:5px">' + Object.keys(SUB).map(function (k) { return '<option value="' + k + '"' + (k === c.sub ? ' selected' : '') + '>' + esc(T(SUB[k].n)) + '</option>'; }).join('') + '</select></td>' +
