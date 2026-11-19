@@ -95,6 +95,7 @@
       ev: 'Risk assessment is required by Art. 36 of the Korean OSH Act and records are kept 3 years (Enforcement Rule Art. 37); near-misses and past accidents must be added when identifying hazards, and a risk assessment can fulfil the hazard identification and improvement duty of Art. 4(3) of the Serious Accidents Punishment Act Enforcement Decree.' }
   };
   var raDays = 7, raDraft = null;
+  window.SHKPlus2RA = function () { if (!raDraft || raDraft.days !== raDays) { raDraft = buildRows(raDays); raDraft.lang = lang(); } return raDraft.rows; };
   function detTxt(r, s) { return r.ty === 'heat' ? '' : r.ty === 'msd' ? T({ zh: '姿势样本 ', ko: '자세 표본 ', en: 'posture samples ' }) + r.n : s.det.replace('{n}', r.n); }
   function buildRows(days) {
     var g = gather(days), map = {};
@@ -110,7 +111,9 @@
     if (at >= 31) rows.push({ ty: 'heat', zone: T({ zh: '全厂', ko: '전체', en: 'Whole site' }), n: 1, l: at >= 33 ? 3 : 2, ex: [T({ zh: '体感温度 ', ko: '체감온도 ', en: 'Feels-like ' }) + at.toFixed(1) + '℃'] });
     rows.forEach(function (r) {
       r.s = (TY[r.ty] || TY.other).sev; if (r.ty === 'heat' && at >= 35) r.s = 3;
-      r.r = r.l * r.s; r.haz = tyName(r.ty); r.m = T((TY[r.ty] || TY.other).m).slice(); r.id = (r.ty + '|' + r.zone).replace(/\s+/g, '');
+      r.id = (r.ty + '|' + r.zone).replace(/\s+/g, '');
+      var cs = window.SHKCapa && SHKCapa.statusFor(r.id); r.cap = cs; if (cs && cs.st === 'closed') { r.fixed = true; r.l = Math.max(1, r.l - 1); }   // 已整改：剩余风险，可能性降一级
+      r.r = r.l * r.s; r.haz = tyName(r.ty); r.m = T((TY[r.ty] || TY.other).m).slice();
     });
     rows.sort(function (a, b) { return b.r - a.r || b.n - a.n; });
     return { rows: rows, real: g.real, created: Date.now(), days: days, conf: {} };
@@ -130,7 +133,7 @@
         return '<tr><td>' + (i + 1) + '</td><td><b>' + esc(r.zone) + '</b></td><td><b>' + esc(r.haz) + '</b>' + (r.desc ? '<br><span style="font-size:.78rem">' + esc(r.desc) + '</span>' : '') +
           '<br><small style="color:var(--ink4)">' + esc(detTxt(r, s)) + (r.ex.length ? (detTxt(r, s) ? ' · ' : '') + r.ex.map(esc).join(' / ') : '') + '</small></td>' +
           '<td>' + r.l + '</td><td>' + r.s + '</td><td><span class="px-pill" style="background:' + riskCol(r.r) + ';color:#fff">' + r.r + ' ' + riskTxt(r.r) + '</span></td>' +
-          '<td style="font-size:.78rem;min-width:220px">' + r.m.map(function (m) { return '• ' + esc(m); }).join('<br>') + '</td><td style="font-size:.76rem">' + (r.r >= 6 ? s.due_h : s.due) + '</td>' +
+          '<td style="font-size:.78rem;min-width:220px">' + r.m.map(function (m) { return '• ' + esc(m); }).join('<br>') + '</td><td style="font-size:.76rem">' + (r.r >= 6 ? s.due_h : s.due) + (r.fixed ? '<br><b style="color:var(--g)">✓ ' + T({ zh: '已整改', ko: '개선 완료', en: 'Fixed' }) + '</b>' : r.cap ? '<br><b style="color:var(--w)">🧾 ' + T({ zh: '整改中', ko: '개선 중', en: 'In progress' }) + '</b>' : '') + '</td>' +
           '<td style="font-size:.76rem">' + cf.map(function (n) { return '✓ ' + esc(n); }).join('<br>') + ' <button class="px-btn g" style="padding:4px 9px;font-size:.72rem" data-cf="' + esc(r.id) + '">' + s.conf + '</button></td></tr>';
       }).join('') : '<tr><td colspan="9">' + s.nohaz + '</td></tr>') + '</table></div>' +
       '<div class="card rv" style="margin-top:16px"><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="px-btn" id="ra-save">' + s.save + '</button><button class="px-btn g" id="ra-print">' + s.print + '</button><button class="px-btn g" id="ra-csv">' + s.csv + '</button></div>' +
@@ -295,28 +298,28 @@
       per: '期间', d30: '最近 30 天', d90: '最近 90 天', d180: '最近 180 天', site: '事业场名称', k1: '检测到的危险', k2: '已处理 / 确认', k3: '风险评估（工人参与）', k4: '工人意见与上报',
       k5: '上岗前适岗检测', k6: '高温休息记录', law: '施行令第 4 条 · 安全保健管理体系 9 项', auto: '自动证据', part: '部分证据', man: '需人工确认', done: '已确认', note: '备注 / 文件位置',
       tl: '时间线（最近 60 条）', c_t: '时间', c_c: '类别', c_x: '内容', inc: '事故详情：选择一条危险警报，查看前后 30 分钟', inc_none: '没有危险等级的警报', print: '🖨 打印 / PDF', json: '⬇ 导出 JSON', ai: '🤖 AI 写履行情况摘要', aiing: '大模型撰写中…',
-      cat: { fa: '急救培训结业', alert: '危险检测', clear: '处理 / 确认', ra: '风险评估', pvt: '适岗检测', heat: '高温休息', rep: '工人上报', vrep: '母语上报', qa: '母语问答', bc: '多语广播', permit: '作业票' },
+      cat: { capa: '整改', drill: '应急演练', ho: '交接班', fa: '急救培训结业', alert: '危险检测', clear: '处理 / 确认', ra: '风险评估', pvt: '适岗检测', heat: '高温休息', rep: '工人上报', vrep: '母语上报', qa: '母语问答', bc: '多语广播', permit: '作业票' },
       disc: '本页整理的是系统中的客观记录，是否满足法律义务以劳务师 / 律师的判断为准。',
       items: [['安全·保健目标与经营方针', 'man'], ['安全·保健业务专职组织（规模达标的企业）', 'man'], ['确认·改善危险因素的程序，半年 1 次以上检查（风险评估可代替）', 'ra'], ['安全·保健预算编制与执行', 'man'],
-        ['安全保健管理责任人的权限、预算与半年 1 次评估', 'man'], ['配置安全管理人员等', 'man'], ['听取从业人员意见的程序，半年 1 次以上检查', 'voice'], ['重大产业灾害（紧急危险）应对手册，半年 1 次以上检查', 'emg'], ['承包 / 外包时的安全保健标准与程序', 'man']],
+        ['安全保健管理责任人的权限、预算与半年 1 次评估', 'man'], ['配置安全管理人员等', 'man'], ['听取从业人员意见的程序，半年 1 次以上检查', 'voice'], ['重大产业灾害（紧急危险）应对手册，半年 1 次以上检查', 'emg'], ['承包 / 外包时的安全保健标准与程序', 'contract']],
       ev: '2024 年 1 月 27 日起，5 人以上 50 人以下的企业也适用《重大灾害处罚法》，须建立并履行安全保健管理体系；即使发生重大灾害，只要履行了安全·保健确保义务，就不会受到处罚。' },
     ko: { t: '의무 이행 증빙 패키지(중대재해처벌법)', s: '평소 "무엇을 했는지"를 자동 기록: 위험 감지와 조치, 위험성평가와 근로자 참여, 휴식·적합성 검사, 종사자 의견. 사고 시 타임라인을 바로 내보내 안전보건 확보의무 이행을 증빙',
       per: '기간', d30: '최근 30일', d90: '최근 90일', d180: '최근 180일', site: '사업장명', k1: '감지된 위험', k2: '조치 / 확인', k3: '위험성평가(근로자 참여)', k4: '종사자 의견·신고',
       k5: '작업 전 적합성 검사', k6: '폭염 휴식 기록', law: '시행령 제4조 · 안전보건관리체계 9개 항목', auto: '자동 증빙', part: '일부 증빙', man: '수동 확인 필요', done: '확인함', note: '비고 / 문서 위치',
       tl: '타임라인(최근 60건)', c_t: '시간', c_c: '구분', c_x: '내용', inc: '사고 상세: 위험 경보를 선택해 전후 30분 확인', inc_none: '위험 등급 경보 없음', print: '🖨 인쇄 / PDF', json: '⬇ JSON 내보내기', ai: '🤖 AI 이행 현황 요약', aiing: 'AI 작성 중…',
-      cat: { fa: '응급처치 교육 수료', alert: '위험 감지', clear: '조치 / 확인', ra: '위험성평가', pvt: '적합성 검사', heat: '폭염 휴식', rep: '근로자 신고', vrep: '모국어 신고', qa: '모국어 질의', bc: '다국어 방송', permit: '작업허가' },
+      cat: { capa: '개선 조치', drill: '비상 훈련', ho: '인수인계', fa: '응급처치 교육 수료', alert: '위험 감지', clear: '조치 / 확인', ra: '위험성평가', pvt: '적합성 검사', heat: '폭염 휴식', rep: '근로자 신고', vrep: '모국어 신고', qa: '모국어 질의', bc: '다국어 방송', permit: '작업허가' },
       disc: '이 페이지는 시스템의 객관적 기록을 정리한 것이며, 법적 의무 충족 여부는 노무사·변호사의 판단에 따릅니다.',
       items: [['안전·보건 목표와 경영방침 설정', 'man'], ['안전·보건 업무 총괄·관리 전담 조직(해당 규모)', 'man'], ['유해·위험요인 확인·개선 절차, 반기 1회 이상 점검(위험성평가로 갈음 가능)', 'ra'], ['안전·보건 예산 편성·집행', 'man'],
-        ['안전보건관리책임자 등의 권한·예산, 반기 1회 평가', 'man'], ['안전관리자 등 배치', 'man'], ['종사자 의견 청취 절차, 반기 1회 이상 점검', 'voice'], ['중대산업재해(급박한 위험) 대비 매뉴얼, 반기 1회 이상 점검', 'emg'], ['도급·용역 시 안전보건 기준·절차', 'man']],
+        ['안전보건관리책임자 등의 권한·예산, 반기 1회 평가', 'man'], ['안전관리자 등 배치', 'man'], ['종사자 의견 청취 절차, 반기 1회 이상 점검', 'voice'], ['중대산업재해(급박한 위험) 대비 매뉴얼, 반기 1회 이상 점검', 'emg'], ['도급·용역 시 안전보건 기준·절차', 'contract']],
       ev: '2024년 1월 27일부터 상시근로자 5~50명 미만 사업장도 중대재해처벌법 적용 대상이며 안전보건관리체계를 구축·이행해야 합니다. 중대재해가 발생해도 안전·보건 확보 의무를 이행했다면 처벌로 이어지지 않습니다.' },
     en: { t: 'Duty-of-care evidence pack (Serious Accidents Punishment Act)', s: 'Records what you did, every day: hazards detected and handled, risk assessments with worker participation, breaks and fitness checks, worker input. After an incident, export the timeline that shows the safety duties were met',
       per: 'Period', d30: 'Last 30 days', d90: 'Last 90 days', d180: 'Last 180 days', site: 'Workplace', k1: 'Hazards detected', k2: 'Handled / acknowledged', k3: 'Risk assessments (worker sign-offs)', k4: 'Worker input & reports',
       k5: 'Pre-shift fitness checks', k6: 'Heat breaks logged', law: 'Enforcement Decree Art. 4 · 9 elements of the safety & health system', auto: 'Auto evidence', part: 'Partial evidence', man: 'Manual check', done: 'Confirmed', note: 'Note / where the document is',
       tl: 'Timeline (latest 60)', c_t: 'Time', c_c: 'Type', c_x: 'Details', inc: 'Incident view: pick a danger alert to see ±30 minutes', inc_none: 'No danger-level alerts', print: '🖨 Print / PDF', json: '⬇ Export JSON', ai: '🤖 AI summary of compliance', aiing: 'AI is writing…',
-      cat: { fa: 'First-aid training', alert: 'Hazard detected', clear: 'Handled', ra: 'Risk assessment', pvt: 'Fitness check', heat: 'Heat break', rep: 'Worker report', vrep: 'Native-language report', qa: 'Native-language Q&A', bc: 'Multilingual broadcast', permit: 'Work permit' },
+      cat: { capa: 'Corrective action', drill: 'Emergency drill', ho: 'Handover', fa: 'First-aid training', alert: 'Hazard detected', clear: 'Handled', ra: 'Risk assessment', pvt: 'Fitness check', heat: 'Heat break', rep: 'Worker report', vrep: 'Native-language report', qa: 'Native-language Q&A', bc: 'Multilingual broadcast', permit: 'Work permit' },
       disc: 'This page compiles objective system records; whether legal duties are met is for a labour attorney or lawyer to judge.',
       items: [['Safety & health goals and management policy', 'man'], ['Dedicated safety & health organisation (where size requires)', 'man'], ['Procedure to identify and fix hazards, checked at least every half-year (a risk assessment can replace it)', 'ra'], ['Safety & health budget planned and spent', 'man'],
-        ['Authority, budget and half-yearly review of the safety & health managers', 'man'], ['Assign safety managers etc.', 'man'], ['Procedure to hear workers\' opinions, checked at least every half-year', 'voice'], ['Manual for serious accidents / imminent danger, checked at least every half-year', 'emg'], ['Safety & health criteria when contracting out', 'man']],
+        ['Authority, budget and half-yearly review of the safety & health managers', 'man'], ['Assign safety managers etc.', 'man'], ['Procedure to hear workers\' opinions, checked at least every half-year', 'voice'], ['Manual for serious accidents / imminent danger, checked at least every half-year', 'emg'], ['Safety & health criteria when contracting out', 'contract']],
       ev: 'Since 27 Jan 2024, firms with 5–49 workers are covered by the Serious Accidents Punishment Act and must build and run a safety & health management system; even if a serious accident occurs, meeting the safety and health duties means no punishment.' }
   };
   var evDays = 30;
@@ -328,6 +331,9 @@
     g.ev.forEach(function (x) { if (!al.some(function (a) { return Math.abs(a.ts - x.ts) < 1500 && a.kind === x.kind; })) out.push({ ts: x.ts, c: 'alert', x: (x.level === 'danger' ? '🔴 ' : '🟠 ') + (x.msg || tyName(KIND2TY[x.kind])) + (x.zone ? ' · ' + x.zone : ''), lvl: x.level, kind: x.kind }); });
     clr.forEach(function (x) { out.push({ ts: x.ts, c: 'clear', x: '✓ ' + (x.key || '') + (x.by ? ' · ' + x.by : '') }); });
     jget('shk3_ra_records', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'ra', x: x.rows.length + ' · ' + T({ zh: '工人确认 ', ko: '근로자 확인 ', en: 'sign-offs ' }) + x.workers.join(', ') }); });
+    jget('shk3_capa', []).forEach(function (x) { if (x.created >= since) out.push({ ts: x.created, c: 'capa', x: '🧾 ' + x.title + ' · ' + x.zone }); if (x.closedAt && x.closedAt >= since) out.push({ ts: x.closedAt, c: 'capa', x: '✓ ' + x.title + (x.note ? ' · ' + x.note : '') + (x.photo ? ' · 📷' : '') }); });
+    jget('shk3_drills', []).forEach(function (x) { if (x.t0 >= since) out.push({ ts: x.t0, c: 'drill', x: x.sc + ' · ' + x.where + ' · ' + Object.keys(x.laps).map(function (k) { return k + ' ' + x.laps[k] + 's'; }).join(', ') }); });
+    jget('shk3_handover', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'ho', x: (x.by || '') + ' → ' + (x.to || '') }); });
     jget('shk3_fa_records', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'fa', x: x.name + (x.code ? ' (' + x.code + ')' : '') + ' · ' + x.score + '/' + x.total + ' · CPR ' + x.rate + '/min · ' + (x.pass ? '✓' : '✕') }); });
     jget('shk3_pvt', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'pvt', x: x.who + ' · ' + x.med + ' ms · ' + (x.v === 'ok' ? '✓' : x.v === 'warn' ? '⚠' : '✕') }); });
     (H.heat().log || []).forEach(function (x) { if (x.ts >= since && (x.a === 'rest' || x.a === 'meas')) out.push({ ts: x.ts, c: 'heat', x: x.at.toFixed(1) + '℃ · ' + x.a }); });
@@ -343,9 +349,11 @@
     var s = EV[lang()], tl = timeline(evDays), L = tl.list, cnt = function (c) { return L.filter(function (x) { return x.c === c; }).length; };
     var recs = jget('shk3_ra_records', []).filter(function (x) { return x.ts >= Date.now() - evDays * DAY; }), signs = {}; recs.forEach(function (r) { r.workers.forEach(function (w) { signs[w] = 1; }); });
     var manual = jget('shk3_px_evman', {}), site = jget('shk3_px_site', '');
-    var autoSt = { ra: recs.length ? 'auto' : (cnt('alert') ? 'part' : 'man'), voice: (cnt('rep') + cnt('vrep') + Object.keys(signs).length) ? 'auto' : 'man', emg: cnt('alert') ? 'part' : 'man' };
+    var ppl0 = jget('shk3_px_people', {}), contractors = Object.keys(ppl0).filter(function (k) { return ppl0[k].type === 'contract' || ppl0[k].type === 'temp'; }).length;
+    var autoSt = { ra: recs.length ? 'auto' : (cnt('alert') ? 'part' : 'man'), voice: (cnt('rep') + cnt('vrep') + Object.keys(signs).length) ? 'auto' : 'man', emg: cnt('drill') ? 'auto' : cnt('alert') ? 'part' : 'man', contract: contractors ? 'part' : 'man' };
     var autoEv = { ra: recs.length + ' × ' + T({ zh: '风险评估', ko: '위험성평가', en: 'assessments' }) + ' · ' + cnt('alert') + ' × ' + s.cat.alert, voice: (cnt('rep') + cnt('vrep')) + ' × ' + s.cat.rep + ' · ' + Object.keys(signs).length + ' × ' + s.k3,
-      emg: T({ zh: '跌倒 / SOS 自动应急流程（询问 → 升级 → 广播 → 119）已启用', ko: '넘어짐·SOS 자동 대응 절차(질문 → 격상 → 방송 → 119) 운영', en: 'Automatic fall / SOS emergency flow (ask → escalate → broadcast → 119) in place' }) };
+      emg: T({ zh: '跌倒 / SOS 自动应急流程（询问 → 升级 → 广播 → 119）已启用 · 应急演练 ', ko: '넘어짐·SOS 자동 대응 절차(질문 → 격상 → 방송 → 119) 운영 · 비상 훈련 ', en: 'Automatic fall / SOS emergency flow (ask → escalate → broadcast → 119) in place · drills ' }) + cnt('drill'),
+      contract: T({ zh: '已登记外包 / 临时工 ', ko: '등록된 협력·임시 근로자 ', en: 'Contractors / temps registered: ' }) + contractors + T({ zh: '（纳入岗前急救培训、风险评估、师傅制度）', ko: '(응급처치 교육·위험성평가·멘토 제도 적용)', en: ' (covered by first-aid induction, risk assessment and mentors)' }) };
     var dangers = L.filter(function (x) { return x.c === 'alert' && x.lvl === 'danger'; }).slice(0, 20);
     var stCol = { auto: 'var(--g)', part: 'var(--w)', man: 'var(--ink4)' };
     p.innerHTML = H.hd(s.t, s.s, H.srcBadge(tl.real ? L.length : 0, s0)) +

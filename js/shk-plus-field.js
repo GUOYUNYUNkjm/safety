@@ -34,6 +34,9 @@
       ev_fused_fall: '📷+{src} 双源确认：{id} 跌倒', say_fused_fall: '紧急！{id}跌倒已被多个传感器确认，附近人员立即前往。',
       ev_dust_mask: '😷 {id} 在粉尘区「{zone}」未戴口罩', say_dust_mask: '{id}，这里粉尘浓度高，请立即戴好防尘口罩。',
       ev_dust_lv: '🌫 {who} 今日粉尘暴露已达限值的 {p}%（{zone}）', nt_dust_50: '今日粉尘暴露已达限值一半，请全程佩戴防尘口罩。', nt_dust_80: '今日粉尘暴露已达限值 80%，建议离开粉尘区休息或调岗。', nt_dust_100: '今日粉尘暴露已达到限值，请立即离开粉尘区。',
+      loto: '🔒 检修上锁', loto_on: '🔒 检修中（{by}）', loto_off: '解除上锁', loto_s: ['已断电', '已上锁', '已挂牌', '已验电确认无电'], loto_by: '确认人', loto_ok: '确认上锁', loto_need: '四项都要确认并填写确认人', ev_loto_in: '🔒 {id} 进入检修中的「{zone}」（已上锁，不报警）', ev_loto_on: '🔒「{zone}」检修上锁：{by}', ev_loto_off: '🔓「{zone}」解除上锁',
+      nz_mic: '用麦克风估算本区域噪声', nz_off: '校准偏移 dB', nz_val: '噪声 ≈ {v} dB', nt_noise_50: '今日噪声暴露已达允许量一半，请戴好耳塞 / 耳罩。', nt_noise_80: '今日噪声暴露已达允许量 80%，建议到安静区域休息。', nt_noise_100: '今日噪声暴露已达允许量，请离开高噪声区域。', ev_noise_lv: '🔊 {who} 今日噪声暴露 {p}%（{zone}）',
+      drill_t: '🚨【演练】', buddy_t: '👷 徒弟提醒', buddy_b: '你带的 {n}：{m}',
       rx_zone: '📍 本机区域', rx_ph: '例如 焊接区', rx_tip: '连到这台电脑的手表 = 人在这个区域（蓝牙约 10 m）', rx_here: '⌚ 在本区域：{n}', rx_none: '⌚ 本区域暂无手表',
       pm_conn: '🌫 连接粉尘传感器（SDS011）', pm_sim: '模拟读数', pm_cal: '校准系数', pm_use: '作为本区域浓度', pm_note: '光学 PM 传感器是指示值，与法定称重测定不同；校准系数按现场称重采样结果设置。', pm_nos: '这个浏览器不支持 Web Serial（请用电脑 Chrome / Edge）',
       aid_t: '🩹 最近的急救物品', aid_body: '{what}发生在 {where}。最近的 {list}。请附近人员带上前往。', aid_none: '还没有登记急救物品位置', aid_trained: '已培训急救员：{n}',
@@ -52,6 +55,9 @@
       ev_fused_fall: '📷+{src} 이중 확인: {id} 넘어짐', say_fused_fall: '긴급! {id} 넘어짐이 여러 센서로 확인되었습니다. 근처 인원은 즉시 가세요.',
       ev_dust_mask: '😷 {id} 분진 구역「{zone}」에서 마스크 미착용', say_dust_mask: '{id}, 이곳은 분진 농도가 높습니다. 방진마스크를 바로 착용하세요.',
       ev_dust_lv: '🌫 {who} 오늘 분진 노출이 기준의 {p}%에 도달({zone})', nt_dust_50: '오늘 분진 노출이 기준의 절반입니다. 방진마스크를 계속 착용하세요.', nt_dust_80: '오늘 분진 노출이 기준의 80%입니다. 분진 구역을 벗어나 쉬거나 작업 전환을 권합니다.', nt_dust_100: '오늘 분진 노출이 기준에 도달했습니다. 즉시 분진 구역을 벗어나세요.',
+      loto: '🔒 정비 잠금', loto_on: '🔒 정비 중({by})', loto_off: '잠금 해제', loto_s: ['전원 차단', '잠금', '표지 부착', '검전으로 무전압 확인'], loto_by: '확인자', loto_ok: '잠금 확인', loto_need: '네 항목 모두 확인하고 확인자를 입력하세요', ev_loto_in: '🔒 {id} 정비 중인「{zone}」진입(잠금 상태, 경보 없음)', ev_loto_on: '🔒「{zone}」정비 잠금: {by}', ev_loto_off: '🔓「{zone}」잠금 해제',
+      nz_mic: '마이크로 이 구역 소음 추정', nz_off: '보정 dB', nz_val: '소음 ≈ {v} dB', nt_noise_50: '오늘 소음 노출이 허용량의 절반입니다. 귀마개·귀덮개를 착용하세요.', nt_noise_80: '오늘 소음 노출이 허용량의 80%입니다. 조용한 곳에서 쉬세요.', nt_noise_100: '오늘 소음 노출이 허용량에 도달했습니다. 고소음 구역을 벗어나세요.', ev_noise_lv: '🔊 {who} 오늘 소음 노출 {p}%({zone})',
+      drill_t: '🚨[훈련]', buddy_t: '👷 멘티 알림', buddy_b: '담당 {n}: {m}',
       rx_zone: '📍 이 PC 구역', rx_ph: '예: 용접 구역', rx_tip: '이 PC에 연결된 워치 = 이 구역에 있음(블루투스 약 10 m)', rx_here: '⌚ 이 구역: {n}', rx_none: '⌚ 이 구역에 워치 없음',
       pm_conn: '🌫 분진 센서 연결(SDS011)', pm_sim: '모의 값', pm_cal: '보정계수', pm_use: '이 구역 농도로 사용', pm_note: '광학 PM 센서는 지시값이며 법정 중량 측정과 다릅니다. 보정계수는 현장 중량 시료 결과로 설정하세요.', pm_nos: '이 브라우저는 Web Serial을 지원하지 않습니다(PC Chrome / Edge 사용)',
       aid_t: '🩹 가장 가까운 응급용품', aid_body: '{where}에서 {what}. 가장 가까운 {list}. 근처 인원은 가지고 가세요.', aid_none: '등록된 응급용품 위치가 없습니다', aid_trained: '교육 이수 응급요원: {n}',
@@ -70,6 +76,9 @@
       ev_fused_fall: '📷+{src} two-source confirmed: {id} fell', say_fused_fall: 'Emergency! {id} fall confirmed by several sensors. People nearby, go now.',
       ev_dust_mask: '😷 {id} without a mask in dust zone "{zone}"', say_dust_mask: '{id}, dust is high here. Put on your dust mask now.',
       ev_dust_lv: '🌫 {who} has reached {p}% of today\'s dust limit ({zone})', nt_dust_50: 'Your dust exposure today is half the limit. Keep your dust mask on.', nt_dust_80: 'Your dust exposure today is 80% of the limit. Leave the dust area for a break or switch tasks.', nt_dust_100: 'Your dust exposure today has reached the limit. Leave the dust area now.',
+      loto: '🔒 Lock-out', loto_on: '🔒 Under maintenance ({by})', loto_off: 'Release', loto_s: ['Power off', 'Locked', 'Tagged', 'Verified dead'], loto_by: 'Confirmed by', loto_ok: 'Confirm lock-out', loto_need: 'Tick all four and enter who confirmed', ev_loto_in: '🔒 {id} entered "{zone}" under lock-out (no alarm)', ev_loto_on: '🔒 "{zone}" locked out: {by}', ev_loto_off: '🔓 "{zone}" lock-out released',
+      nz_mic: 'Estimate zone noise with the microphone', nz_off: 'Offset dB', nz_val: 'Noise ≈ {v} dB', nt_noise_50: 'Your noise dose today is half the limit. Wear ear plugs / muffs.', nt_noise_80: 'Your noise dose today is 80% of the limit. Rest in a quiet area.', nt_noise_100: 'Your noise dose today has reached the limit. Leave the noisy area.', ev_noise_lv: '🔊 {who} noise dose today {p}% ({zone})',
+      drill_t: '🚨 [DRILL]', buddy_t: '👷 Mentee alert', buddy_b: 'Your mentee {n}: {m}',
       rx_zone: '📍 This PC\'s zone', rx_ph: 'e.g. Welding', rx_tip: 'A watch connected to this PC = the person is in this zone (Bluetooth ≈10 m)', rx_here: '⌚ In this zone: {n}', rx_none: '⌚ No watch in this zone',
       pm_conn: '🌫 Connect dust sensor (SDS011)', pm_sim: 'Simulate', pm_cal: 'Calibration', pm_use: 'Use as zone concentration', pm_note: 'Optical PM sensors give indicative values, not the statutory gravimetric measurement; set the calibration factor from on-site gravimetric sampling.', pm_nos: 'This browser has no Web Serial (use desktop Chrome / Edge)',
       aid_t: '🩹 Nearest first-aid equipment', aid_body: '{what} at {where}. Nearest: {list}. People nearby, bring it.', aid_none: 'No first-aid locations registered yet', aid_trained: 'Trained first aiders: {n}',
@@ -111,7 +120,9 @@
   card.innerHTML = '<h3><span data-i18n="px_title"></span><span class="sp"></span><small class="muted" data-i18n="px_sub" style="font-weight:600"></small></h3>' +
     '<div class="row" style="gap:6px;flex-wrap:wrap;margin-bottom:8px"><button id="pxMz" data-i18n="px_mz"></button><button id="pxMzClr" data-i18n="px_mz_clear" style="display:none"></button>' +
     '<button id="pxMic" data-i18n="px_mic"></button><span id="pxDb" class="mono muted" style="font-size:12px"></span></div>' +
+    '<div id="pxMzList" style="font-size:12px"></div>' +
     '<div class="note" id="pxMicNote" style="display:none" data-i18n="px_mic_note"></div>' +
+    '<div class="row" style="gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px"><label class="row muted" style="gap:4px;font-size:12px"><input type="checkbox" id="pxNzMic"><span data-i18n="nz_mic"></span></label><label class="row muted" style="gap:4px;font-size:12px"><span data-i18n="nz_off"></span><input id="pxNzOff" type="number" step="1" style="width:60px"></label><span id="pxNzVal" class="mono" style="font-size:12px"></span></div>' +
     '<div style="border-top:1px solid var(--bdr);margin:8px 0;padding-top:8px"><div class="row" style="gap:6px;flex-wrap:wrap;align-items:center"><b data-i18n="rx_zone" style="font-size:12px"></b><input id="pxRx" list="pxRxL" style="width:150px" data-i18n-ph="rx_ph"><datalist id="pxRxL"></datalist><span id="pxRxHere" class="muted" style="font-size:12px"></span></div>' +
     '<div class="muted" style="font-size:11px;margin-top:3px" data-i18n="rx_tip"></div>' +
     '<div class="row" style="gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px"><button id="pxPm" data-i18n="pm_conn"></button><label class="row muted" style="gap:4px;font-size:12px"><input type="checkbox" id="pxPmSim"><span data-i18n="pm_sim"></span></label>' +
@@ -123,7 +134,24 @@
 
   /* ---------- ② 机器危险点：拖矩形 ---------- */
   var mzones = jget(KEY_MZ, []).filter(function (z) { return z && z.r && z.r.length === 4; }), drawing = null;
-  function saveMz() { jset(KEY_MZ, mzones); $('pxMzClr').style.display = mzones.length ? '' : 'none'; }
+  function saveMz() { jset(KEY_MZ, mzones); $('pxMzClr').style.display = mzones.length ? '' : 'none'; renderMz(); }
+  function logEv(kind, msg, zone) { var ev = jget('shk3_px_events', []); ev.push({ ts: Date.now(), kind: kind, level: 'info', msg: msg, site: L.site(), zone: zone || null }); jset('shk3_px_events', ev.slice(-2000)); L.log('info', msg); L.send({ type: 'event', kind: kind, level: 'info', msg: msg, zone: zone }); }
+  var lotoEdit = null;
+  function renderMz() {
+    var box = $('pxMzList'); if (!box) return;
+    box.innerHTML = mzones.map(function (z) {
+      if (lotoEdit === z.id) return '<div style="border:1px solid var(--bdr);border-radius:8px;padding:8px;margin-top:6px"><b>' + esc(z.name) + '</b><div class="row" style="gap:8px;flex-wrap:wrap;margin:4px 0">' + t('loto_s').map(function (x, i) { return '<label class="row" style="gap:3px"><input type="checkbox" data-ls="' + i + '">' + esc(x) + '</label>'; }).join('') + '</div><input id="pxLotoBy" placeholder="' + esc(t('loto_by')) + '" style="width:130px"> <button class="pri" data-lok="' + z.id + '">' + t('loto_ok') + '</button> <button data-lx>✕</button><div id="pxLotoMsg" class="muted"></div></div>';
+      return '<div class="row" style="gap:6px;align-items:center;margin-top:4px">✋ <b>' + esc(z.name) + '</b>' + (z.loto ? '<span style="color:var(--w);font-weight:700">' + esc(t('loto_on', { by: z.loto.by })) + '</span><button data-loff="' + z.id + '">' + t('loto_off') + '</button>' : '<button data-lon="' + z.id + '">' + t('loto') + '</button>') + '</div>';
+    }).join('');
+    box.querySelectorAll('[data-lon]').forEach(function (b) { b.onclick = function () { lotoEdit = b.dataset.lon; renderMz(); }; });
+    box.querySelectorAll('[data-lx]').forEach(function (b) { b.onclick = function () { lotoEdit = null; renderMz(); }; });
+    box.querySelectorAll('[data-loff]').forEach(function (b) { b.onclick = function () { var z = mzones.find(function (x) { return x.id === b.dataset.loff; }); if (!z) return; z.loto = null; jset(KEY_MZ, mzones); logEv('loto_off', tr('ev_loto_off', { zone: z.name }), z.name); renderMz(); }; });
+    box.querySelectorAll('[data-lok]').forEach(function (b) { b.onclick = function () {
+      var all = Array.prototype.every.call(box.querySelectorAll('[data-ls]'), function (c) { return c.checked; }), by = ($('pxLotoBy').value || '').trim();
+      if (!all || !by) { $('pxLotoMsg').textContent = t('loto_need'); return; }
+      var z = mzones.find(function (x) { return x.id === b.dataset.lok; }); z.loto = { by: by, at: Date.now() }; lotoEdit = null; jset(KEY_MZ, mzones); logEv('loto_on', tr('ev_loto_on', { zone: z.name, by: by }), z.name); renderMz();
+    }; });
+  }
   function toNorm(e) {
     var cv = L.canvas, r = cv.getBoundingClientRect(), W = cv.width || 16, H = cv.height || 9;
     var s = Math.min(r.width / W, r.height / H), ox = (r.width - W * s) / 2, oy = (r.height - H * s) / 2;
@@ -150,6 +178,7 @@
     mzones.forEach(function (z) {
       var inside = HANDS.some(function (i) { var p = tk.lm[i]; return vis(p, 0.3) && p.x >= z.r[0] && p.x <= z.r[2] && p.y >= z.r[1] && p.y <= z.r[3]; });
       var key = 'mz:' + z.id + ':' + wid(tk);
+      if (z.loto) { if (inside && !s.handIn[z.id]) { s.handIn[z.id] = now; logEv('loto_in', tr('ev_loto_in', { id: wid(tk), zone: z.name }), z.name); } else if (!inside) s.handIn[z.id] = 0; return; }
       if (inside) {
         s.handOutAt[z.id] = null; z.hot = Date.now();
         if (!s.handIn[z.id]) {
@@ -375,6 +404,72 @@
   }
   setInterval(flushDust, 10000);
 
+  /* ---------- ⑩ 个人噪声暴露（韩国 90 dB / 8 h，5 dB 交换率，门槛 80 dB） ---------- */
+  var KEY_NZ = 'shk3_noise_zones', KEY_NE = 'shk3_noise_expo', noiseBuf = {};
+  function allowH(db) { return 8 / Math.pow(2, (db - 90) / 5); }
+  function noiseAdd(key, who, zone, dt, src) {
+    var c = jget(KEY_NZ, {})[zone]; if (!c || !(c.db >= 80) || !(dt > 0)) return;
+    var b = noiseBuf[key] || (noiseBuf[key] = { who: who, src: src, dose: 0, t: 0, zones: {} });
+    b.who = who; b.src = src; b.dose += dt / 3600 / allowH(c.db); b.t += dt; b.zones[zone] = (b.zones[zone] || 0) + dt;
+  }
+  function noiseCam(tk, s, now) {
+    var dv = devOf(tk); if (dv && dv._pxZone) return;                      // 戴手表的人由手表区域累计
+    var dt = s.nzAt ? Math.min(2, (now - s.nzAt) / 1000) : 0; s.nzAt = now;
+    var w = (L.workerOf && L.workerOf(tk)) || null;
+    noiseAdd(w ? w.id : wid(tk), w ? (w.name || w.id) : wid(tk), zoneOf(tk), dt, 'cam');
+  }
+  setInterval(function () {
+    var keys = Object.keys(noiseBuf); if (!keys.length) return;
+    var all = jget(KEY_NE, {}), d = dayKey(), day = all[d] || (all[d] = {});
+    keys.forEach(function (k) {
+      var b = noiseBuf[k], r = day[k] || (day[k] = { who: b.who, dose: 0, t: 0, zones: {}, sent: 0, src: b.src });
+      r.who = b.who; r.src = b.src; r.dose += b.dose; r.t += b.t; Object.keys(b.zones).forEach(function (z) { r.zones[z] = (r.zones[z] || 0) + b.zones[z]; });
+      var pct = Math.round(r.dose * 100), lv = pct >= 100 ? 100 : pct >= 80 ? 80 : pct >= 50 ? 50 : 0, top = Object.keys(r.zones)[0] || '';
+      if (lv > (r.sent || 0)) {
+        r.sent = lv;
+        raise({ key: 'noise:' + k + ':' + lv, wid: null, kind: 'noise_dose', zone: top, level: 'warn', msg: tr('ev_noise_lv', { who: b.who, p: pct, zone: top }), auto: 20000 });
+        if (k.charAt(0) !== 'P') L.notify(k, { level: lv >= 100 ? 'danger' : 'warn', title: '🔊 ' + pct + '%', body: t('nt_noise_' + lv), sticky: lv >= 100 });
+      }
+    });
+    jset(KEY_NE, all); noiseBuf = {};
+  }, 10000);
+  $('pxNzOff').value = jget('shk3_nz_off', 100);
+  $('pxNzOff').onchange = function () { jset('shk3_nz_off', +this.value || 0); };
+  var nzAvg = null;
+  setInterval(function () {        // 麦克风 → 本区域噪声（dBFS + 校准偏移，需用声级计校准一次）
+    if (!$('pxNzMic').checked || !mic.on || mic.db == null) { $('pxNzVal').textContent = ''; return; }
+    var v = mic.db + (+jget('shk3_nz_off', 100) || 0); nzAvg = nzAvg == null ? v : nzAvg * 0.9 + v * 0.1;
+    $('pxNzVal').textContent = tr('nz_val', { v: nzAvg.toFixed(0) });
+    var zone = rxZone(); if (!zone) return;
+    if (!(Date.now() % 10000 < 1000)) return;
+    var cfg = jget(KEY_NZ, {}); cfg[zone] = { db: +nzAvg.toFixed(1), src: 'mic', at: Date.now() }; jset(KEY_NZ, cfg);
+    L.send({ type: 'noisecfg', cfg: cfg }); L.send({ type: 'env_noise', site: L.site(), zone: zone, db: +nzAvg.toFixed(1) });
+  }, 1000);
+
+  /* ---------- ⑪ 新员工 / 外包工人出事 → 同时通知师傅；⑫ 应急演练 ---------- */
+  var buddyDone = {};
+  function workerOfAlert(a) {
+    if (a.worker) return a.worker;
+    if (a.wid && a.wid.charAt(0) === 'P') { var tk = L.tracks().find(function (x) { return 'P' + x.id === a.wid; }); var w = tk && L.workerOf && L.workerOf(tk); return w ? w.id : null; }
+    var d = L.devices().find(function (x) { return x.uid === a.wid; }); return d ? d.worker || null : null;
+  }
+  setInterval(function () {
+    var ppl = jget('shk3_px_people', {});
+    L.alerts().forEach(function (a) {
+      if (buddyDone[a.aid] || (a.level !== 'warn' && a.level !== 'danger')) return;
+      var w = workerOfAlert(a), p = w && ppl[w]; if (!p || !p.buddy) return;
+      var isNew = p.start && (Date.now() - new Date(p.start).getTime()) < 30 * 864e5, flagged = isNew || p.type === 'contract' || p.type === 'temp';
+      if (!flagged) return; buddyDone[a.aid] = 1;
+      L.notify(p.buddy, { level: a.level, title: t('buddy_t'), body: tr('buddy_b', { n: rosterName(w) || w, m: a.msg }) });
+    });
+  }, 1500);
+  L.tr.on(function (m) {
+    if (m.type === 'people_sync' && m.people) jset('shk3_px_people', m.people);
+    if (m.type === 'noisecfg' && m.cfg) jset(KEY_NZ, m.cfg);
+    if (m.type === 'drill' && m.text) { raise({ key: 'drill:' + m.id, wid: null, kind: 'drill', level: 'warn', msg: t('drill_t') + ' ' + m.text, say: t('drill_t') + ' ' + m.text, auto: 90000 }); }
+    if (m.type === 'drill_end' && m.id) L.clearAlert('drill:' + m.id, 'drill');
+  });
+
   /* ---------- ⑧b 手表区域定位：连到本机的手表 = 人在本机区域 ---------- */
   var KEY_RX = 'shk3_rx_zone', devSeen = new WeakMap(), presence = {};
   function rxZone() { return (localStorage.getItem(KEY_RX) || '').trim(); }
@@ -390,6 +485,7 @@
       if (!d._pxZone) return;
       var key = d.worker || d.uid, who = (d.worker && rosterName(d.worker)) || d.name || d.uid;
       presence[key] = { who: who, zone: zone, site: L.site(), at: now }; here.push(who);
+      noiseAdd(key, who, zone, 1, 'watch');
       var zc = cfg[zone]; if (!zc || !(zc.c > 0)) return;
       var tk = L.tracks().find(function (t) { return (d.wearer === 'auto' ? d.wearerId : +d.wearer) === t.id; }), sx = tk ? st(tk) : null;
       var b = dustBuf[key] || (dustBuf[key] = { who: who, zones: {}, src: 'watch' }); b.src = 'watch'; b.who = who;
@@ -510,7 +606,7 @@
       checkHands(tk, s, now);
       var vr = checkVehicle(tk, s, now, dets);
       if (tk.lm && !tk.noPose) { var r = rula(tk.lm, W, H, tk.f.tilt); if (r) { s.rula = r; s.rulaS = s.rulaS == null ? r.score : s.rulaS * 0.85 + r.score * 0.15; } }
-      checkMask(tk, s, now, dets); dustTick(tk, s, now);
+      checkMask(tk, s, now, dets); dustTick(tk, s, now); noiseCam(tk, s, now);
       var fu = fuse(tk, s, now);
       view[tk.id] = { tk: tk, s: s, fu: fu };
       // 画：RULA 标签、人车连线、踉跄闪点
