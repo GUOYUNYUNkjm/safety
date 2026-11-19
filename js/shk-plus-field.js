@@ -32,6 +32,9 @@
       ev_veh_danger: '🚜 {id} 与车辆 / 机械距离过近（危险）', ev_veh_pot: '🚜 {id} 靠近车辆 / 机械（潜在危险）', say_veh_danger: '{id}，车辆靠近，立即后退！',
       ev_voice_sos: '🎤 听到呼救：“{w}”', say_voice_sos: '收到呼救，已通知监控中心。', ev_loud: '🔊 突发巨响 / 尖叫（{db} dB）',
       ev_fused_fall: '📷+{src} 双源确认：{id} 跌倒', say_fused_fall: '紧急！{id}跌倒已被多个传感器确认，附近人员立即前往。',
+      ev_dust_mask: '😷 {id} 在粉尘区「{zone}」未戴口罩', say_dust_mask: '{id}，这里粉尘浓度高，请立即戴好防尘口罩。',
+      ev_dust_lv: '🌫 {who} 今日粉尘暴露已达限值的 {p}%（{zone}）', nt_dust_50: '今日粉尘暴露已达限值一半，请全程佩戴防尘口罩。', nt_dust_80: '今日粉尘暴露已达限值 80%，建议离开粉尘区休息或调岗。', nt_dust_100: '今日粉尘暴露已达到限值，请立即离开粉尘区。',
+      aid_t: '🩹 最近的急救物品', aid_body: '{what}发生在 {where}。最近的 {list}。请附近人员带上前往。', aid_none: '还没有登记急救物品位置', aid_trained: '已培训急救员：{n}',
       ev_fp: '{id}：摄像头判断跌倒，但手环显示仍在正常活动 → 标记为疑似误报', mz_name: '机器危险点', veh_lv: ['危险', '潜在危险', '关注', '安全']
     },
     ko: {
@@ -45,6 +48,9 @@
       ev_veh_danger: '🚜 {id} 차량/기계와 너무 가까움(위험)', ev_veh_pot: '🚜 {id} 차량/기계 접근(잠재 위험)', say_veh_danger: '{id}, 차량 접근! 즉시 물러서세요!',
       ev_voice_sos: '🎤 구조 요청 감지: “{w}”', say_voice_sos: '구조 요청을 받았습니다. 관제센터에 알렸습니다.', ev_loud: '🔊 갑작스러운 큰 소리/비명 ({db} dB)',
       ev_fused_fall: '📷+{src} 이중 확인: {id} 넘어짐', say_fused_fall: '긴급! {id} 넘어짐이 여러 센서로 확인되었습니다. 근처 인원은 즉시 가세요.',
+      ev_dust_mask: '😷 {id} 분진 구역「{zone}」에서 마스크 미착용', say_dust_mask: '{id}, 이곳은 분진 농도가 높습니다. 방진마스크를 바로 착용하세요.',
+      ev_dust_lv: '🌫 {who} 오늘 분진 노출이 기준의 {p}%에 도달({zone})', nt_dust_50: '오늘 분진 노출이 기준의 절반입니다. 방진마스크를 계속 착용하세요.', nt_dust_80: '오늘 분진 노출이 기준의 80%입니다. 분진 구역을 벗어나 쉬거나 작업 전환을 권합니다.', nt_dust_100: '오늘 분진 노출이 기준에 도달했습니다. 즉시 분진 구역을 벗어나세요.',
+      aid_t: '🩹 가장 가까운 응급용품', aid_body: '{where}에서 {what}. 가장 가까운 {list}. 근처 인원은 가지고 가세요.', aid_none: '등록된 응급용품 위치가 없습니다', aid_trained: '교육 이수 응급요원: {n}',
       ev_fp: '{id}: 카메라는 넘어짐으로 판단했지만 밴드는 정상 활동 중 → 오경보 의심으로 표시', mz_name: '기계 위험점', veh_lv: ['위험', '잠재 위험', '주의', '안전']
     },
     en: {
@@ -58,6 +64,9 @@
       ev_veh_danger: '🚜 {id} too close to vehicle / machinery (danger)', ev_veh_pot: '🚜 {id} near vehicle / machinery (potential danger)', say_veh_danger: '{id}, vehicle approaching, step back now!',
       ev_voice_sos: '🎤 Call for help heard: "{w}"', say_voice_sos: 'Call for help received. The control center has been notified.', ev_loud: '🔊 Sudden loud sound / scream ({db} dB)',
       ev_fused_fall: '📷+{src} two-source confirmed: {id} fell', say_fused_fall: 'Emergency! {id} fall confirmed by several sensors. People nearby, go now.',
+      ev_dust_mask: '😷 {id} without a mask in dust zone "{zone}"', say_dust_mask: '{id}, dust is high here. Put on your dust mask now.',
+      ev_dust_lv: '🌫 {who} has reached {p}% of today\'s dust limit ({zone})', nt_dust_50: 'Your dust exposure today is half the limit. Keep your dust mask on.', nt_dust_80: 'Your dust exposure today is 80% of the limit. Leave the dust area for a break or switch tasks.', nt_dust_100: 'Your dust exposure today has reached the limit. Leave the dust area now.',
+      aid_t: '🩹 Nearest first-aid equipment', aid_body: '{what} at {where}. Nearest: {list}. People nearby, bring it.', aid_none: 'No first-aid locations registered yet', aid_trained: 'Trained first aiders: {n}',
       ev_fp: '{id}: camera saw a fall but the band shows normal activity → marked as likely false alarm', mz_name: 'Machine point', veh_lv: ['Danger', 'Potential', 'Attention', 'Safe']
     }
   });
@@ -302,6 +311,98 @@
     return { v: v, b: b, audio: audio };
   }
 
+  /* ---------- ⑦ 口罩识别（PPE 模型的 Mask / NO-Mask 框，匹配到人框上部 35%） ---------- */
+  function checkMask(tk, s, now, dets) {
+    var b = tk.f && tk.f.box; if (!b) return;
+    var head = [b[0], b[1], b[2], b[1] + (b[3] - b[1]) * 0.35], best = null;
+    dets.forEach(function (d) {
+      if ((d.cls !== 1 && d.cls !== 3) || d.score < 0.4) return;
+      var ix = Math.max(0, Math.min(head[2], d.box[2]) - Math.max(head[0], d.box[0])), iy = Math.max(0, Math.min(head[3], d.box[3]) - Math.max(head[1], d.box[1]));
+      var ov = ix * iy / Math.max(1e-6, (d.box[2] - d.box[0]) * (d.box[3] - d.box[1]));
+      if (ov > 0.5 && (!best || d.score > best.score)) best = d;
+    });
+    if (best) { s.maskHist = (s.maskHist || []).concat([best.cls === 1]).slice(-6); }
+    var h = s.maskHist || [], yes = h.filter(Boolean).length;
+    s.mask = h.length >= 3 ? (yes >= h.length / 2) : null;      // true 戴 / false 没戴 / null 不确定
+  }
+
+  /* ---------- ⑧ 粉尘个人暴露：区域浓度 × 停留时间（戴口罩按防护系数折算） ---------- */
+  var KEY_DZ = 'shk3_dust_zones', KEY_DE = 'shk3_dust_expo', BREATH = 1.25;   // 呼吸量 m³/h（轻中度劳动假设，约 10 m³ / 8 小时）
+  function dustCfg() { return jget(KEY_DZ, {}); }
+  function dayKey() { var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+  var dustBuf = {}, dustLast = 0;
+  function dustTick(tk, s, now) {
+    var cfg = dustCfg(), z = zoneOf(tk), zc = cfg[z]; if (!zc || !(zc.c > 0)) { s.dustIn = null; return; }
+    var dt = s.dustAt ? Math.min(2, (now - s.dustAt) / 1000) : 0; s.dustAt = now; s.dustIn = z;
+    var w = (L.workerOf && L.workerOf(tk)) || null, key = w ? w.id : wid(tk), who = w ? (w.name || w.id) : wid(tk);
+    var b = dustBuf[key] || (dustBuf[key] = { who: who, zones: {} }), r = b.zones[z] || (b.zones[z] = { t: 0, tm: 0 });
+    r.t += dt; if (s.mask === true) r.tm += dt;
+    // 粉尘区未戴口罩 20 秒 → 提醒本人
+    if (s.mask === false) { if (!s.noMaskAt) s.noMaskAt = now; if (now - s.noMaskAt > 20000) { s.noMaskAt = now + 1e9; raise({ key: wid(tk) + ':dustmask', wid: wid(tk), kind: 'dust_mask', zone: z, level: 'warn', msg: tr('ev_dust_mask', { id: wid(tk), zone: z }), say: tr('say_dust_mask', { id: wid(tk) }), auto: 15000, cooldown: 120000 }); if (w) L.notify(w.id, { level: 'warn', title: '😷', body: tr('say_dust_mask', { id: who }) }); } }
+    else if (s.mask === true) s.noMaskAt = null;
+  }
+  function flushDust() {
+    var keys = Object.keys(dustBuf); if (!keys.length) return;
+    var all = jget(KEY_DE, {}), d = dayKey(), day = all[d] || (all[d] = {}), cfg = dustCfg();
+    keys.forEach(function (k) {
+      var b = dustBuf[k], rec = day[k] || (day[k] = { who: b.who, zones: {}, sent: 0 });
+      rec.who = b.who;
+      Object.keys(b.zones).forEach(function (z) { var r = rec.zones[z] || (rec.zones[z] = { t: 0, tm: 0 }); r.t += b.zones[z].t; r.tm += b.zones[z].tm; });
+      // 今日 TWA 占限值的比例 = Σ(C·t) / 8h / 限值（各区域按自己的限值折算后相加）
+      var frac = 0, top = '';
+      Object.keys(rec.zones).forEach(function (z) { var c = cfg[z]; if (!c || !(c.c > 0) || !(c.oel > 0)) return; var f = c.c * rec.zones[z].t / 3600 / 8 / c.oel; frac += f; if (!top || f > 0) top = z; });
+      var pct = Math.round(frac * 100), lv = pct >= 100 ? 100 : pct >= 80 ? 80 : pct >= 50 ? 50 : 0;
+      if (lv > (rec.sent || 0)) {
+        rec.sent = lv; var msg = t('nt_dust_' + lv);
+        raise({ key: 'dust:' + k + ':' + lv, wid: null, kind: 'dust_dose', zone: top, level: lv >= 80 ? 'warn' : 'warn', msg: tr('ev_dust_lv', { who: b.who, p: pct, zone: top }), auto: 20000 });
+        if (k.charAt(0) !== 'P') L.notify(k, { level: lv >= 100 ? 'danger' : 'warn', title: '🌫 ' + pct + '%', body: msg, sticky: lv >= 100 });
+        L.send({ type: 'event', kind: 'dust_dose', worker: k, who: b.who, pct: pct, level: 'info', msg: tr('ev_dust_lv', { who: b.who, p: pct, zone: top }) });
+      }
+    });
+    jset(KEY_DE, all); dustBuf = {};
+  }
+  setInterval(flushDust, 10000);
+
+  /* ---------- ⑨ 紧急时推送最近的急救物品（手机 → 手表） ---------- */
+  var KEY_AID = 'shk3_aidpts', aidDone = {};
+  var AID_NAME = { aed: { zh: 'AED 自动体外除颤器', ko: 'AED 자동심장충격기', en: 'AED' }, kit: { zh: '急救箱', ko: '구급함', en: 'first-aid kit' }, eyewash: { zh: '洗眼器 / 紧急淋浴', ko: '세안기·긴급샤워', en: 'eyewash / shower' }, stretcher: { zh: '担架', ko: '들것', en: 'stretcher' }, ext: { zh: '灭火器', ko: '소화기', en: 'extinguisher' } };
+  function aidName(k) { var o = AID_NAME[k] || AID_NAME.kit; return o[SHKI18N.lang] || o.zh; }
+  function nearestAid(loc) {
+    var pts = jget(KEY_AID, []); if (!pts.length) return null;
+    var site = (loc && loc.site) || L.site(), x = loc && loc.x != null ? loc.x : 0.5, y = loc && loc.y != null ? loc.y : 0.5, out = {};
+    pts.forEach(function (p) {
+      var same = p.site === site, d = same ? Math.hypot(p.x - x, p.y - y) : 9 + Math.random() * 0.01;
+      if (!out[p.type] || d < out[p.type].d) out[p.type] = { p: p, d: d };
+    });
+    return out;
+  }
+  function aidText(near) {
+    var m = +(jget('shk3_aid_scale', 20)) || 20;   // 画面宽度约多少米（在平台“急救”页设置）
+    return ['aed', 'kit', 'eyewash', 'stretcher'].filter(function (k) { return near[k]; }).map(function (k) {
+      var n = near[k], zh = SHKI18N.lang === 'zh';
+      return aidName(k) + (zh ? '：' : ': ') + n.p.name + (n.d < 5 ? (zh ? '（≈' : ' (≈') + Math.max(1, Math.round(n.d * m)) + (zh ? ' m）' : ' m)') : (zh ? '（' : ' (') + n.p.site + (zh ? '）' : ')'));
+    }).join(SHKI18N.lang === 'zh' ? '；' : '; ');
+  }
+  setInterval(function () {
+    L.alerts().forEach(function (a) {
+      if (a.level !== 'danger' || aidDone[a.aid] || ['fall_noresp', 'confirm_noresp', 'sos', 'fused_fall', 'voice_sos', 'collapse', 'impact_danger', 'hand_in_machine'].indexOf(a.kind) < 0) return;
+      aidDone[a.aid] = 1;
+      var near = nearestAid(a.loc), where = (a.loc && (a.loc.zone || a.loc.pos)) || L.site();
+      var trained = jget('shk3_fa_records', []).filter(function (r) { return r.pass; }).map(function (r) { return r.name; }).filter(function (v, i, arr) { return arr.indexOf(v) === i; }).slice(0, 4);
+      var body = near ? tr('aid_body', { what: a.msg, where: where, list: aidText(near) }) : t('aid_none');
+      if (trained.length) body += ' ' + tr('aid_trained', { n: trained.join(', ') });
+      L.notify('*', { level: 'danger', title: t('aid_t'), body: body, emg: true, aid: true, loc: a.loc });
+      L.log('info', t('aid_t') + ' · ' + body);
+      L.send({ type: 'event', kind: 'aid_route', level: 'info', msg: body });
+    });
+  }, 1000);
+  /* 平台改了急救点 / 粉尘区设置时，经同一通道同步过来 */
+  L.tr.on(function (m) {
+    if (m.type === 'aidpts' && Array.isArray(m.list)) { jset(KEY_AID, m.list); if (m.scale) jset('shk3_aid_scale', m.scale); }
+    if (m.type === 'dustcfg' && m.cfg) jset(KEY_DZ, m.cfg);
+    if (m.type === 'fa_sync' && Array.isArray(m.list)) jset('shk3_fa_records', m.list);
+  });
+
   /* ---------- 每帧：计算 + 画图 ---------- */
   var view = {};
   L.onDraw(function (g, W, H) {
@@ -325,6 +426,7 @@
       checkHands(tk, s, now);
       var vr = checkVehicle(tk, s, now, dets);
       if (tk.lm && !tk.noPose) { var r = rula(tk.lm, W, H, tk.f.tilt); if (r) { s.rula = r; s.rulaS = s.rulaS == null ? r.score : s.rulaS * 0.85 + r.score * 0.15; } }
+      checkMask(tk, s, now, dets); dustTick(tk, s, now);
       var fu = fuse(tk, s, now);
       view[tk.id] = { tk: tk, s: s, fu: fu };
       // 画：RULA 标签、人车连线、踉跄闪点
@@ -369,6 +471,7 @@
       var o = view[k], tk = o.tk, s = o.s, fu = o.fu || {}, po = tk.fsm.posture;
       var cam = tk.fsm.state !== 'normal' ? t('px_cam_down') + ' (' + tk.fsm.state + ')' : t('px_cam_' + (['stand', 'bend', 'down'].indexOf(po) >= 0 ? po : 'other'));
       var sc = s.rulaS == null ? '—' : Math.round(s.rulaS), b = fu.b || { k: 'none' };
+      if (s.dustIn) cam += ' · 🌫' + (s.mask === true ? '😷✓' : s.mask === false ? '😷✗' : '');
       h += '<tr style="border-top:1px solid var(--bdr)"><td><b>P' + k + '</b></td><td>' + esc(cam) + '</td><td><b style="color:' + (s.rulaS == null ? 'inherit' : rulaColor(sc)) + '">' + sc + '</b>/7</td>' +
         '<td>' + t('px_band_' + b.k) + (b.hr ? ' · ' + b.hr : '') + '</td><td>' + (mic.on ? (fu.audio ? '❗' : '✓') : '—') + '</td>' +
         '<td style="color:' + vcol[fu.v || 'ok'] + ';font-weight:800">' + vtxt[fu.v || 'ok'] + '</td><td>' + s.stumbles + '</td></tr>';
@@ -376,5 +479,5 @@
     box.innerHTML = h + '</table>';
   }, 500);
 
-  window.SHKPlusField = { CFG: CFG, rula: rula, stats: function () { return fuStats; }, _t: { checkVehicle: checkVehicle, st: st, view: function () { return view; } } };
+  window.SHKPlusField = { CFG: CFG, rula: rula, stats: function () { return fuStats; }, _t: { checkVehicle: checkVehicle, st: st, view: function () { return view; }, flushDust: flushDust, nearestAid: nearestAid, aidText: aidText } };
 })();

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#E8133A">
+<title>SHine-K 3.0 · 岗前急救培训</title>
+<link rel="stylesheet" href="css/shk3.css">
+<style>
+  body{max-width:720px;margin:0 auto;padding:0 0 40px}
+  .fa-top{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid var(--bdr);padding:10px 14px;display:flex;align-items:center;gap:10px}
+  .fa-top .logo{width:34px;height:34px;border-radius:9px;background:var(--r);color:#fff;display:grid;place-items:center;font-weight:900}
+  .fa-top b{font-size:15px}.fa-top .sp{flex:1}
+  .fa-steps{display:flex;gap:4px;padding:10px 14px}
+  .fa-steps i{flex:1;height:6px;border-radius:4px;background:#E3E8F0}.fa-steps i.on{background:var(--r)}.fa-steps i.done{background:var(--g)}
+  .fa-card{background:#fff;margin:10px 14px;border:1px solid var(--bdr);border-radius:16px;padding:18px}
+  .fa-card h2{font-size:20px;margin-bottom:6px}.fa-card h3{font-size:15px;margin:14px 0 6px}
+  .fa-card ol,.fa-card ul{padding-left:20px}.fa-card li{margin:7px 0;font-size:15px;line-height:1.55}
+  .fa-key{background:var(--rbg);color:var(--r);border-radius:12px;padding:10px 12px;font-weight:800;margin:10px 0;font-size:15px}
+  .fa-nav{display:flex;gap:8px;margin:14px}.fa-nav button{flex:1;padding:13px;font-size:15px}
+  .fa-pad{height:230px;border-radius:18px;background:#0B1220;color:#cfd8e8;display:grid;place-items:center;text-align:center;user-select:none;-webkit-user-select:none;touch-action:manipulation;font-weight:800;font-size:16px;position:relative}
+  .fa-pad .beat{width:110px;height:110px;border-radius:50%;background:rgba(232,19,58,.25);border:3px solid var(--r);transition:transform .08s}
+  .fa-pad .beat.hit{transform:scale(.82);background:rgba(232,19,58,.6)}
+  .fa-big{font-size:42px;font-weight:900;font-family:var(--mono)}
+  .fa-q{border:1px solid var(--bdr);border-radius:12px;padding:12px;margin:10px 0}
+  .fa-q b{display:block;margin-bottom:8px;font-size:15px}
+  .fa-q label{display:flex;gap:8px;align-items:flex-start;padding:7px 4px;font-size:14.5px;border-radius:8px}
+  .fa-q label.ok{background:var(--gbg)}.fa-q label.bad{background:var(--rbg)}
+  .fa-cert{border:3px double var(--g);border-radius:16px;padding:18px;text-align:center}
+  .fa-in{width:100%;padding:11px;border:1px solid var(--bdr);border-radius:10px;font-size:15px;margin:6px 0}
+  .fa-src{font-size:12px;color:var(--ink3);margin-top:10px}
+  .langs button{padding:5px 9px}.langs button.on{background:var(--a);color:#fff;border-color:var(--a)}
+</style>
+</head>
+<body>
+<div class="fa-top"><div class="logo">✚</div><b id="faTitle"></b><span class="sp"></span><div class="row langs" style="display:flex;gap:4px"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div></div>
+<div class="fa-steps" id="faSteps"></div>
+<main id="faMain"></main>
+<div class="fa-nav" id="faNav"><button id="faPrev"></button><button class="pri" id="faNext"></button></div>
+<script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
+<script src="js/shk-transport.js"></script>
+<script src="js/shk-firstaid.js"></script>
+</body>
+</html>

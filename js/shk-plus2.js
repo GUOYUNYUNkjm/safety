@@ -33,11 +33,13 @@
       m: { zh: ['动火作业票与气体检测', '清除可燃物，配置灭火器', '通风与防爆电气'], ko: ['화기작업 허가·가스 측정', '가연물 제거, 소화기 비치', '환기·방폭 전기설비'], en: ['Hot-work permit and gas test', 'Remove combustibles, provide extinguishers', 'Ventilation and explosion-proof equipment'] } },
     elec: { sev: 3, n: { zh: '触电（감전）', ko: '감전', en: 'Electric shock' },
       m: { zh: ['漏电保护器与接地', '停电作业挂牌上锁', '破损电线立即更换'], ko: ['누전차단기·접지', '정전작업 잠금·표지', '손상 전선 즉시 교체'], en: ['RCDs and earthing', 'Lock-out for electrical work', 'Replace damaged cables at once'] } },
+    dust: { sev: 2, n: { zh: '粉尘吸入（분진）', ko: '분진 흡입', en: 'Dust inhalation' },
+      m: { zh: ['局部排风 / 湿式作业，从源头降低粉尘', '粉尘区强制佩戴防尘口罩（AI 识别）', '按个人暴露比例轮岗，超过 80 % 调离'], ko: ['국소배기·습식 작업으로 발생원 감소', '분진 구역 방진마스크 착용(AI 인식)', '개인 노출 비율에 따라 작업 순환, 80% 초과 시 전환'], en: ['Local exhaust / wet methods at the source', 'Dust masks mandatory in dust zones (AI check)', 'Rotate by personal exposure; move people over 80 %'] } },
     other: { sev: 2, n: { zh: '其他（工人上报）', ko: '기타(근로자 신고)', en: 'Other (worker report)' },
       m: { zh: ['班组长当日现场确认', '确定临时措施并告知工人', '纳入下次定期风险评估'], ko: ['반장 당일 현장 확인', '임시 조치 후 근로자에게 공유', '다음 정기 위험성평가에 반영'], en: ['Team leader checks on site today', 'Temporary measure and tell workers', 'Include in the next regular assessment'] } }
   };
   var KIND2TY = { hand_in_machine: 'caught', vehicle_danger: 'struck', vehicle_near: 'struck', near_fall: 'fall_low', fused_fall: 'fall_high', fall_noresp: 'fall_high', confirm_noresp: 'fall_high',
-    helmet: 'ppe', vest: 'ppe', voice_sos: 'fall_high', sos: 'fall_high', collapse: 'heat', stop_work: 'heat', fire: 'fire' };
+    helmet: 'ppe', vest: 'ppe', dust_mask: 'dust', dust_dose: 'dust', voice_sos: 'fall_high', sos: 'fall_high', collapse: 'heat', stop_work: 'heat', fire: 'fire' };
   function tyName(k) { return T((TY[k] || TY.other).n); }
   function riskTxt(r) { return r >= 6 ? T({ zh: '高', ko: '상', en: 'High' }) : r >= 3 ? T({ zh: '中', ko: '중', en: 'Medium' }) : T({ zh: '低', ko: '하', en: 'Low' }); }
   function riskCol(r) { return r >= 6 ? 'var(--r)' : r >= 3 ? 'var(--w)' : 'var(--g)'; }
@@ -293,7 +295,7 @@
       per: '期间', d30: '最近 30 天', d90: '最近 90 天', d180: '最近 180 天', site: '事业场名称', k1: '检测到的危险', k2: '已处理 / 确认', k3: '风险评估（工人参与）', k4: '工人意见与上报',
       k5: '上岗前适岗检测', k6: '高温休息记录', law: '施行令第 4 条 · 安全保健管理体系 9 项', auto: '自动证据', part: '部分证据', man: '需人工确认', done: '已确认', note: '备注 / 文件位置',
       tl: '时间线（最近 60 条）', c_t: '时间', c_c: '类别', c_x: '内容', inc: '事故详情：选择一条危险警报，查看前后 30 分钟', inc_none: '没有危险等级的警报', print: '🖨 打印 / PDF', json: '⬇ 导出 JSON', ai: '🤖 AI 写履行情况摘要', aiing: '大模型撰写中…',
-      cat: { alert: '危险检测', clear: '处理 / 确认', ra: '风险评估', pvt: '适岗检测', heat: '高温休息', rep: '工人上报', vrep: '母语上报', qa: '母语问答', bc: '多语广播', permit: '作业票' },
+      cat: { fa: '急救培训结业', alert: '危险检测', clear: '处理 / 确认', ra: '风险评估', pvt: '适岗检测', heat: '高温休息', rep: '工人上报', vrep: '母语上报', qa: '母语问答', bc: '多语广播', permit: '作业票' },
       disc: '本页整理的是系统中的客观记录，是否满足法律义务以劳务师 / 律师的判断为准。',
       items: [['安全·保健目标与经营方针', 'man'], ['安全·保健业务专职组织（规模达标的企业）', 'man'], ['确认·改善危险因素的程序，半年 1 次以上检查（风险评估可代替）', 'ra'], ['安全·保健预算编制与执行', 'man'],
         ['安全保健管理责任人的权限、预算与半年 1 次评估', 'man'], ['配置安全管理人员等', 'man'], ['听取从业人员意见的程序，半年 1 次以上检查', 'voice'], ['重大产业灾害（紧急危险）应对手册，半年 1 次以上检查', 'emg'], ['承包 / 外包时的安全保健标准与程序', 'man']],
@@ -302,7 +304,7 @@
       per: '기간', d30: '최근 30일', d90: '최근 90일', d180: '최근 180일', site: '사업장명', k1: '감지된 위험', k2: '조치 / 확인', k3: '위험성평가(근로자 참여)', k4: '종사자 의견·신고',
       k5: '작업 전 적합성 검사', k6: '폭염 휴식 기록', law: '시행령 제4조 · 안전보건관리체계 9개 항목', auto: '자동 증빙', part: '일부 증빙', man: '수동 확인 필요', done: '확인함', note: '비고 / 문서 위치',
       tl: '타임라인(최근 60건)', c_t: '시간', c_c: '구분', c_x: '내용', inc: '사고 상세: 위험 경보를 선택해 전후 30분 확인', inc_none: '위험 등급 경보 없음', print: '🖨 인쇄 / PDF', json: '⬇ JSON 내보내기', ai: '🤖 AI 이행 현황 요약', aiing: 'AI 작성 중…',
-      cat: { alert: '위험 감지', clear: '조치 / 확인', ra: '위험성평가', pvt: '적합성 검사', heat: '폭염 휴식', rep: '근로자 신고', vrep: '모국어 신고', qa: '모국어 질의', bc: '다국어 방송', permit: '작업허가' },
+      cat: { fa: '응급처치 교육 수료', alert: '위험 감지', clear: '조치 / 확인', ra: '위험성평가', pvt: '적합성 검사', heat: '폭염 휴식', rep: '근로자 신고', vrep: '모국어 신고', qa: '모국어 질의', bc: '다국어 방송', permit: '작업허가' },
       disc: '이 페이지는 시스템의 객관적 기록을 정리한 것이며, 법적 의무 충족 여부는 노무사·변호사의 판단에 따릅니다.',
       items: [['안전·보건 목표와 경영방침 설정', 'man'], ['안전·보건 업무 총괄·관리 전담 조직(해당 규모)', 'man'], ['유해·위험요인 확인·개선 절차, 반기 1회 이상 점검(위험성평가로 갈음 가능)', 'ra'], ['안전·보건 예산 편성·집행', 'man'],
         ['안전보건관리책임자 등의 권한·예산, 반기 1회 평가', 'man'], ['안전관리자 등 배치', 'man'], ['종사자 의견 청취 절차, 반기 1회 이상 점검', 'voice'], ['중대산업재해(급박한 위험) 대비 매뉴얼, 반기 1회 이상 점검', 'emg'], ['도급·용역 시 안전보건 기준·절차', 'man']],
@@ -311,7 +313,7 @@
       per: 'Period', d30: 'Last 30 days', d90: 'Last 90 days', d180: 'Last 180 days', site: 'Workplace', k1: 'Hazards detected', k2: 'Handled / acknowledged', k3: 'Risk assessments (worker sign-offs)', k4: 'Worker input & reports',
       k5: 'Pre-shift fitness checks', k6: 'Heat breaks logged', law: 'Enforcement Decree Art. 4 · 9 elements of the safety & health system', auto: 'Auto evidence', part: 'Partial evidence', man: 'Manual check', done: 'Confirmed', note: 'Note / where the document is',
       tl: 'Timeline (latest 60)', c_t: 'Time', c_c: 'Type', c_x: 'Details', inc: 'Incident view: pick a danger alert to see ±30 minutes', inc_none: 'No danger-level alerts', print: '🖨 Print / PDF', json: '⬇ Export JSON', ai: '🤖 AI summary of compliance', aiing: 'AI is writing…',
-      cat: { alert: 'Hazard detected', clear: 'Handled', ra: 'Risk assessment', pvt: 'Fitness check', heat: 'Heat break', rep: 'Worker report', vrep: 'Native-language report', qa: 'Native-language Q&A', bc: 'Multilingual broadcast', permit: 'Work permit' },
+      cat: { fa: 'First-aid training', alert: 'Hazard detected', clear: 'Handled', ra: 'Risk assessment', pvt: 'Fitness check', heat: 'Heat break', rep: 'Worker report', vrep: 'Native-language report', qa: 'Native-language Q&A', bc: 'Multilingual broadcast', permit: 'Work permit' },
       disc: 'This page compiles objective system records; whether legal duties are met is for a labour attorney or lawyer to judge.',
       items: [['Safety & health goals and management policy', 'man'], ['Dedicated safety & health organisation (where size requires)', 'man'], ['Procedure to identify and fix hazards, checked at least every half-year (a risk assessment can replace it)', 'ra'], ['Safety & health budget planned and spent', 'man'],
         ['Authority, budget and half-yearly review of the safety & health managers', 'man'], ['Assign safety managers etc.', 'man'], ['Procedure to hear workers\' opinions, checked at least every half-year', 'voice'], ['Manual for serious accidents / imminent danger, checked at least every half-year', 'emg'], ['Safety & health criteria when contracting out', 'man']],
@@ -326,6 +328,7 @@
     g.ev.forEach(function (x) { if (!al.some(function (a) { return Math.abs(a.ts - x.ts) < 1500 && a.kind === x.kind; })) out.push({ ts: x.ts, c: 'alert', x: (x.level === 'danger' ? '🔴 ' : '🟠 ') + (x.msg || tyName(KIND2TY[x.kind])) + (x.zone ? ' · ' + x.zone : ''), lvl: x.level, kind: x.kind }); });
     clr.forEach(function (x) { out.push({ ts: x.ts, c: 'clear', x: '✓ ' + (x.key || '') + (x.by ? ' · ' + x.by : '') }); });
     jget('shk3_ra_records', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'ra', x: x.rows.length + ' · ' + T({ zh: '工人确认 ', ko: '근로자 확인 ', en: 'sign-offs ' }) + x.workers.join(', ') }); });
+    jget('shk3_fa_records', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'fa', x: x.name + (x.code ? ' (' + x.code + ')' : '') + ' · ' + x.score + '/' + x.total + ' · CPR ' + x.rate + '/min · ' + (x.pass ? '✓' : '✕') }); });
     jget('shk3_pvt', []).forEach(function (x) { if (x.ts >= since) out.push({ ts: x.ts, c: 'pvt', x: x.who + ' · ' + x.med + ' ms · ' + (x.v === 'ok' ? '✓' : x.v === 'warn' ? '⚠' : '✕') }); });
     (H.heat().log || []).forEach(function (x) { if (x.ts >= since && (x.a === 'rest' || x.a === 'meas')) out.push({ ts: x.ts, c: 'heat', x: x.at.toFixed(1) + '℃ · ' + x.a }); });
     g.rep.forEach(function (x) { out.push({ ts: x.at, c: 'rep', x: (x.where ? x.where + ' · ' : '') + (x.text || x.type) + ' (' + (x.status || '') + ')' }); });
