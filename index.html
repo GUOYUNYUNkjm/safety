@@ -1694,7 +1694,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
           </div>
           <div class="iot-grid rv" id="iotGrid"></div>
           <div class="hazard-cards rv d1">
-            <div class="hz-card"><div class="hz-ico">🌡</div><div class="hz-name" id="hzn1">作业区温度</div><span class="hz-val" id="hvv-temp">38.2</span><span class="hz-unit">°C</span><div class="hz-bar"><div class="hz-fill" id="hf-temp" style="width:76%;background:var(--r)"></div></div><div class="status danger" style="margin:6px auto;display:inline-flex" id="hz-st1">超过阈值</div><div class="hz-limit" id="hzl1">安全标准 ≤37°C</div></div>
+            <div class="hz-card"><div class="hz-ico">🌡</div><div class="hz-name" id="hzn1">作业区温度</div><span class="hz-val" id="hvv-temp">38.2</span><span class="hz-unit">°C</span><div class="hz-bar"><div class="hz-fill" id="hf-temp" style="width:76%;background:var(--r)"></div></div><div class="status danger" style="margin:6px auto;display:inline-flex" id="hz-st1">超过阈值</div><div class="hz-limit" id="hzl1">体感温度 ≥33°C：每2小时休息20分钟</div></div>
             <div class="hz-card"><div class="hz-ico">☣</div><div class="hz-name" id="hzn2">一氧化碳(CO)</div><span class="hz-val" id="hvv-co">12</span><span class="hz-unit">ppm</span><div class="hz-bar"><div class="hz-fill" id="hf-co" style="width:24%;background:var(--g)"></div></div><div class="status ok" style="margin:6px auto;display:inline-flex" id="hz-st2">正常范围</div><div class="hz-limit" id="hzl2">安全标准 ≤25ppm</div></div>
             <div class="hz-card"><div class="hz-ico">💨</div><div class="hz-name" id="hzn3">粉尘浓度</div><span class="hz-val" id="hvv-dust">48</span><span class="hz-unit">μg/m³</span><div class="hz-bar"><div class="hz-fill" id="hf-dust" style="width:64%;background:var(--w)"></div></div><div class="status warn" style="margin:6px auto;display:inline-flex" id="hz-st3">注意区间</div><div class="hz-limit" id="hzl3">安全标准 ≤50μg/m³</div></div>
           </div>
@@ -1755,7 +1755,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
         <!-- ── ALERTS ── -->
         <div class="panel" id="panel-alerts">
           <div class="mod-hd rv">
-            <div><div class="mod-title" id="al-title">警报中心</div><div class="mod-sub" id="al-sub">危险识别精度≥95% · 数据延迟≤1秒 · 摔倒自动联动119</div></div>
+            <div><div class="mod-title" id="al-title">警报中心</div><div class="mod-sub" id="al-sub">危险识别精度≥95% · 数据延迟≤1秒 · 跌倒经多源确认后才联动119</div></div>
           </div>
           <div class="rpt-wrap rv">
             <div class="rpt-hd" id="rpt-title">📸 一线隐患快报</div>
@@ -1775,7 +1775,7 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
               <div class="alert-title" id="at1">未佩戴安全帽 — C-1区</div>
               <div class="alert-desc" id="ad1">焊接作业中李敏俊(31岁)未佩戴安全帽。AI危险行为识别精度≥95%。</div>
               <div class="alert-meta"><span>📍 C-1区</span><span>⏱ 刚刚</span><span>🎥 摄像头#7</span></div>
-              <button class="sos-btn" id="sos-btn">📞 119联动中…</button>
+              <button class="sos-btn" id="sos-btn" style="background:var(--w)">📲 已通知班组长（违规不联动119）</button>
             </div>
             <div class="alert-card warning">
               <span class="alert-level level-w" id="alv-w">警告</span>
@@ -1878,7 +1878,7 @@ zh:{
   cam_title:'AI视频分析',cam_sub:'真实摄像头在现场端运行（安全帽 · 背心 · 跌倒 · SOS）· 下方模拟画面为演示数据',
   iot_title:'IoT传感器 & 可穿戴设备',iot_sub:'真实设备在现场端连接（蓝牙心率带 · EmoConnect 手表）· 下方环境传感器为演示数据',
   el_title:'老龄工人专属模块',el_sub:'全球首创 · 骨骼·热应激·反应时间三项专属指标',
-  al_title:'警报中心',al_sub:'危险识别精度≥95% · 数据延迟≤1秒 · 摔倒自动联动119',
+  al_title:'警报中心',al_sub:'危险识别精度≥95% · 数据延迟≤1秒 · 跌倒经多源确认后才联动119',
   ai_title:'AI灾害预测',ai_sub:'历史数据 + 实时生体信号 + 作业环境综合分析',
   notif_hd:'最新警报',notif_clear:'全部清除',
   topbar_titles:{overview:'总览仪表盘',register:'工人注册',monitor:'实时监控',checklist:'巡检清单',camera:'AI视频分析',iot:'IoT传感器',elderly:'老龄工人',briefing:'安全须知推送',alerts:'警报中心',ai:'AI预测'},
@@ -1912,7 +1912,7 @@ ko:{
   cam_title:'AI 영상 분석',cam_sub:'실제 카메라는 현장 화면에서 실행 (안전모 · 조끼 · 넘어짐 · SOS) · 아래 모의 화면은 시연 데이터',
   iot_title:'IoT 센서 & 웨어러블 기기',iot_sub:'실제 장치는 현장 화면에서 연결 (블루투스 심박 밴드 · EmoConnect 워치) · 아래 환경 센서는 시연 데이터',
   el_title:'고령 근로자 전용 모듈',el_sub:'세계 최초 · 근골격계·열스트레스·반응시간 3지표',
-  al_title:'경보 센터',al_sub:'위험행동 인식 ≥95% · 데이터 지연 ≤1초 · 넘어짐 감지 119 자동연계',
+  al_title:'경보 센터',al_sub:'위험행동 인식 ≥95% · 데이터 지연 ≤1초 · 넘어짐은 다중 센서 확인 후에만 119 연계',
   ai_title:'AI 재해예측',ai_sub:'과거 사고 데이터 + 실시간 생체신호 + 작업환경 종합분석',
   notif_hd:'최신 경보',notif_clear:'모두 지우기',
   topbar_titles:{overview:'메인 대시보드',register:'근로자 등록',monitor:'실시간 모니터링',checklist:'점검 체크리스트',camera:'AI 영상 분석',iot:'IoT 센서',elderly:'고령 근로자',briefing:'안전 수칙 발송',alerts:'경보 센터',ai:'AI 예측'},
@@ -1946,7 +1946,7 @@ en:{
   cam_title:'AI Video Analysis',cam_sub:'The real camera runs on the field page (helmet · vest · fall · SOS) · simulated view below is demo data',
   iot_title:'IoT Sensors & Wearables',iot_sub:'Real devices connect on the field page (Bluetooth HR strap · EmoConnect watch) · environment sensors below are demo data',
   el_title:'Elderly Worker Module',el_sub:'World\'s first · Musculoskeletal · Heat stress · Reaction time',
-  al_title:'Alert Center',al_sub:'Detection accuracy ≥95% · Latency ≤1s · Fall auto 119',
+  al_title:'Alert Center',al_sub:'Detection accuracy ≥95% · Latency ≤1s · 119 only after multi-sensor fall confirmation',
   ai_title:'AI Disaster Prediction',ai_sub:'Historical data + live vitals + environment analysis',
   notif_hd:'Latest Alerts',notif_clear:'Clear All',
   topbar_titles:{overview:'Dashboard',register:'Worker Register',monitor:'Live Monitor',checklist:'Inspection List',camera:'AI Video',iot:'IoT Sensors',elderly:'Elderly Workers',briefing:'Safety Briefing',alerts:'Alert Center',ai:'AI Prediction'},
@@ -2224,7 +2224,7 @@ const CL_DATA = [
     {zh:'安全手套检查',en:'Safety glove inspection',ko:'안전장갑 점검',done:false,pri:'lo'},
   ]},
   {title:{zh:'作业环境监测',ko:'작업환경 모니터링',en:'Environment Monitoring'},items:[
-    {zh:'作业区温度≤37°C',en:'Workplace temp ≤37°C',ko:'작업장 온도 ≤37°C',done:false,pri:'hi'},
+    {zh:'体感温度≥33°C时每2小时休息20分钟',en:'Feels-like ≥33°C: 20-min break every 2 h',ko:'체감온도 33°C 이상: 2시간마다 20분 휴식',done:false,pri:'hi'},
     {zh:'CO浓度≤25ppm',en:'CO concentration ≤25ppm',ko:'CO농도 ≤25ppm',done:true,pri:'hi'},
     {zh:'粉尘浓度监测',en:'Dust concentration check',ko:'분진 농도 모니터링',done:false,pri:'md'},
     {zh:'应急出口畅通',en:'Emergency exits clear',ko:'비상구 개통',done:true,pri:'md'},
@@ -3710,12 +3710,13 @@ body.ent-hc .mod-sub,body.ent-hc .card-sub{color:#2a3445 !important}
   /* ─────────── roles ─────────── */
   const ROLE_NAME={admin:{zh:'管理员',ko:'관리자',en:'Admin'},safety:{zh:'安全员',ko:'안전관리자',en:'Safety'},
     lead:{zh:'班组长',ko:'반장',en:'Team Lead'},worker:{zh:'工人',ko:'근로자',en:'Worker'},guest:{zh:'访客',ko:'게스트',en:'Guest'}};
-  const ALL_PANELS=['overview','register','monitor','checklist','camera','iot','elderly','briefing','alerts','ai','settings','audit','reports'];
+  const ALL_PANELS=['overview','register','monitor','checklist','camera','iot','elderly','briefing','alerts','ai','settings','audit','reports',
+    /* 预测型功能（js/shk-plus.js） */ 'pxnearfall','pxfitcheck','pxheatlaw','pxergo','pxjobfit','pxfusion','pxroadmap'];
   const PERMS={
     admin:{panels:ALL_PANELS,clear:true,settings:true,del:true,export:true,audit:true},
     safety:{panels:ALL_PANELS.filter(p=>p!=='audit'?true:true),clear:true,settings:true,del:false,export:true,audit:true},
-    lead:{panels:['overview','register','monitor','checklist','camera','briefing','alerts','reports'],clear:true,settings:false,del:false,export:true,audit:false},
-    worker:{panels:['overview','briefing'],clear:false,settings:false,del:false,export:false,audit:false},
+    lead:{panels:['overview','register','monitor','checklist','camera','briefing','alerts','reports','pxnearfall','pxfitcheck','pxheatlaw','pxjobfit','pxfusion'],clear:true,settings:false,del:false,export:true,audit:false},
+    worker:{panels:['overview','briefing','pxfitcheck'],clear:false,settings:false,del:false,export:false,audit:false},
     guest:{panels:ALL_PANELS,clear:false,settings:false,del:false,export:false,audit:false}
   };
   const USERS={admin:'admin123',safety:'safety123',lead:'lead123',worker:'worker123'};
@@ -4313,5 +4314,6 @@ function downloadBrochure(){
 <script src="js/shk-bridge.js"></script>
 <link rel="stylesheet" href="css/shk-layout.css">
 <script src="js/shk-layout.js"></script>
+<script src="js/shk-plus.js"></script>
 </body>
 </html>

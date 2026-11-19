@@ -40,7 +40,7 @@
       emg_bc: 'Emergency: {where} {id} {what}. First aiders nearby go now; everyone else keep clear of the area.',
       pos_l: 'left', pos_c: 'centre', pos_r: 'right', pos_t: 'top', pos_m: 'middle', pos_b: 'bottom', pos_fmt: '{v} {h} of view', snap_opt: 'In an emergency, send a snapshot of that worker to the center (contains video, emergencies only)' }
   });
-  var EMG = { fall_noresp: 1, confirm_noresp: 1, sos: 1, impact_danger: 1, collapse: 1, fire: 1 };
+  var EMG = { fall_noresp: 1, confirm_noresp: 1, sos: 1, impact_danger: 1, collapse: 1, fire: 1, fused_fall: 1, voice_sos: 1 };
   var drawHooks = [];
   var MP_VER = '1.2.3';
   var POSE_MODELS = ['models/pose_landmarker_lite.task', // 本站自带（Apache-2.0，Google MediaPipe）
@@ -836,6 +836,7 @@
 
   window.SHKLive = {
     tracks: function () { return tracks; }, alerts: function () { return alerts; }, devices: function () { return devices; },
+    dets: function () { return lastDets; },
     raise: raise, clearAlert: clearAlert, send: send, log: log, notify: notify, tr: tr, canvas: cv, video: video,
     site: function () { return site; }, running: function () { return running; },
     onDraw: function (f) { drawHooks.push(f); }, beacon: function (c) { FB.sendBeacon(c); },
