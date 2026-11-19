@@ -253,7 +253,7 @@
     aside.insertBefore(sec, anchor);
     NAV.forEach(function (n) {
       var it = document.createElement('div'); it.className = 'sb-item'; it.id = 'sb-' + ID(n[0]); it.setAttribute('role', 'button'); it.tabIndex = 0;
-      it.innerHTML = '<span style="width:20px;text-align:center">' + n[1] + '</span><span class="sb-item-label" id="px-sbl-' + n[0] + '"></span>' + (n[0] !== 'roadmap' ? '<span class="px-newtag">NEW</span>' : '');
+      it.innerHTML = '<span style="width:20px;text-align:center">' + n[1] + '</span><span class="sb-item-label" id="px-sbl-' + n[0] + '"></span>';
       it.onclick = function () { window.showPanel(ID(n[0])); };
       it.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.showPanel(ID(n[0])); } });
       aside.insertBefore(it, anchor);
@@ -543,6 +543,7 @@
 
   /* =================== 首页卡片 =================== */
   function cards() {
+    return;   // 首页改由 js/shk-nav.js 的「功能目录」统一展示
     var grid = $('shk-grid'); if (!grid || grid.querySelector('[data-px]')) return;
     var s = S(), chip = (function () { var b = document.querySelector('#shk-chips button.on'); return b ? b.dataset.c : 'all'; })();
     var ref = grid.children[4] || null;            // 放在原有前 4 张卡片之后
@@ -556,6 +557,7 @@
   }
 
   function homeStrip() {
+    return;   // 同上
     var mods = $('shk-mods'); if (!mods) return;
     var s = S(), box = $('px-home');
     if (!box) {
