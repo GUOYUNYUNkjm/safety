@@ -36,7 +36,7 @@
   $('siteName').value = site;
   $('siteName').onchange = function () { site = this.value.trim() || 'SITE-A'; localStorage.setItem('shk3_site', site); };
   $('room').value = SHKTransport.savedRoom();
-  if (!SHKBLE.supported()) { $('bleNote').style.display = 'block'; $('btnHR').disabled = $('btnEmo').disabled = true; }
+  if (!SHKBLE.supported()) { $('bleNote').style.display = 'block'; $('btnHR').disabled = $('btnEmo').disabled = $('btnWatch').disabled = true; }
   if (!('serial' in navigator)) $('btnBeacon').disabled = true;
 
   $('btnStart').onclick = async function () {
@@ -351,17 +351,49 @@
 
   /* ================= 可穿戴设备 ================= */
   $('btnHR').onclick = function () { addDevice(new SHKBLE.HRDevice()); };
+  /* 普通智能手表（小米 / 华为 / 苹果 / 其他）：标准心率广播 */
+  var wBrand = 'xiaomi';
+  try { wBrand = localStorage.getItem('shk3_wbrand') || 'xiaomi'; } catch (e) {}
+  function WG() { var G = window.SHK_WATCH_GUIDE || {}; return G[SHKI18N.lang] || G.zh || {}; }
+  function renderWatchDlg() {
+    var g = WG(); if (!g.tabs) return;
+    $('wTitle').textContent = g.title;
+    $('wTabs').innerHTML = Object.keys(g.tabs).map(function (k) { return '<button data-b="' + k + '" class="' + (k === wBrand ? 'on' : '') + '">' + g.tabs[k] + '</button>'; }).join('');
+    $('wTabs').querySelectorAll('button').forEach(function (b) { b.onclick = function () { wBrand = b.dataset.b; try { localStorage.setItem('shk3_wbrand', wBrand); } catch (e) {} renderWatchDlg(); }; });
+    $('wSteps').innerHTML = (g[wBrand] || []).map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    $('wNote').textContent = g[wBrand + '_note'] || ''; $('wNote').style.display = g[wBrand + '_note'] ? '' : 'none';
+    $('wCommon').textContent = g.common;
+    $('wGo').textContent = g.go; $('wAll').textContent = g.all; $('wOld').textContent = g.old;
+    $('wOld').style.display = wBrand === 'xiaomi' ? '' : 'none';
+  }
+  function closeWatchDlg() { $('watchDlg').style.display = 'none'; }
+  $('btnWatch').onclick = function () { renderWatchDlg(); $('watchDlg').style.display = 'grid'; $('wGo').focus(); };
+  $('wClose').onclick = closeWatchDlg;
+  $('watchDlg').addEventListener('click', function (e) { if (e.target === this) closeWatchDlg(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && $('watchDlg').style.display !== 'none') closeWatchDlg(); });
+  $('wGo').onclick = function () { addDevice(new SHKBLE.HRDevice(), { brand: wBrand }).then(function (ok) { if (ok) closeWatchDlg(); }); };
+  $('wAll').onclick = function () { addDevice(new SHKBLE.HRDevice(), { brand: wBrand, all: true }).then(function (ok) { if (ok) closeWatchDlg(); }); };
+  $('wOld').onclick = function () { addDevice(new SHKBLE.MiAdvBand(), { brand: 'xiaomi' }).then(function (ok) { if (ok) closeWatchDlg(); }); };
   $('btnEmo').onclick = function () { addDevice(new SHKBLE.EmoWatch()); };
   $('btnBeacon').onclick = async function () {
     try { await FB.connectBeacon(); this.textContent = '✓ USB'; log('info', t('ev_dev_on', { name: 'USB beacon' })); }
     catch (e) { if (e.name !== 'NotFoundError') log('warn', 'USB: ' + e.message); }
   };
 
-  async function addDevice(dev) {
+  var BRAND_TAG = { xiaomi: 'X-', huawei: 'H-', apple: 'A-', other: 'O-' };
+  async function addDevice(dev, opts) {
     FB.unlock();
-    try { await dev.request(); }
-    catch (e) { if (e.name !== 'NotFoundError') log('warn', (dev.kind === 'emo' ? 'EmoConnect' : 'BLE') + ': ' + (e.message || e)); return; }
-    dev.uid = (dev.kind === 'emo' ? 'W-' : 'B-') + (dev.name.replace(/[^A-Za-z0-9]/g, '').slice(-4) || devices.length + 1);
+    try { await dev.request(opts); }
+    catch (e) {
+      if (e.name === 'NotFoundError') return false;
+      var g = WG(), msg = e.code === 'NO_HR_SERVICE' ? (g.err_nohr || '').replace('{name}', dev.name || 'BLE') : e.code === 'NO_ADV' ? g.err_noadv : (dev.kind === 'emo' ? 'EmoConnect' : 'BLE') + ': ' + (e.message || e);
+      log('warn', msg);
+      if (e.code && $('watchDlg').style.display !== 'none') { $('wNote').textContent = msg; $('wNote').style.display = ''; }
+      return false;
+    }
+    dev.uid = (dev.kind === 'emo' ? 'W-' : (BRAND_TAG[dev.brand] || 'B-')) + (dev.name.replace(/[^A-Za-z0-9]/g, '').slice(-4) || devices.length + 1);
+    while (devices.some(function (x) { return x.uid === dev.uid; })) dev.uid += '+';
+    dev.addedAt = Date.now();
     dev.wearer = 'auto'; dev.wearerId = tracks.length === 1 ? tracks[0].id : null;
     dev.hrHighSince = null; dev.hrBadSince = null; dev.impactState = null;
     devices.push(dev);
@@ -373,7 +405,23 @@
     });
     dev.on('data', function (d) { onVitals(dev, d); });
     renderDevices();
+    return true;
   }
+  function devConn(d) { return d.isConnected ? d.isConnected() : !!(d.device && d.device.gatt && d.device.gatt.connected); }
+  /* 手表信号中断：20 秒没有数据 → 提醒；数据恢复 → 自动解除 */
+  setInterval(function () {
+    var now = Date.now(), g = WG();
+    devices.forEach(function (d) {
+      if (d.manualClose && !d.adv) return;
+      var last = d.lastAt || d.addedAt, key = d.uid + ':lost';
+      if (now - last > 20000) {
+        if (d.lostRaised) return;
+        d.lostRaised = true; d.view = Object.assign({}, d.view || {}, { hr: null }); renderDevice(d);
+        var who = devLabel(d);
+        raise({ key: key, wid: d.uid, kind: 'dev_lost', level: 'warn', msg: (g.lost || '{id}').replace('{id}', who + ' (' + d.name + ')'), say: (g.lost_say || '').replace('{id}', who) });
+      } else if (d.lostRaised) { d.lostRaised = false; clearAlert(key); }
+    });
+  }, 1000);
 
   function devLabel(dev) {
     var w = dev.wearer === 'auto' ? dev.wearerId : dev.wearer;
@@ -408,10 +456,11 @@
     renderDevice(dev);
   }
 
+  var BRAND_ICON = { xiaomi: '<span class="bt bx">MI</span>', huawei: '<span class="bt bh">HW</span>', apple: '<span class="bt ba">iOS</span>', other: '<span class="bt">⌚</span>' };
   function renderDevices() {
     var box = $('devices');
     box.innerHTML = devices.map(function (d, i) {
-      return '<div class="dev" id="dev-' + i + '"><div><div class="nm">' + esc(d.name) + ' <span class="muted mono">' + d.uid + '</span></div>' +
+      return '<div class="dev" id="dev-' + i + '"><div><div class="nm">' + (BRAND_ICON[d.brand] || '') + esc(d.name) + ' <span class="muted mono">' + d.uid + '</span></div>' +
         '<div class="muted" data-st></div></div><div class="big" data-hr>—</div>' +
         '<div class="meta"><span>' + t('wearer') + '</span><select data-w></select><span data-x></span><span class="sp"></span><button data-dc>✕</button></div></div>';
     }).join('');
@@ -429,7 +478,7 @@
   }
   function renderDevice(d) {
     var i = devices.indexOf(d), el = $('dev-' + i); if (!el) return;
-    var v = d.view || {}, conn = d.device && d.device.gatt && d.device.gatt.connected;
+    var v = d.view || {}, conn = devConn(d);
     el.querySelector('[data-hr]').innerHTML = v.hr != null ? v.hr + '<small> bpm</small>' : '<small>' + (conn ? t('no_signal') : '—') + '</small>';
     el.querySelector('[data-st]').textContent = (conn ? '● ' + t('st_on') : '○ ' + t('st_off')) + (d.kind === 'emo' ? ' · PPG ' + (v.quality != null ? v.quality : '—') : '');
     var x = [];
@@ -455,7 +504,7 @@
         (dv && dv.view && dv.view.hr != null ? '<span class="tag">❤ ' + dv.view.hr + ' bpm</span>' : '') + '</div></div>';
     }).join('');
   }
-  function renderAll() { SHKI18N.apply(); renderWorkers(); renderAlerts(); renderDevices(); if (typeof renderEasy === 'function') renderEasy(); }
+  function renderAll() { if ($('watchDlg').style.display !== 'none') renderWatchDlg(); SHKI18N.apply(); renderWorkers(); renderAlerts(); renderDevices(); if (typeof renderEasy === 'function') renderEasy(); }
   setInterval(function () {
     renderWorkers();
     devices.forEach(function (d, i) { var el = $('dev-' + i); if (el) fillWearer(d, el.querySelector('[data-w]')); });
@@ -478,7 +527,7 @@
     send({ type: 'hb', cam: running, pose: !!pose, ppe: SHKPPE.loaded, alerts: alerts.length });
     devices.forEach(function (d) {
       var v = d.view || {}, w = d.wearer === 'auto' ? d.wearerId : d.wearer;
-      send({ type: 'vitals', wid: d.uid, name: d.name, conn: !!(d.device && d.device.gatt && d.device.gatt.connected), wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true });
+      send({ type: 'vitals', wid: d.uid, name: d.name, conn: devConn(d), wearer: (w && w !== 'none') ? 'P' + w : null, dev: d.brand && d.brand !== 'hr' ? d.brand : d.kind, hr: v.hr, hrv: v.hrv, motion: v.motion, battery: v.battery, real: true });
     });
   }, 1000);
   window.addEventListener('beforeunload', function () { send({ type: 'bye' }); });
@@ -554,7 +603,7 @@
     $('ezMode').textContent = easy ? t('ez_admin') : t('ez_easy');
     var ai = !!pose && SHKPPE.loaded, aiLoading = !pose || !SHKPPE.loaded;
     var link = tr.mqttState === 'on' ? tr.room : tr.mqttState === 'off' ? t('ch_local') : t('st_' + tr.mqttState);
-    var conn = devices.filter(function (d) { return d.device && d.device.gatt && d.device.gatt.connected; }).length;
+    var conn = devices.filter(devConn).length;
     $('ezChips').innerHTML =
       chip(running ? 'ok' : '', t('ch_cam') + (running ? ' ✓' : ' ✗')) +
       chip(ai ? 'ok' : (aiLoading ? 'warn' : 'dng'), t('ch_ai') + (ai ? ' ✓' : ' …')) +

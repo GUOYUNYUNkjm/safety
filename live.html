@@ -72,6 +72,7 @@
     <div class="card adm" id="cardDevices">
       <h3 data-i18n="devices">可穿戴设备 & 警示灯</h3>
       <div class="row">
+        <button class="pri" id="btnWatch" data-i18n="add_watch">＋ 小米 / 华为 / 苹果手表</button>
         <button id="btnHR" data-i18n="add_hr">＋ 蓝牙心率带</button>
         <button id="btnEmo" data-i18n="add_emo">＋ EmoConnect 手表</button>
         <button id="btnBeacon" data-i18n="add_beacon">＋ USB 警示灯</button>
@@ -107,11 +108,26 @@
   </div>
 </div>
 
+<div class="gate" id="watchDlg" style="display:none" role="dialog" aria-modal="true" aria-labelledby="wTitle">
+  <div class="box wbox">
+    <div class="row" style="justify-content:space-between"><h2 id="wTitle"></h2><button id="wClose" aria-label="close">✕</button></div>
+    <div class="wtabs" id="wTabs"></div>
+    <ol class="wsteps" id="wSteps"></ol>
+    <div class="note" id="wNote"></div>
+    <div class="note" id="wCommon"></div>
+    <div class="row wbtns">
+      <button class="pri" id="wGo"></button>
+      <button id="wOld" style="display:none"></button>
+      <button id="wAll"></button>
+    </div>
+  </div>
+</div>
 <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.webgpu.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mqtt@5.16.1/dist/mqtt.min.js"></script>
 <script src="js/shk-i18n.js"></script>
 <script src="js/shk-transport.js"></script>
 <script src="js/shk-feedback.js"></script>
+<script src="js/shk-watchguide.js"></script>
 <script src="js/shk-ble.js"></script>
 <script src="js/shk-fall.js"></script>
 <script src="js/shk-ppe.js"></script>

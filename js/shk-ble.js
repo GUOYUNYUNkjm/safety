@@ -1,6 +1,8 @@
 /* SHine-K 3.0 · 真实可穿戴设备（Web Bluetooth）
  * 1) 标准蓝牙心率设备（Heart Rate Service 0x180D）：Polar H10/H9/Verity Sense、Garmin HRM、COOSPO、
- *    开启“心率广播”的 Garmin/COROS/Amazfit 手表等。
+ *    开启“心率广播”的普通智能手表：小米手环 8 及以后 / 小米手表、华为 / 荣耀手表和手环、
+ *    Apple Watch（通过 iPhone 上的 HeartCast 等广播 App）、Garmin/COROS/Amazfit 等。
+ * 1b) 小米手环 4–7：心率在蓝牙广播包里（MiAdvBand）。
  * 2) EmoConnect / VitalTrack 手表（Newert）：协议依据厂商公开 SDK（github.com/NewertDev）。
  *    手表只发送 PPG 脉搏波 + 加速度/陀螺仪/地磁，心率由本页面根据脉搏波计算。
  * 浏览器要求：电脑或安卓的 Chrome / Edge，https 网址。iPhone Safari 不支持 Web Bluetooth。
@@ -43,20 +45,43 @@
   }
   HRDevice.prototype = Object.create(Emitter.prototype);
 
-  HRDevice.prototype.request = async function () {
-    this.device = await navigator.bluetooth.requestDevice({
-      filters: [{ services: ['heart_rate'] }], optionalServices: ['battery_service']
-    });
+  /* 各品牌手表在“心率广播”时的蓝牙名称前缀（用于在选择框里显示出来） */
+  var BRAND_PREFIX = {
+    xiaomi: ['Xiaomi', 'Mi Smart Band', 'Mi Band', 'MI Band', 'Redmi', 'REDMI'],
+    huawei: ['HUAWEI', 'Huawei', 'HONOR', 'Honor'],
+    apple: ['HeartCast', 'Heart Rate', 'HR Broadcast', 'iPhone'],
+    other: ['Amazfit', 'Forerunner', 'fenix', 'Venu', 'COROS', 'Polar', 'Suunto', 'Galaxy', 'OPPO', 'vivo', 'OnePlus']
+  };
+  HRDevice.BRANDS = BRAND_PREFIX;
+
+  HRDevice.prototype.request = async function (opts) {
+    opts = opts || {};
+    this.brand = opts.brand || 'hr';
+    var q;
+    if (opts.all) q = { acceptAllDevices: true, optionalServices: ['heart_rate', 'battery_service'] };
+    else {
+      var f = [{ services: ['heart_rate'] }];
+      (BRAND_PREFIX[opts.brand] || []).forEach(function (p) { f.push({ namePrefix: p }); });
+      q = { filters: f, optionalServices: ['heart_rate', 'battery_service'] };
+    }
+    this.device = await navigator.bluetooth.requestDevice(q);
     this.name = this.device.name || '心率设备';
     var self = this;
     this.device.addEventListener('gattserverdisconnected', function () { self._onDisc(); });
     await this._connect();
   };
+  HRDevice.prototype.isConnected = function () { return !!(this.device && this.device.gatt && this.device.gatt.connected); };
 
   HRDevice.prototype._connect = async function () {
     this.emit('status', 'connecting');
     var server = await this.device.gatt.connect();
-    var svc = await server.getPrimaryService('heart_rate');
+    var svc;
+    try { svc = await server.getPrimaryService('heart_rate'); }
+    catch (e) {
+      try { this.device.gatt.disconnect(); } catch (x) {}
+      this.manualClose = true;
+      var err = new Error('NO_HR_SERVICE'); err.code = 'NO_HR_SERVICE'; throw err;
+    }
     var ch = await svc.getCharacteristic('heart_rate_measurement');
     var self = this;
     ch.addEventListener('characteristicvaluechanged', function (e) { self._parse(e.target.value); });
@@ -100,6 +125,40 @@
     this.manualClose = true;
     try { this.device && this.device.gatt.connected && this.device.gatt.disconnect(); } catch (e) {}
   };
+
+  /* ================= 小米手环 4–7：心率放在蓝牙广播包里 =================
+   * 打开“运动心率广播”后，手环不建立连接，而是在广播包的厂商数据里放心率：
+   * 厂商 ID 0x0157（Xiaomi/Anhui Huami），数据第 4 个字节（下标 3）= 心率。
+   * 依据：github.com/Tnze/miband-heart-rate（tag miband-4-to-7）。
+   * 浏览器需要 watchAdvertisements()：Chrome 里打开 chrome://flags/#enable-experimental-web-platform-features。 */
+  function MiAdvBand() {
+    HRDevice.call(this);
+    this.kind = 'hr'; this.brand = 'xiaomi'; this.adv = true; this._ac = null;
+  }
+  MiAdvBand.prototype = Object.create(HRDevice.prototype);
+  MiAdvBand.supported = function () { return !!(window.BluetoothDevice && BluetoothDevice.prototype && 'watchAdvertisements' in BluetoothDevice.prototype); };
+  MiAdvBand.prototype.request = async function () {
+    if (!MiAdvBand.supported()) { var e0 = new Error('NO_ADV'); e0.code = 'NO_ADV'; throw e0; }
+    this.device = await navigator.bluetooth.requestDevice({ filters: [{ manufacturerData: [{ companyIdentifier: 0x0157 }] }] });
+    this.name = this.device.name || 'Mi Band';
+    var self = this;
+    this.device.addEventListener('advertisementreceived', function (ev) { self._adv(ev); });
+    this._ac = new AbortController();
+    this.emit('status', 'connecting');
+    await this.device.watchAdvertisements({ signal: this._ac.signal });
+    this.emit('status', 'connected');
+  };
+  MiAdvBand.prototype._adv = function (ev) {
+    var dv = ev.manufacturerData && ev.manufacturerData.get(0x0157);
+    if (!dv || dv.byteLength < 4) return;
+    var hr = dv.getUint8(3);
+    this.hr = (hr > 25 && hr < 240) ? hr : null;
+    this.rssi = ev.rssi;
+    this.lastAt = Date.now();
+    this.emit('data', { hr: this.hr, hrv: null, contact: null, battery: null });
+  };
+  MiAdvBand.prototype.isConnected = function () { return Date.now() - this.lastAt < 10000; };
+  MiAdvBand.prototype.disconnect = function () { this.manualClose = true; try { this._ac && this._ac.abort(); } catch (e) {} };
 
   /* ================= EmoConnect 手表 ================= */
   function EmoWatch() {
@@ -231,5 +290,5 @@
 
   function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
 
-  window.SHKBLE = { supported: supported, HRDevice: HRDevice, EmoWatch: EmoWatch, _half: half, _rmssd: rmssd };
+  window.SHKBLE = { supported: supported, HRDevice: HRDevice, MiAdvBand: MiAdvBand, EmoWatch: EmoWatch, _half: half, _rmssd: rmssd };
 })();

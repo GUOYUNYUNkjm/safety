@@ -109,3 +109,14 @@ table.tb td{padding:6px;border-bottom:1px solid #eef1f6}
 .ez-act.dng{background:var(--r);border-color:var(--r)}
 .ez-mode{font-size:12px!important}
 body.easy-on .adm{display:none!important}
+
+/* 普通智能手表连接框 */
+.gate .box.wbox{max-width:620px;max-height:90vh;overflow:auto}
+.wtabs{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 6px;border-bottom:1px solid var(--bdr)}
+.wtabs button{border:0;border-bottom:3px solid transparent;border-radius:0;background:none;padding:8px 12px;font-weight:700;color:var(--ink3)}
+.wtabs button.on{border-bottom-color:var(--pri,#2563eb);color:var(--ink,#111)}
+.wsteps{margin:10px 0 8px 20px;line-height:1.65;font-size:14px}
+.wsteps li{margin-bottom:6px}
+.wbtns{margin-top:12px;gap:8px;flex-wrap:wrap}
+.bt{display:inline-block;font-size:10px;font-weight:800;line-height:1;padding:3px 5px;border-radius:4px;background:#e5e7eb;color:#111;margin-right:6px;vertical-align:1px}
+.bt.bx{background:#ff6900;color:#fff}.bt.bh{background:#c7000b;color:#fff}.bt.ba{background:#111;color:#fff}
