@@ -180,7 +180,8 @@
       if (c === true) { res[k] = { ok: true, score: Math.max(res[k] ? res[k].score : 0, 0.6), by: 'color' }; return; }
       if (res[k]) return;   // 模型看到了“戴着”→ 优先相信
       // 只有“未戴”证据：需要足够置信度，且颜色复核也没看到
-      if (neg[k] && neg[k].score >= CFG.negConf) res[k] = neg[k];
+      // 颜色也确认没有黄色/荧光色时，模型“未戴”到 0.3 就算数（真没戴时照样报警）
+      if (neg[k] && (neg[k].score >= CFG.negConf || (c === false && neg[k].score >= 0.3))) res[k] = neg[k];
     });
     return res;
   }
