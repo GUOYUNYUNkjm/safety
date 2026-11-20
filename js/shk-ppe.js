@@ -77,26 +77,118 @@
   }
   function clamp(v) { return Math.max(0, Math.min(1, v)); }
 
-  /* 把检测框分配给某个人：头部区域（人体框上部）找安全帽，躯干区域找背心 */
-  function assign(personBox, headY, shoulderY, hipY, dets) {
+  /* ---------- 颜色复核：黄色安全帽 / 交叉带反光背心 ----------
+   * 模型用工地远景照片训练，近距离摄像头 + 交叉带（X 形）背心经常被判成 NO-Safety Vest。
+   * 所以按骨架取头顶和躯干两块区域，统计荧光色像素比例，作为“已佩戴”的正面证据。 */
+  var CW = 48, cc = document.createElement('canvas'); cc.width = CW; cc.height = CW;
+  var ccx = cc.getContext('2d', { willReadFrequently: true });
+  var CFG = window.SHK_PPE_CFG = Object.assign({
+    helmetRatio: 0.18,   // 头顶区域黄色像素占比 ≥ 18% → 戴了安全帽
+    vestRatio: 0.06,     // 躯干区域荧光色占比 ≥ 6%（交叉带面积小）→ 穿了背心
+    vestSide: 0.02,      // 左右两半各自至少 2%（X 形带子两边都有）
+    negConf: 0.5         // 模型“未戴”类别至少这个置信度才算数
+  }, window.SHK_PPE_CFG || {});
+
+  function hsv(r, g, b) {
+    var mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn, h = 0;
+    if (d) { h = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4; h *= 60; if (h < 0) h += 360; }
+    return [h, mx ? d / mx : 0, mx / 255];
+  }
+  function isHelmetYellow(r, g, b) { var c = hsv(r, g, b); return c[0] >= 36 && c[0] <= 70 && c[1] >= 0.42 && c[2] >= 0.4; }
+  /* 反光背心常见颜色：荧光黄 / 荧光黄绿 / 荧光橙 */
+  function isHiVis(r, g, b) {
+    var c = hsv(r, g, b);
+    if (c[0] >= 42 && c[0] <= 105 && c[1] >= 0.42 && c[2] >= 0.42) return true;
+    if (c[0] >= 8 && c[0] < 42 && c[1] >= 0.72 && c[2] >= 0.6) return true;   // 橙色要求更高饱和度，避开皮肤
+    return false;
+  }
+  /* 从视频截取 [x1,y1,x2,y2]（像素）区域，返回 {all, left, right} 命中比例 */
+  function sample(src, sw, sh, rect, test) {
+    var x1 = Math.max(0, rect[0]), y1 = Math.max(0, rect[1]), x2 = Math.min(sw, rect[2]), y2 = Math.min(sh, rect[3]);
+    var w = x2 - x1, h = y2 - y1;
+    if (w < 8 || h < 8) return null;
+    ccx.drawImage(src, x1, y1, w, h, 0, 0, CW, CW);
+    var d = ccx.getImageData(0, 0, CW, CW).data, hit = 0, hl = 0, hr = 0, half = CW / 2;
+    for (var y = 0; y < CW; y++) for (var x = 0; x < CW; x++) {
+      var i = (y * CW + x) * 4;
+      if (test(d[i], d[i + 1], d[i + 2])) { hit++; if (x < half) hl++; else hr++; }
+    }
+    var n = CW * CW;
+    return { all: hit / n, left: hl / (n / 2), right: hr / (n / 2) };
+  }
+  function v(p) { return p && (p.visibility == null || p.visibility > 0.4); }
+  /* lm：MediaPipe 33 点骨架（0~1）；没有骨架时用人体框 box 估算。返回 {helmet:true/false/null, vest:..., hr, vr} */
+  function colorCheck(src, sw, sh, lm, box) {
+    var out = { helmet: null, vest: null, hr: null, vr: null };
+    try {
+      var head = null, torso = null;
+      if (lm) {
+        var ls = lm[11], rs = lm[12], lh = lm[23], rh = lm[24], le = lm[7], re = lm[8], ey1 = lm[2], ey2 = lm[5], nose = lm[0];
+        var shw = (v(ls) && v(rs)) ? Math.abs(ls.x - rs.x) * sw : null;
+        var headW = (v(le) && v(re)) ? Math.abs(le.x - re.x) * sw : (shw ? shw * 0.45 : null);
+        var eyeY = (v(ey1) && v(ey2)) ? (ey1.y + ey2.y) / 2 * sh : (v(nose) ? nose.y * sh - 0.15 * (headW || 0) : null);
+        var hx = (v(le) && v(re)) ? (le.x + re.x) / 2 * sw : (v(nose) ? nose.x * sw : null);
+        if (headW && eyeY != null && hx != null) {
+          headW = Math.max(headW, 16);
+          head = [hx - 0.7 * headW, eyeY - 1.3 * headW, hx + 0.7 * headW, eyeY - 0.2 * headW];
+        }
+        if (shw && shw > 20) {
+          var sy = (ls.y + rs.y) / 2 * sh, xl = Math.min(ls.x, rs.x) * sw, xr = Math.max(ls.x, rs.x) * sw;
+          var hy = (v(lh) && v(rh)) ? (lh.y + rh.y) / 2 * sh : sy + 1.4 * shw;
+          torso = [xl + 0.05 * shw, sy + 0.05 * shw, xr - 0.05 * shw, Math.min(hy, sh)];
+          if (torso[3] - torso[1] < 0.35 * shw) torso = null;   // 躯干露出太少，不判断
+        }
+      } else if (box) {
+        var bx1 = box[0] * sw, by1 = box[1] * sh, bw = (box[2] - box[0]) * sw, bh = (box[3] - box[1]) * sh;
+        head = [bx1 + 0.25 * bw, by1, bx1 + 0.75 * bw, by1 + 0.13 * bh];
+        torso = [bx1 + 0.15 * bw, by1 + 0.2 * bh, bx1 + 0.85 * bw, by1 + 0.52 * bh];
+      }
+      if (head) {
+        var a = sample(src, sw, sh, head, isHelmetYellow);
+        if (a) { out.hr = a.all; out.helmet = a.all >= CFG.helmetRatio; }
+      }
+      if (torso) {
+        var b = sample(src, sw, sh, torso, isHiVis);
+        if (b) { out.vr = b.all; out.vest = b.all >= CFG.vestRatio && b.left >= CFG.vestSide && b.right >= CFG.vestSide; }
+      }
+    } catch (e) { console.warn('[ppe color]', e); }
+    return out;
+  }
+
+  /* 把检测框分配给某个人：头部区域找安全帽，躯干区域找背心；color 为颜色复核结果（可选） */
+  function assign(personBox, headY, shoulderY, hipY, dets, color) {
     var x1 = personBox[0], x2 = personBox[2], w = x2 - x1;
     var res = { helmet: null, vest: null, mask: null };
-    var headTop = Math.min(headY, personBox[1]) - 0.25 * (shoulderY - headY);
+    var neck = Math.max(0.02, shoulderY - headY);
+    // 安全帽中心在眼睛上方，比鼻子高约一个“鼻子到肩膀”的距离，所以头部区域要往上放宽
+    var headTop = Math.min(headY, personBox[1]) - 1.3 * neck;
+    var neg = { helmet: null, vest: null, mask: null };
     dets.forEach(function (d) {
       var cxd = (d.box[0] + d.box[2]) / 2, cyd = (d.box[1] + d.box[3]) / 2;
       if (cxd < x1 - 0.15 * w || cxd > x2 + 0.15 * w) return;
       var inHead = cyd >= headTop - 0.02 && cyd <= shoulderY + 0.02;
-      var inTorso = cyd >= shoulderY - 0.03 && cyd <= (hipY != null ? hipY + 0.05 : shoulderY + 0.3);
-      if (inHead && (d.cls === 0 || d.cls === 2)) pick(res, 'helmet', d.cls === 0, d.score);
-      if (inHead && (d.cls === 1 || d.cls === 3)) pick(res, 'mask', d.cls === 1, d.score);
-      if (inTorso && (d.cls === 7 || d.cls === 4)) pick(res, 'vest', d.cls === 7, d.score);
+      var inTorso = cyd >= shoulderY - 0.05 && cyd <= (hipY != null ? hipY + 0.05 : shoulderY + 0.35);
+      if (inHead && d.cls === 0) pick(res, 'helmet', true, d.score);
+      if (inHead && d.cls === 2) pick(neg, 'helmet', false, d.score);
+      if (inHead && d.cls === 1) pick(res, 'mask', true, d.score);
+      if (inHead && d.cls === 3) pick(neg, 'mask', false, d.score);
+      if (inTorso && d.cls === 7) pick(res, 'vest', true, d.score);
+      if (inTorso && d.cls === 4) pick(neg, 'vest', false, d.score);
+    });
+    ['helmet', 'vest', 'mask'].forEach(function (k) {
+      var c = color ? color[k] : null;
+      if (c === true) { res[k] = { ok: true, score: Math.max(res[k] ? res[k].score : 0, 0.6), by: 'color' }; return; }
+      if (res[k]) return;   // 模型看到了“戴着”→ 优先相信
+      // 只有“未戴”证据：需要足够置信度，且颜色复核也没看到
+      if (neg[k] && neg[k].score >= CFG.negConf) res[k] = neg[k];
     });
     return res;
   }
   function pick(res, k, ok, score) { if (!res[k] || score > res[k].score) res[k] = { ok: ok, score: score }; }
 
   window.SHKPPE = {
-    NAMES: NAMES, load: load, detect: detect, assign: assign,
+    NAMES: NAMES, load: load, detect: detect, assign: assign, colorCheck: colorCheck, cfg: CFG,
+    _isHelmetYellow: isHelmetYellow, _isHiVis: isHiVis,
     get loaded() { return !!sess; }, get backend() { return backend; }, get lastMs() { return lastMs; }
   };
 })();

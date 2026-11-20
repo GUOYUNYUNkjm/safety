@@ -229,7 +229,8 @@
   async function runPPE(W, H) {
     ppeBusy = true; lastPpeAt = performance.now();
     try {
-      lastDets = await SHKPPE.detect(video, W, H, 0.35);
+      // 门槛放低到 0.25 让“戴着”的框更容易进来；“未戴”类别在 assign 里要求 ≥ 0.5
+      lastDets = await SHKPPE.detect(video, W, H, 0.25);
       $('sPpe').textContent = Math.round(SHKPPE.lastMs);
       var now = performance.now();
       // YOLO 识别到的“人”：没有骨架的人也编号，单独检查安全帽/背心
@@ -258,7 +259,9 @@
           headY = (nose && (nose.visibility == null || nose.visibility > 0.4)) ? nose.y : f.box[1];
           hipY = f.hipY;
         } else { headY = f.box[1] + 0.06 * h; shY = f.box[1] + 0.2 * h; hipY = f.box[1] + 0.55 * h; }
-        var r = SHKPPE.assign(f.box, headY, shY, hipY, lastDets);
+        var col = SHKPPE.colorCheck ? SHKPPE.colorCheck(video, W, H, (lm && !tk.noPose) ? lm : null, f.box) : null;
+        tk.ppeColor = col;
+        var r = SHKPPE.assign(f.box, headY, shY, hipY, lastDets, col);
         tk.ppeHist.push(r); if (tk.ppeHist.length > 6) tk.ppeHist.shift();
         ['helmet', 'vest'].forEach(function (k) {
           var seen = tk.ppeHist.filter(function (x) { return x[k]; }), no = seen.filter(function (x) { return !x[k].ok; }).length;
@@ -297,6 +300,7 @@
     lastDets.forEach(function (d) {
       if ([0, 2, 4, 7].indexOf(d.cls) < 0) return;
       var ok = d.cls === 0 || d.cls === 7;
+      if (!ok && d.score < (SHKPPE.cfg ? SHKPPE.cfg.negConf : 0.35)) return;
       g.strokeStyle = ok ? 'rgba(0,200,150,.9)' : 'rgba(232,19,58,.9)'; g.lineWidth = lw * 0.7; g.setLineDash([6, 4]);
       g.strokeRect(d.box[0] * W, d.box[1] * H, (d.box[2] - d.box[0]) * W, (d.box[3] - d.box[1]) * H); g.setLineDash([]);
     });
