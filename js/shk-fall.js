@@ -10,6 +10,8 @@
  *   ⑥ 双手举过头顶保持 3 秒 → SOS 求救（红色）
  *   ⑦ 站着弯腰 > 45° 持续 60 秒 → 姿势负担提醒
  *   ⑧ 躺着几乎不动 30 秒（不是跌倒进入的）→ 无动作提醒
+ *   ⑨ 朝镜头/背对镜头方向倒下（画面里身体不横）：和最近一次站姿相比，肩下沉 ≥ 55%、髋下沉 ≥ 40% 身高 → 也算倒地
+ *   ⑩ 躺着时的“举手”：手腕要比询问开始时向上移动 ≥ 0.45 个躯干长度（躺着时手臂本来就可能在肩膀上方）
  */
 (function (root) {
   'use strict';
@@ -19,7 +21,8 @@
     dropSpeed: 0.45, dropWindow: 1500, standRecent: 1000,
     confirmMs: 5000, askMs: 12000, standUpMs: 1000,
     sosMs: 3000, handMs: 700,
-    bendTilt: 45, bendMs: 60000, stillMs: 30000, stillMove: 0.004
+    bendTilt: 45, bendMs: 60000, stillMs: 30000, stillMove: 0.004,
+    legStand: 1.2, sinkSh: 0.55, sinkHip: 0.40, liftArm: 0.45
   };
 
   var L = { nose: 0, ls: 11, rs: 12, le: 13, re: 14, lw: 15, rw: 16, lh: 23, rh: 24, lk: 25, rk: 26, la: 27, ra: 28 };
@@ -54,6 +57,9 @@
     }
     var nose = vis(lm[L.nose]) ? lm[L.nose] : null;
     var lw = vis(lm[L.lw]) ? lm[L.lw] : null, rw = vis(lm[L.rw]) ? lm[L.rw] : null;
+    // 脚踝（最低的那只）和躯干长度，用于“腿是否伸直站着”和“整体下沉”
+    var ankA = [lm[L.la], lm[L.ra]].filter(vis), ankY = ankA.length ? Math.max.apply(null, ankA.map(function (p) { return p.y; })) : null;
+    var trunkPx = (sh && hp) ? Math.hypot((sh.x - hp.x) * W, (sh.y - hp.y) * H) : null;
     var handUp = false, bothUp = false;
     if (sh) {
       var ref = nose ? nose.y : sh.y - 0.05;
@@ -64,6 +70,9 @@
     return {
       box: [minX, minY, maxX, maxY], aspect: bh > 0 ? bw / bh : 0, tilt: tilt,
       hipY: hp ? hp.y : null, shY: sh ? sh.y : null, handUp: handUp, bothUp: bothUp, hipHigh: hipHigh,
+      ankY: ankY, trunkPx: trunkPx, H: H,
+      legPx: (ankY != null && hp) ? (ankY - hp.y) * H : null,
+      wrists: [lw ? { x: lw.x * W, y: lw.y * H } : null, rw ? { x: rw.x * W, y: rw.y * H } : null],
       hasLeg: [L.lk, L.rk, L.la, L.ra].some(function (i) { return vis(lm[i]); }),
       cx: (minX + maxX) / 2, cy: (minY + maxY) / 2
     };
@@ -74,7 +83,12 @@
     if (f.hipHigh || f.tilt == null) return false; // 深弯腰 / 看不到髋部：不判断
     return f.tilt > CONFIG.downTilt || (f.hasLeg && f.aspect > CONFIG.downAspect);
   }
-  function isStanding(f) { return f.tilt != null && f.tilt < CONFIG.standTilt && (!f.hasLeg || f.aspect < CONFIG.standAspect); }
+  /* 站着：躯干直、腿伸直（跪着、蹲着躯干也是直的，但髋到脚踝很短，不算站） */
+  function isStanding(f) {
+    if (f.tilt == null || f.tilt >= CONFIG.standTilt || (f.hasLeg && f.aspect >= CONFIG.standAspect)) return false;
+    if (f.legPx != null && f.trunkPx) return f.legPx > CONFIG.legStand * f.trunkPx;
+    return true;
+  }
 
   /* 每人一个状态机 */
   function FallFSM(id) {
@@ -83,7 +97,27 @@
     this.t0 = 0; this.tAsk = 0; this.handSince = null; this.bothSince = null;
     this.bendSince = null; this.bendWarned = false; this.stillSince = null; this.stillWarned = false;
     this.lastF = null; this.posture = 'unknown';
+    this.ref = null;      // 最近一次站姿：肩/髋位置和身高（像素），用于判断朝镜头方向倒下
+    this.wBase = null;    // 询问开始时的手腕位置（躺着时判断举手）
   }
+
+  /* 和最近一次站姿相比整体下沉（朝镜头/背对镜头倒下时画面里身体不横，只能看下沉） */
+  FallFSM.prototype._sunk = function (f) {
+    var r = this.ref;
+    if (!r || f.shY == null || f.hipY == null) return false;
+    return (f.shY - r.shY) * f.H > CONFIG.sinkSh * r.span && (f.hipY - r.hipY) * f.H > CONFIG.sinkHip * r.span;
+  };
+  /* 躺着时的举手：手腕比询问开始时明显向上移动 */
+  FallFSM.prototype._armLift = function (f) {
+    if (!f.trunkPx && !(this.ref && this.ref.trunk)) return false;
+    var unit = Math.max(f.trunkPx || 0, this.ref ? 0.6 * this.ref.trunk : 0), self = this;
+    if (!this.wBase) this.wBase = [null, null];
+    return f.wrists.some(function (w, i) {
+      if (!w) return false;
+      if (!self.wBase[i]) { self.wBase[i] = w; return false; }
+      return self.wBase[i].y - w.y > CONFIG.liftArm * unit;
+    });
+  };
 
   /* 返回本帧产生的事件数组：{kind, level, msg, secs} */
   FallFSM.prototype.update = function (f, now) {
@@ -94,20 +128,26 @@
     this.hist.push({ t: now, hip: f.hipY, sh: f.shY, cx: f.cx, cy: f.cy });
     while (this.hist.length && now - this.hist[0].t > 2500) this.hist.shift();
     var drop = this._dropSpeed(now);
-    var down = isDown(f), stand = isStanding(f);
+    var stand = isStanding(f);
+    if (stand && f.ankY != null && f.shY != null && f.hipY != null && f.tilt != null && f.tilt < 20) {
+      this.ref = { shY: f.shY, hipY: f.hipY, span: Math.max(1, (f.ankY - f.shY) * f.H), trunk: f.trunkPx || 0 };
+    }
+    var down = !stand && (isDown(f) || this._sunk(f));
     if (stand) this.lastStandAt = now;
     this.posture = down ? 'down' : stand ? 'stand' : (f.tilt != null && f.tilt > C.bendTilt ? 'bend' : 'other');
 
     if (down) { if (this.downSince == null) this.downSince = now; this.upSince = null; }
     else { this.downSince = null; if (this.upSince == null) this.upSince = now; }
 
-    // 举手 / 双手举高
-    if (f.handUp) { if (this.handSince == null) this.handSince = now; } else this.handSince = null;
+    // 举手 / 双手举高（躺着时改用“手腕向上移动”判断）
+    var handResp = down ? (this.state === 'ask' || this.state === 'danger') && this._armLift(f) : f.handUp;
+    if (handResp) { if (this.handSince == null) this.handSince = now; } else this.handSince = null;
     if (f.bothUp && !down) { if (this.bothSince == null) this.bothSince = now; } else this.bothSince = null;
 
     switch (this.state) {
       case 'normal':
-        if (down && (drop > C.dropSpeed || now - this.lastStandAt < C.standRecent)) {
+        // 快速下坠 / 1 秒内还站着 / 3 秒内从站姿整体沉到地面（腿先软再倒，如晕倒）
+        if (down && (drop > C.dropSpeed || now - this.lastStandAt < C.standRecent || (now - this.lastStandAt < 3000 && this._sunk(f)))) {
           this.state = 'suspect'; this.t0 = now;
           ev.push({ kind: 'fall_detected', level: 'info', msg: 'fall_detected' });
         }
@@ -118,7 +158,7 @@
           this.state = 'normal';
           ev.push({ kind: 'fall_recovered', level: 'info', msg: 'fall_recovered', secs: s });
         } else if (now - this.t0 >= C.confirmMs) {
-          this.state = 'ask'; this.tAsk = now;
+          this.state = 'ask'; this.tAsk = now; this.wBase = null; this.handSince = null;
           ev.push({ kind: 'fall_ask', level: 'warn', msg: 'fall_ask' });
         }
         break;
@@ -198,7 +238,7 @@
   /* 外部确认后复位（监控端点“已确认”或现场处理完） */
   FallFSM.prototype.reset = function () { this.state = 'normal'; this.handSince = this.bothSince = null; this.handOnly = false; };
   /* 监控端请求“举手确认”：进入询问状态，12 秒无回应升级为危险 */
-  FallFSM.prototype.forceAsk = function (now) { this.state = 'ask'; this.tAsk = now; this.handSince = null; this.handOnly = true; };
+  FallFSM.prototype.forceAsk = function (now) { this.state = 'ask'; this.tAsk = now; this.handSince = null; this.wBase = null; this.handOnly = true; };
 
   var api = { CONFIG: CONFIG, LM: L, features: features, FallFSM: FallFSM, isDown: isDown, isStanding: isStanding };
   if (typeof module !== 'undefined' && module.exports) module.exports = api; else root.SHKFall = api;
