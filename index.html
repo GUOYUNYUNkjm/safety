@@ -961,6 +961,25 @@ input[type=range]{width:100%;height:5px;border-radius:3px;outline:none;cursor:po
   .topbar-actions{overflow-x:auto}
 }
 </style>
+<script id="deeplink">
+/* 深链接：index.html?go=pxfitcheck&lang=ko → 直接打开指定功能页（扫码演示用） */
+(function(){
+  var q=new URLSearchParams(location.search), go=q.get('go'), lg=q.get('lang');
+  if(lg&&['zh','ko','en'].indexOf(lg)>=0){ try{localStorage.setItem('shk3_lang',lg);}catch(e){} }
+  if(!go) return;
+  go=go.replace(/^panel-/,'');
+  try{
+    if(!localStorage.getItem('shk_session')) localStorage.setItem('shk_session',JSON.stringify({user:'guest',role:'guest'}));
+    localStorage.setItem('shk_consent','true');
+  }catch(e){}
+  window.addEventListener('load',function(){
+    setTimeout(function(){
+      try{ if(lg&&typeof setLang==='function') setLang(lg); }catch(e){}
+      try{ if(typeof enterApp==='function') enterApp(go); }catch(e){}
+    },60);
+  });
+})();
+</script>
 </head>
 <body>
 <div id="sb-overlay" class="sb-overlay" onclick="closeSidebar()"></div>

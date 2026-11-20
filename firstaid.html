@@ -31,6 +31,10 @@
   .fa-src{font-size:12px;color:var(--ink3);margin-top:10px}
   .langs button{padding:5px 9px}.langs button.on{background:var(--a);color:#fff;border-color:var(--a)}
 </style>
+<script>
+/* ?lang=ko → 直接用韩语打开（扫码演示用） */
+(function(){var l=new URLSearchParams(location.search).get('lang');if(l&&['zh','ko','en'].indexOf(l)>=0){try{localStorage.setItem('shk3_fa_lang',JSON.stringify(l));}catch(e){}}})();
+</script>
 </head>
 <body>
 <div class="fa-top"><div class="logo">✚</div><b id="faTitle"></b><span class="sp"></span><div class="row langs" style="display:flex;gap:4px"><button data-l="zh">中</button><button data-l="ko">한</button><button data-l="en">EN</button></div></div>
